@@ -364,10 +364,12 @@ module.exports = () => {
       new MiniCssExtractPlugin(),
       new ModuleFederationPlugin({
         name: 'balancer',
-        library: { type: 'var', name: 'balancer' },
         filename: 'remoteEntry.js',
         exposes: {
           './balancerMicrofrontend': './src/balancer.js',
+        },
+        remotes: {
+          container: (mode === 'development' ? 'mainComponent@http://localhost:8080/general.js' : 'mainComponent@http://localhost:8080/general.js')
         },
         shared: {
           react: {

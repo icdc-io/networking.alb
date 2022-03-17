@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
-import messages from '../Messages';
 import './loadBalancer.scss';
 
-const DeleteModal = ({ intl, open, setOpen, element, type, status, callback }) => {
+const DeleteModal = ({ t, open, setOpen, element, type, status, callback }) => {
     const disabled = () => status === 'pending' ? true : false;
 
     return (
@@ -20,17 +18,17 @@ const DeleteModal = ({ intl, open, setOpen, element, type, status, callback }) =
                 <div className='close-btn' onClick={() => setOpen(false)}></div>
                 <Header as='h2' style={{ margin: 'auto 0 23px 0' }}>
 
-                    {type === 'route' ? intl.formatMessage(messages.deleteRoute) : intl.formatMessage(messages.deleteCertificateHead)}
+                    {type === 'route' ? t('deleteRoute') : t('deleteCertificateHead')}
 
                 </Header>
                 {type !== 'route'
-                    ? intl.formatMessage(messages.deleteCertificate, { name: <b>{element.name}</b> })
-                    : intl.formatMessage(messages.deleteWebRoute, { name: <b>{element.name}</b> })}
-                <p>{intl.formatMessage(messages.cannotBeUndone)}</p>
+                    ? t('deleteCertificate', { name: <b>{element.name}</b> })
+                    : t('deleteWebRoute', { name: <b>{element.name}</b> })}
+                <p>{t('cannotBeUndone')}</p>
             </Modal.Content>
             <Modal.Actions className='deleteModalTraefikControl'>
-                <Button onClick={() => setOpen(false)} content={intl.formatMessage(messages.cancel)} disabled={disabled()}/>
-                <Button color='red' content={intl.formatMessage(messages.delete)} onClick={() => callback(element.id)} disabled={disabled()}/>
+                <Button onClick={() => setOpen(false)} content={t('cancel')} disabled={disabled()}/>
+                <Button color='red' content={t('delete')} onClick={() => callback(element.id)} disabled={disabled()}/>
 
             </Modal.Actions>
         </Modal>
@@ -38,7 +36,7 @@ const DeleteModal = ({ intl, open, setOpen, element, type, status, callback }) =
 };
 
 DeleteModal.propTypes = {
-    intl: PropTypes.any,
+    t: PropTypes.func,
     open: PropTypes.any,
     setOpen: PropTypes.func,
     element: PropTypes.object,
@@ -47,4 +45,4 @@ DeleteModal.propTypes = {
     callback: PropTypes.func
 };
 
-export default injectIntl(DeleteModal);
+export default DeleteModal;

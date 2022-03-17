@@ -1,5 +1,4 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
 import { Redirect, withRouter, Switch, Route } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import TabsLayout from './tabsLayout';
@@ -13,7 +12,6 @@ import {
     certificateDetailsPath,
     detailsPath
 } from '../constants/routes';
-import messages from '../Messages';
 import { PropTypes } from 'prop-types';
 
 const WebRoutes = React.lazy(() => import('./WebRoutes'));
@@ -23,15 +21,15 @@ const WebRoutesDetails = React.lazy(() => import('./WebRoutesDetails'));
 const CreateEditSertificate = React.lazy(() => import('./CreateEditSertificate'));
 const CertificateDetails = React.lazy(() => import('./CreateEditSertificate'));
 
-const LoadBalancerOverview = ({ intl }) => {
+const LoadBalancerOverview = ({ t }) => {
     const menuItems = [
         {
-            name: intl.formatMessage(messages.webRoutes),
+            name: t('webRoutes'),
             path: 'web_routes',
             component: WebRoutes
         },
         {
-            name: intl.formatMessage(messages.certificates),
+            name: t('certificates'),
             path: 'certificates',
             component: Certificates
         }
@@ -41,15 +39,15 @@ const LoadBalancerOverview = ({ intl }) => {
         <TabsLayout menuItems={menuItems} />
         <Segment attached='bottom'>
             <Switch>
-                <Route exact path={webRoutesPath()} component={ WebRoutes } />
-                <Route exact path={createroutePath()} component={ CreateEditRoute } />
-                <Route exact path={editroutePath()} component={ CreateEditRoute } />
-                <Route exact path={detailsPath()} component={ WebRoutesDetails } />
+                <Route exact path={webRoutesPath()} render={() => <WebRoutes t={t} /> } />
+                <Route exact path={createroutePath()} render={() => <CreateEditRoute t={t} /> } />
+                <Route exact path={editroutePath()} render={() => <CreateEditRoute t={t} /> } />
+                <Route exact path={detailsPath()} render={() => <WebRoutesDetails t={t} /> } />
 
-                <Route exact path={certificatesPath()} component={ Certificates } />
-                <Route exact path={createCertificatePath()} component={ CreateEditSertificate } />
-                <Route exact path={editCertificatePath()} component={ CreateEditSertificate } />
-                <Route exact path={certificateDetailsPath()} component={ CertificateDetails } />
+                <Route exact path={certificatesPath()} render={() => <Certificates t={t} /> } />
+                <Route exact path={createCertificatePath()} render={() => <CreateEditSertificate t={t} /> } />
+                <Route exact path={editCertificatePath()} render={() => <CreateEditSertificate t={t} /> } />
+                <Route exact path={certificateDetailsPath()} render={() => <CertificateDetails t={t} /> } />
                 <Redirect to={`/load_balancer/${menuItems[0].path}`} />
             </Switch>
         </Segment>
@@ -57,7 +55,7 @@ const LoadBalancerOverview = ({ intl }) => {
 };
 
 LoadBalancerOverview.propTypes = {
-    intl: PropTypes.any
+    t: PropTypes.func
 };
 
-export default injectIntl(withRouter(LoadBalancerOverview));
+export default withRouter(LoadBalancerOverview);

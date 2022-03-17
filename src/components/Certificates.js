@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import ContentPage from '../general/contentPage';
 import { useSelector, useDispatch } from 'react-redux';
-import messages from '../Messages';
 import CertificatesList from './CertificatesList';
 import { deleteCertificateReset, fetchCertificates, updateCertificateReset } from '../AppActions';
 import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
 import { withRouter } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 
-const Certificates = ({ history }) => {
+const ContentPage = React.lazy(() => import('container/ContentPage'));
+
+const Certificates = ({ t, history }) => {
     const certificates = useSelector(state => state.BalancerStore.certificates);
     const certificatesFetchStatus = useSelector(state => state.BalancerStore.certificatesStatus);
     const user = useSelector(state => state.host.user);
@@ -23,14 +23,15 @@ const Certificates = ({ history }) => {
     }, [dispatch, user]);
 
     return (
-        <ContentPage status={certificatesFetchStatus} pageData={certificates} title={messages.certificates}
-            componentDataList={CertificatesList} noContentMessage={messages.noCertificates} traefik>
-            <LoadBalancerHeaderContent isNoData={certificates.length < 1} title={messages.certificates}/>
+        <ContentPage t={t} statuses={[certificatesFetchStatus]} pageData={certificates} title={'certificates'}
+            componentDataList={CertificatesList} noContentMessage={'noCertificates'} traefik>
+            <LoadBalancerHeaderContent t={t} isNoData={certificates.length < 1} title={'certificates'}/>
         </ContentPage>
     );
 };
 
 Certificates.propTypes = {
+    t: PropTypes.func,
     history: PropTypes.any
 };
 

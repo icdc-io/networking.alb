@@ -2,20 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
-import { injectIntl } from 'react-intl';
-import messages from '../Messages';
 import { certificateDetailsPath, detailsPath } from '../constants/routes';
 import { Link, useParams } from 'react-router-dom';
 
-const OptionsMenu = ({ type, instance, options, intl }) => {
+const OptionsMenu = ({ t, type, instance, options }) => {
     const { menuGroup } = useParams();
     const actions = {
         traefik: {
             viewRoutes: (route, key) => <Link key={key} to={detailsPath(menuGroup, route.id)} role='option' className='item'>
-                <Dropdown.Item text={intl.formatMessage(messages.viewWebRoute)} onClick={() => { }} />
+                <Dropdown.Item text={t('viewWebRoute')} onClick={() => { }} />
             </Link>,
             viewCertificate: (route, key) => <Link key={key} to={certificateDetailsPath(menuGroup, route.id)} role='option' className='item'>
-                <Dropdown.Item text={intl.formatMessage(messages.viewWebRoute)} />
+                <Dropdown.Item text={t('viewWebRoute')} />
             </Link>
         }
     };
@@ -30,11 +28,11 @@ const OptionsMenu = ({ type, instance, options, intl }) => {
 };
 
 OptionsMenu.propTypes = {
-    intl: PropTypes.any,
+    t: PropTypes.func,
     instance: PropTypes.object,
     type: PropTypes.string,
     options: PropTypes.array,
     onClickAction: PropTypes.func
 };
 
-export default injectIntl(OptionsMenu);
+export default OptionsMenu;

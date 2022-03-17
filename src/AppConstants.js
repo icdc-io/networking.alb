@@ -1,17 +1,3 @@
-/* eslint-disable max-len */
-import { createIntl, createIntlCache } from 'react-intl';
-
-import messagesLocale from '../locales/data';
-
-const cache = createIntlCache();
-const locale = localStorage.getItem('icdc-lang') || 'en';
-const intl = createIntl({
-    // eslint-disable-next-line no-console
-    onError: console.log,
-    locale,
-    messages: messagesLocale[locale]
-}, cache);
-
 export const WEB_ROUTES_FETCH = 'WEB_ROUTES_FETCH';
 export const WEB_ROUTE_FETCH = 'WEB_ROUTE_FETCH';
 export const WEB_ROUTES_SERVICES_FETCH = 'WEB_ROUTES_SERVICES_FETCH';

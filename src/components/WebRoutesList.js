@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { injectIntl } from 'react-intl';
 import { PropTypes } from 'prop-types';
-import messages from '../Messages';
 import { Input, Table, Button, Header } from 'semantic-ui-react';
 import './loadBalancer.scss';
 import OptionsMenu from '../general/optionsMenu';
@@ -11,7 +9,7 @@ import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 
-const WebRoutesList = ({ items, intl }) => {
+const WebRoutesList = ({ t, items }) => {
     const { menuGroup } = useParams();
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
@@ -22,11 +20,11 @@ const WebRoutesList = ({ items, intl }) => {
     }, [search, items]);
 
     const headerRow = [
-        { title: intl.formatMessage(messages.name) },
-        { title: intl.formatMessage(messages.hostname) },
-        { title: intl.formatMessage(messages.targetPort) },
-        { title: intl.formatMessage(messages.tlsTermination) },
-        { title: intl.formatMessage(messages.service) },
+        { title: t('name') },
+        { title: t('hostname') },
+        { title: t('targetPort') },
+        { title: t('tlsTermination') },
+        { title: t('service') },
         { title: '' }
     ];
 
@@ -49,7 +47,7 @@ const WebRoutesList = ({ items, intl }) => {
                 <Table.Cell width={2}>{el.tls_termination ? el.tls_termination : '—'}</Table.Cell>
                 <Table.Cell width={6}>{service(el)}</Table.Cell>
                 <Table.Cell width={2} textAlign='right'>
-                    {true && <OptionsMenu type='traefik' instance={el} options={options} /> || ''}
+                    {true && <OptionsMenu t={t} type='traefik' instance={el} options={options} /> || ''}
                 </Table.Cell>
             </Table.Row>);
     });
@@ -57,26 +55,26 @@ const WebRoutesList = ({ items, intl }) => {
     return (
         <section>
             <div className='loadBalancerDescription'>
-                <p >{intl.formatMessage(messages.traefikDescriptionOne)}</p>
+                <p >{t('traefikDescriptionOne')}</p>
                 <div className='publicHostname'>
-                    <span>{intl.formatMessage(messages.publicHostname)}</span>
+                    <span>{t('publicHostname')}</span>
                     <span>{publicHostname}{copyInfo(publicHostname)}</span>
                 </div>
-                <p>{intl.formatMessage(messages.traefikDescriptionTwo)}</p>
+                <p>{t('traefikDescriptionTwo')}</p>
             </div>
-            <Header as='h4' className='webRoutesHeader' content={intl.formatMessage(messages.webRoutes)} />
+            <Header as='h4' className='webRoutesHeader' content={t('webRoutes')} />
 
             <div className='tools'>
                 <Input
                     icon='search'
                     iconPosition='left'
-                    placeholder={intl.formatMessage(messages.searchField)}
+                    placeholder={t('searchField')}
                     style={{ width: '600px', margin: '10px 0px 20px 0px' }}
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
                 />
                 <Link to={createroutePath(menuGroup)}>
-                    <Button primary size="medium" style={{ height: '40px' }}>{intl.formatMessage(messages.createRoute)}</Button>
+                    <Button primary size="medium" style={{ height: '40px' }}>{t('createRoute')}</Button>
                 </Link>
             </div>
             <div>
@@ -99,7 +97,7 @@ const WebRoutesList = ({ items, intl }) => {
 
 WebRoutesList.propTypes = {
     items: PropTypes.any,
-    intl: PropTypes.any
+    t: PropTypes.func
 };
 
-export default injectIntl(WebRoutesList);
+export default WebRoutesList;

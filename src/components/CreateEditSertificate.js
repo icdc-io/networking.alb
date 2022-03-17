@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { injectIntl } from 'react-intl';
 import { PropTypes } from 'prop-types';
 import { Button, Grid, Header, Input, TextArea } from 'semantic-ui-react';
-import messages from '../Messages';
 import './loadBalancer.scss';
 import { useParams, Redirect } from 'react-router-dom';
 import { certificateDetailsPath, certificatesPath } from '../constants/routes';
@@ -12,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createCertificate, updateCertificate } from '../AppActions';
 import { withRouter } from 'react-router-dom';
 
-const CreateEditCertificate = ({ intl, history }) => {
+const CreateEditCertificate = ({ t, history }) => {
     const { menuGroup, id } = useParams();
     const user = useSelector(state => state.host.user);
     const certificate = useSelector((state) => state.BalancerStore.certificate);
@@ -153,27 +151,27 @@ const CreateEditCertificate = ({ intl, history }) => {
     }
 
     return <>
-        <ButtonBack path={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />
+        <ButtonBack back={t('back')} path={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />
 
         <Grid className='createCertificateForm'>
             <Grid.Row className='certificateHeader'>
                 <Header as='h2'>
-                    {id ? intl.formatMessage(messages.editCertificate) : intl.formatMessage(messages.createCertificate)}
+                    {id ? t('editCertificate') : t('createCertificate')}
                 </Header>
             </Grid.Row >
             <Grid.Row className='certificateHeaderDescription'>
-                <span>{intl.formatMessage(messages.certificateDescript)}</span>
+                <span>{t('certificateDescript')}</span>
             </Grid.Row>
 
             <Grid.Row style={{ paddingBottom: '5px' }}>
-                <h5>{intl.formatMessage(messages.name)}</h5>
+                <h5>{t('name')}</h5>
             </Grid.Row>
             <Grid.Row>
                 <Input type='text' className='inputPath' style={{ width: '80%' }} value={commonName} onChange={onChangeName}/>
             </Grid.Row>
 
             <Grid.Row style={{ paddingBottom: '5px' }}>
-                <h5>{intl.formatMessage(messages.certificate)}</h5>
+                <h5>{t('certificate')}</h5>
             </Grid.Row>
             <div className='dragArea'
                 onDrop={e => handleDrop(e, setTextCertificate)}
@@ -183,7 +181,7 @@ const CreateEditCertificate = ({ intl, history }) => {
             >
                 <Grid.Row style={{ paddingBottom: '0px' }}>
                     <Input type='text' value={pathCertificate} className='inputPath' action={true} onChange={onChangeCertificate}><input disabled/>
-                        <Button onClick={onClickCertificate}>{intl.formatMessage(messages.browse)}</Button>
+                        <Button onClick={onClickCertificate}>{t('browse')}</Button>
                     </Input><input
                         type='file'
                         ref={refCertificate}
@@ -193,14 +191,14 @@ const CreateEditCertificate = ({ intl, history }) => {
                     />
                 </Grid.Row>
                 <Grid.Row style={{ margin: '5px 0' }}>
-                    <span className='subTitleForm'>{intl.formatMessage(messages.certificateUpDescript)}</span>
+                    <span className='subTitleForm'>{t('certificateUpDescript')}</span>
                 </Grid.Row>
                 <Grid.Row>
                     <TextArea value={textCertificate} className='textAreaForCert' onChange={onChangeTextCertificate}/>
                 </Grid.Row></div>
 
             <Grid.Row style={{ paddingBottom: '5px', marginTop: '10px'  }}>
-                <h5>{intl.formatMessage(messages.privateKey)}</h5>
+                <h5>{t('privateKey')}</h5>
             </Grid.Row>
             <div className='dragArea'
                 onDrop={e => handleDrop(e, setTextPrivateKey)}
@@ -210,7 +208,7 @@ const CreateEditCertificate = ({ intl, history }) => {
             >
                 <Grid.Row style={{ paddingBottom: '0px' }}>
                     <Input type='text' value={pathPrivateKey} className='inputPath' action={true} onChange={onChangePrivateKey}><input disabled/>
-                        <Button onClick={onClickPrivateKey}>{intl.formatMessage(messages.browse)}</Button>
+                        <Button onClick={onClickPrivateKey}>{t('browse')}</Button>
                     </Input>
                     <input
                         type='file'
@@ -221,14 +219,14 @@ const CreateEditCertificate = ({ intl, history }) => {
                     />
                 </Grid.Row>
                 <Grid.Row style={{ margin: '5px 0' }}>
-                    <span className='subTitleForm'>{intl.formatMessage(messages.certificateKeyDescript)}</span>
+                    <span className='subTitleForm'>{t('certificateKeyDescript')}</span>
                 </Grid.Row>
                 <Grid.Row>
                     <TextArea value={textPrivateKey} className='textAreaForCert' onChange={onChangeTextPrivateKey}/>
                 </Grid.Row></div>
 
             <Grid.Row style={{ paddingBottom: '5px', marginTop: '10px'  }}>
-                <h5>{intl.formatMessage(messages.caCertificate)}</h5>
+                <h5>{t('caCertificate')}</h5>
             </Grid.Row>
             <div className='dragArea'
                 onDrop={e => handleDrop(e, setTextCaCertificate)}
@@ -239,7 +237,7 @@ const CreateEditCertificate = ({ intl, history }) => {
                 <Grid.Row style={{ paddingBottom: '0px' }}>
                     <Input type='text' value={pathCaCertificate} className='inputPath' action={true} onChange={onChangeCaCertificate}>
                         <input disabled/>
-                        <Button onClick={onClickCaCertificate}>{intl.formatMessage(messages.browse)}</Button>
+                        <Button onClick={onClickCaCertificate}>{t('browse')}</Button>
                     </Input>
                     <input
                         type='file'
@@ -250,14 +248,14 @@ const CreateEditCertificate = ({ intl, history }) => {
                     />
                 </Grid.Row>
                 <Grid.Row style={{ margin: '5px 0' }}>
-                    <span className='subTitleForm'>{intl.formatMessage(messages.certificateCaDescript)}</span>
+                    <span className='subTitleForm'>{t('certificateCaDescript')}</span>
                 </Grid.Row>
                 <Grid.Row>
                     <TextArea value={textCaCertificate} className='textAreaForCert' onChange={onChangeTextCaCertificate}/>
                 </Grid.Row></div>
 
             <Grid.Row style={{ paddingBottom: '5px', marginTop: '10px'  }}>
-                <h5>{intl.formatMessage(messages.caCertificateDes)}</h5>
+                <h5>{t('caCertificateDes')}</h5>
             </Grid.Row>
             <div className='dragArea'
                 onDrop={e => handleDrop(e, setTextDCaCertificate)}
@@ -268,7 +266,7 @@ const CreateEditCertificate = ({ intl, history }) => {
                 <Grid.Row style={{ paddingBottom: '0px' }}>
                     <Input type='text' value = {pathDCaCertificate} className='inputPath' action={true} onChange={onChangeDCaCertificate}>
                         <input disabled/>
-                        <Button onClick={onClickDCaCertificate}>{intl.formatMessage(messages.browse)}</Button>
+                        <Button onClick={onClickDCaCertificate}>{t('browse')}</Button>
                     </Input>
                     <input
                         type='file'
@@ -278,7 +276,7 @@ const CreateEditCertificate = ({ intl, history }) => {
                     />
                 </Grid.Row>
                 <Grid.Row style={{ margin: '5px 0' }}>
-                    <span className='subTitleForm'>{intl.formatMessage(messages.certificateDestDescript)}</span>
+                    <span className='subTitleForm'>{t('certificateDestDescript')}</span>
                 </Grid.Row>
                 <Grid.Row>
                     <TextArea value={textDCaCertificate} className='textAreaForCert' onChange={onChangeTextDCaCertificate}/>
@@ -287,18 +285,19 @@ const CreateEditCertificate = ({ intl, history }) => {
 
         <div className='footer'>
             <Button
-                content={intl.formatMessage(messages.cancel)}
+                content={t('cancel')}
                 onClick={()=>setIsOpenCancelChangesModal(true)}
             />
             <Button
                 onClick={id ? editCertificate : createNewCertificate}
                 primary
                 type='submit'
-                content={id ? intl.formatMessage(messages.save) : intl.formatMessage(messages.create)}
+                content={id ? t('save') : t('create')}
                 disabled={id ? disabledSaveBtn() : disabledCreateBtn()}
             />
         </div>
         {isOpenCancelChangesModal && <CancelChangesModal
+            t={t}
             open={isOpenCancelChangesModal}
             setOpen={openCancelChangesModal}
             type = 'forCertificate'
@@ -307,9 +306,9 @@ const CreateEditCertificate = ({ intl, history }) => {
 };
 
 CreateEditCertificate.propTypes = {
-    intl: PropTypes.any,
+    t: PropTypes.func,
     type: PropTypes.any,
     history: PropTypes.any
 };
 
-export default injectIntl(withRouter(CreateEditCertificate));
+export default withRouter(CreateEditCertificate);

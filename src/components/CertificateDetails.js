@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { injectIntl } from 'react-intl';
-import messages from '../Messages';
 import { PropTypes } from 'prop-types';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,7 +12,7 @@ import { copyInfo } from '../utilities/copyInfo';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
-const CertificateDetails = ({ intl }) => {
+const CertificateDetails = ({ t }) => {
     const { menuGroup,  id } = useParams();
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
@@ -66,7 +64,7 @@ const CertificateDetails = ({ intl }) => {
             <Table style={{ wordBreak: 'break-all' }}>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell textAlign='left'>{intl.formatMessage(messages[e.title])}</Table.HeaderCell>
+                        <Table.HeaderCell textAlign='left'>{t([e.title])}</Table.HeaderCell>
                         <Table.HeaderCell textAlign='right'>{copyInfo(e.value)}</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -81,16 +79,16 @@ const CertificateDetails = ({ intl }) => {
         </Grid.Row> :
         <>
             <Grid.Row className='certDetailsRow'>
-                <Header as="h3">{intl.formatMessage(messages[e.title])}</Header>
+                <Header as="h3">{t([e.title])}</Header>
             </Grid.Row>
             <Grid.Row className='certDetailsRow'>
-                <Header as="h5" style={{ width: '700px' }}>{intl.formatMessage(messages.none)}</Header>
+                <Header as="h5" style={{ width: '700px' }}>{t('none')}</Header>
             </Grid.Row>
         </>
     );
 
     return (<section>
-        <ButtonBack path={certificatesPath(menuGroup)} />
+        <ButtonBack back={t('back')} path={certificatesPath(menuGroup)} />
         {certificateStatus !== 'fulfilled' || !Object.keys(certificate).length
             ? <Loader active inline="centered"/>
             : <><Grid className='certificateDetails'>
@@ -98,14 +96,15 @@ const CertificateDetails = ({ intl }) => {
                     <Header>{certificate.name}</Header>
                     <span>
                         <Link to={editCertificatePath(menuGroup, id)}>
-                            <Button basic color='black' size='small'>{intl.formatMessage(messages.edit)}</Button>
+                            <Button basic color='black' size='small'>{t('edit')}</Button>
                         </Link>
-                        <Button color='red' size='small' onClick={openDeleteModal}>{intl.formatMessage(messages.delete)}</Button>
+                        <Button color='red' size='small' onClick={openDeleteModal}>{t('delete')}</Button>
                     </span>
                 </div>
                 {cerificateList}
             </Grid>
             {selectedElement && <DeleteModal
+                t={t}
                 open={isOpenDeleteModal}
                 setOpen={openDeleteModal}
                 element={selectedElement}
@@ -117,7 +116,7 @@ const CertificateDetails = ({ intl }) => {
 };
 
 CertificateDetails.propTypes = {
-    intl: PropTypes.any,
+    t: PropTypes.func,
     history: PropTypes.any
 };
-export default injectIntl(withRouter(CertificateDetails));
+export default withRouter(CertificateDetails);

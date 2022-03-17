@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { injectIntl } from 'react-intl';
 import { PropTypes } from 'prop-types';
 import { Button, Header, Input, Checkbox, Dropdown, Form, Radio } from 'semantic-ui-react';
-import messages from '../Messages';
 import './loadBalancer.scss';
 import { useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +9,7 @@ import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, u
 import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
 
-const CreateEditForm = ({ intl }) => {
+const CreateEditForm = ({ t }) => {
     const { menuGroup, id } = useParams();
     const user = useSelector(state => state.host.user);
     const currentRoute = useSelector(state => state.BalancerStore.traefikRoute.route);
@@ -166,34 +164,34 @@ const CreateEditForm = ({ intl }) => {
     const altServices = listServices.length > 1 ||  split ? listServices.map((s, index) =>
         <section className='addService' key={index}>
             <div className='firstField'>
-                <label>{intl.formatMessage(messages.service)}</label>
+                <label>{t('service')}</label>
                 <Dropdown selection value={s.id} options={servicesOptions} placeholder='None' style={{ width: '98%' }}
                     onChange={(e, data) =>
                         setListServices(listServices.map((el, i) => i === index ? ({ ...el, id: data.value }) : ({ ...el })))} />
-                <span className='subTitleForm'>{intl.formatMessage(messages.altService)}</span>
+                <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl' >
-                    <p onClick={() => deleteService(index)}>{intl.formatMessage(messages.deleteService)}</p>|
-                    <p onClick={addService}>{intl.formatMessage(messages.anotherService)}</p></span>
+                    <p onClick={() => deleteService(index)}>{t('deleteService')}</p>|
+                    <p onClick={addService}>{t('anotherService')}</p></span>
             </div>
             <div className='secondField'>
-                <label>{intl.formatMessage(messages.weight)}</label>
+                <label>{t('weight')}</label>
                 <Form.Field error={weightErr(s.weight)} >
                     <Input value={s.weight} type='text' style={{ width: '100%' }}
                         onChange={(e, data) =>
                             setListServices(listServices.map((el, i) => i === index ? ({ ...el, weight: data.value }) : ({ ...el })))} />
                 </Form.Field>
-                <span className='subTitleForm'>{intl.formatMessage(messages.weightDescript)}</span>
+                <span className='subTitleForm'>{t('weightDescript')}</span>
             </div>
         </section>)
         : <section className='addOneService'>
             <div>
-                <label>{intl.formatMessage(messages.service)}</label>
+                <label>{t('service')}</label>
                 <Dropdown selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
                     onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))}/>
-                <span className='subTitleForm'>{intl.formatMessage(messages.altService)}</span>
+                <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl'>
-                    <p onClick={deleteService}>{intl.formatMessage(messages.deleteService)}</p>|
-                    <p onClick={addService}>{intl.formatMessage(messages.anotherService)}</p></span>
+                    <p onClick={deleteService}>{t('deleteService')}</p>|
+                    <p onClick={addService}>{t('anotherService')}</p></span>
             </div>
         </section>;
 
@@ -203,47 +201,47 @@ const CreateEditForm = ({ intl }) => {
 
     return <Form className='formContainer'>
         <div className='routeBlock'>
-            <Header as='h4' style={{ marginBottom: '10px' }}>{intl.formatMessage(messages.general)}</Header>
+            <Header as='h4' style={{ marginBottom: '10px' }}>{t('general')}</Header>
             <FormField
                 value={form.name}
-                label={intl.formatMessage(messages.nameSecurityGroups)}
+                label={t('nameSecurityGroups')}
                 placeholder='my-route'
                 callback={e => setForm({ ...form, name: e.currentTarget.value })}
             />
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikUniqName)}</span>
+            <span className='subTitleForm'>{t('traefikUniqName')}</span>
 
             <FormField
                 value={form.hostname}
-                label={`${intl.formatMessage(messages.hostname)}`}
+                label={t('hostname')}
                 placeholder='www.example.com'
                 callback={e => setForm({ ...form, hostname: e.currentTarget.value })}
             />
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikPublHostname)}</span>
+            <span className='subTitleForm'>{t('traefikPublHostname')}</span>
 
             <FormField
                 value={form.path}
-                label={`${intl.formatMessage(messages.path)} ${intl.formatMessage(messages.optional)}`}
+                label={`${t('path')} ${t('optional')}`}
                 placeholder='/'
                 callback={e => setForm({ ...form, path: e.currentTarget.value })}
             />
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikPath)}</span>
+            <span className='subTitleForm'>{t('traefikPath')}</span>
 
             <FormField
                 value={form.target_port}
-                label={`${intl.formatMessage(messages.targetPort)} ${intl.formatMessage(messages.optional)}`}
+                label={`${t('targetPort')} ${t('optional')}`}
                 placeholder='443'
                 callback={e => setForm({ ...form, target_port: e.currentTarget.value })}
                 error={targetPortErr}
             />
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikTargetPortDescript)}</span>
+            <span className='subTitleForm'>{t('traefikTargetPortDescript')}</span>
         </div>
         <div className='routeBlock'>
-            <Header as='h4' style={{ marginBottom: '10px' }}>{intl.formatMessage(messages.traefikTargetServices)}</Header>
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikSplitTrafficDescript)}</span>
+            <Header as='h4' style={{ marginBottom: '10px' }}>{t('traefikTargetServices')}</Header>
+            <span className='subTitleForm'>{t('traefikSplitTrafficDescript')}</span>
 
             {altServices}
             <Form.Field style={{ marginTop: '10px' }}>
-                <label>{intl.formatMessage(messages.ipInterface)}</label>
+                <label>{t('ipInterface')}</label>
                 <div className='ipv'>
                     <div>
                         <Radio
@@ -266,38 +264,39 @@ const CreateEditForm = ({ intl }) => {
             </Form.Field>
         </div>
         <div className='routeBlock routeBlockColumn'>
-            <Header as='h4'>{intl.formatMessage(messages.security)}</Header>
-            <Checkbox label={intl.formatMessage(messages.traefikSecRoute)} checked={secure} onChange={(e, { checked }) => { setSecure(checked);}}/>
-            <span className='subTitleForm'>{intl.formatMessage(messages.traefikSecRouteDescript)}</span>
+            <Header as='h4'>{t('security')}</Header>
+            <Checkbox label={t('traefikSecRoute')} checked={secure} onChange={(e, { checked }) => { setSecure(checked);}}/>
+            <span className='subTitleForm'>{t('traefikSecRouteDescript')}</span>
 
             {secure && <>
-                <label>{intl.formatMessage(messages.tlsTermination)}</label>
+                <label>{t('tlsTermination')}</label>
                 <Dropdown selection value={form.tls_termination} options={tlsOptions} placeholder='None'
                     onChange={(param, data) => setForm({ ...form, tls_termination: data.value })}/>
 
-                <label style={{ marginTop: '10px' }}>{intl.formatMessage(messages.traefikInsTraffic)}</label>
+                <label style={{ marginTop: '10px' }}>{t('traefikInsTraffic')}</label>
                 <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None'
                     onChange={(param, data) => setForm({ ...form, insecure: data.value })}/>
-                <span className='subTitleForm'>{intl.formatMessage(messages.traefikInsTrafficDescript)}</span>
+                <span className='subTitleForm'>{t('traefikInsTrafficDescript')}</span>
 
-                <label>{intl.formatMessage(messages.traefikTlsCertificate)}</label>
+                <label>{t('traefikTlsCertificate')}</label>
                 <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None'
                     onChange={(param, data) => setForm({ ...form, certificate_id: data.value })}/>
             </>}
         </div>
         <div className='formActions'>
             <Button
-                content={intl.formatMessage(messages.cancel)}
+                content={t('cancel')}
                 onClick={() => setIsOpenCancelChangesModal(true)}
             />
             <Button
                 onClick={id ? changeRouteHandler : createRouteHandler}
                 primary
-                content={id ? intl.formatMessage(messages.save) : intl.formatMessage(messages.create)}
+                content={id ? t('save') : t('create')}
                 disabled={disabledCreateBtn()}
             />
         </div>
         {isOpenCancelChangesModal && <CancelChangesModal
+            t={t}
             open={isOpenCancelChangesModal}
             setOpen={openCancelChangesModal}
             type = 'forRoute'
@@ -306,8 +305,8 @@ const CreateEditForm = ({ intl }) => {
 };
 
 CreateEditForm.propTypes = {
-    intl: PropTypes.any,
+    t: PropTypes.func,
     type: PropTypes.string
 };
 
-export default injectIntl(CreateEditForm);
+export default CreateEditForm;
