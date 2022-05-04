@@ -22,7 +22,7 @@ const CancelChangesModal = ({ t, open, setOpen, type }) => {
             </Modal.Content>
 
             <Modal.Actions style={{ background: 'none' }} >
-                <Button onClick={() => setOpen(false)} content={t('dismiss')} />
+                <Button onClick={() => setOpen(false)} style={{marginRight: '10px'}} content={t('dismiss')} />
                 <Link to={type !== 'forRoute' ? certificatesPath(menuGroup) : webRoutesPath(menuGroup)}>
                     <Button primary content={t('yesCancel')}/>
                 </Link>

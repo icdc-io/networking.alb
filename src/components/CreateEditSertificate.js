@@ -57,14 +57,14 @@ const CreateEditCertificate = ({ t, history }) => {
             ca: textCaCertificate,
             dest_ca: textDCaCertificate });
     }, [commonName, textCertificate, textPrivateKey, textCaCertificate, textDCaCertificate]);
-
+    console.log(certificate)
     useEffect(()=>{
         if (id) {
             setCommonName(certificate.name);
-            setTextCertificate(certificate.values.cert);
-            setTextCaCertificate(certificate.values.ca);
-            setTextPrivateKey(certificate.values.key);
-            setTextDCaCertificate(certificate.values.dest_ca);
+            setTextCertificate(certificate.values?.cert);
+            setTextCaCertificate(certificate.values?.ca);
+            setTextPrivateKey(certificate.values?.key);
+            setTextDCaCertificate(certificate.values?.dest_ca);
             setPathCertificate(certificate.cert_path);
             setPathCaCertificate(certificate.ca_path);
             setPathDCaCertificate(certificate.dest_ca_path);
@@ -142,9 +142,9 @@ const CreateEditCertificate = ({ t, history }) => {
     //disabled button
     const disabledCreateBtn = () => commonName  === '';
 
-    const disabledSaveBtn = () => commonName === certificate.name && textCertificate === certificate.values.cert
-            && textCaCertificate === certificate.values.ca && textPrivateKey === certificate.values.key
-            && textDCaCertificate === certificate.values.dest_ca || commonName  === '';
+    const disabledSaveBtn = () => commonName === certificate.name && textCertificate === certificate.values?.cert
+            && textCaCertificate === certificate.values?.ca && textPrivateKey === certificate.values?.key
+            && textDCaCertificate === certificate.values?.dest_ca || commonName  === '';
 
     if (certificateUpdateStatus === 'fulfilled') {
         return <Redirect to={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />;
@@ -287,6 +287,7 @@ const CreateEditCertificate = ({ t, history }) => {
             <Button
                 content={t('cancel')}
                 onClick={()=>setIsOpenCancelChangesModal(true)}
+                style={{marginRight: '10px'}}
             />
             <Button
                 onClick={id ? editCertificate : createNewCertificate}

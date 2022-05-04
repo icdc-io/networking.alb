@@ -6,11 +6,15 @@ import OptionsMenu from '../general/optionsMenu';
 import { Link, useParams } from 'react-router-dom';
 import { createCertificatePath, certificateDetailsPath } from '../constants/routes';
 import { onSearch } from '../utilities/search';
+import { useSelector } from 'react-redux';
+import CertificateImg from '../static/images/certificate.svg';
 
 const CertificatesList = ({ t, items }) => {
     const { menuGroup } = useParams();
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const user = useSelector(state => state.host.user);
+    const ApiButton = React.lazy(() => import('container/ApiButton'));
 
     useEffect(() => {
         setFilteredData(onSearch(items, search));
@@ -18,12 +22,17 @@ const CertificatesList = ({ t, items }) => {
 
     const certificates = filteredData.map(el => {
 
-        const options = ['viewCertificate'];
+        const options = ['edit', 'deleteCertificate'];
         return (
             <Table.Row key={el.id}>
-                <Table.Cell textAlign='left'><Link to={certificateDetailsPath(menuGroup, el.id)}>{el.name}</Link></Table.Cell>
+                <Table.Cell textAlign='left'>
+                    <div className='name-wrapper'>
+                        <img src={CertificateImg} width='35' />
+                        <Link to={certificateDetailsPath(menuGroup, el.id)}>{el.name}</Link>
+                    </div>
+                </Table.Cell>
                 <Table.Cell textAlign='right'>
-                    {true && <OptionsMenu t={t} type='traefik' instance={el} options={options} /> || ''}
+                    {<OptionsMenu t={t} type='certificates' instance={el} options={options} /> || ''}
                 </Table.Cell>
             </Table.Row>);
     });
@@ -34,14 +43,19 @@ const CertificatesList = ({ t, items }) => {
                 <Input
                     icon='search'
                     iconPosition='left'
-                    style={{ width: '600px', margin: '10px 0px 20px 0px' }}
+                    style={{ width: '600px', margin: '10px 0px 0px 0px' }}
                     placeholder={t('searchField')}
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
                 />
-                <Link to={createCertificatePath(menuGroup)}>
-                    <Button primary size="medium" style={{ height: '40px' }}>{t('createCertificate')}</Button>
-                </Link>
+                <div className='create-route-buttons'>
+                    <ApiButton element='certificates'
+                        item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
+                        user={user} />
+                    <Link to={createCertificatePath(menuGroup)}>
+                        <Button primary size="medium" style={{ height: '40px' }}>{t('createCertificate')}</Button>
+                    </Link>
+                </div>
             </div>
             <div>
                 <Table basic="very" className='bordered'>

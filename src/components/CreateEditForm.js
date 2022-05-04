@@ -58,44 +58,44 @@ const CreateEditForm = ({ t }) => {
     useEffect(() => {
         setListServices(initialServices);
         (id && currentRouteStatus === 'fulfilled') &&
-		setForm({
-            name: currentRoute.name,
-            hostname: currentRoute.hostname,
-            path: currentRoute.path,
-            target_port: currentRoute.target_port,
-            tls_termination: currentRoute.tls_termination,
-            insecure: currentRoute.insecure === 'None' ? '' : currentRoute.insecure,
-            certificate_id: currentRoute.certificate_id,
-            owner: currentRoute.owner,
-            ip_version: currentRoute.ip_version,
-            cloud_gateway_id: currentRoute.cloud_gateway_id,
-            source_proto: currentRoute.source_proto,
-            destination_proto: currentRoute.destination_proto,
-            services: currentRoute.services
-		});
+            setForm({
+                name: currentRoute.name,
+                hostname: currentRoute.hostname,
+                path: currentRoute.path,
+                target_port: currentRoute.target_port,
+                tls_termination: currentRoute.tls_termination,
+                insecure: currentRoute.insecure === 'None' ? '' : currentRoute.insecure,
+                certificate_id: currentRoute.certificate_id,
+                owner: currentRoute.owner,
+                ip_version: currentRoute.ip_version,
+                cloud_gateway_id: currentRoute.cloud_gateway_id,
+                source_proto: currentRoute.source_proto,
+                destination_proto: currentRoute.destination_proto,
+                services: currentRoute.services
+            });
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.routes_services.length > 0) &&
-        setListServices(currentRoute.routes_services.map(el => ({ id: el.service_id, weight: el.value })));
+            setListServices(currentRoute.routes_services.map(el => ({ id: el.service_id, weight: el.value })));
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.routes_services.length === 1) &&
-        setListServices(currentRoute.routes_services.map(el => ({ id: el.service_id })));
+            setListServices(currentRoute.routes_services.map(el => ({ id: el.service_id })));
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.services.length === 0) && setListServices(initialServices);
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.tls_termination !== '') &&
-        setSecure(true);
+            setSecure(true);
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.services.length > 1) &&
-		setSplit(true);
+            setSplit(true);
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.ip_version === '6') &&
-		setIpv(true);
+            setIpv(true);
 
         dispatch(fetchWebRoutesService());
     }, [currentRoute, currentRouteStatus, id]);
 
     useEffect(() => {
-        id &&  dispatch(fetchWebRoute(id));
+        id && dispatch(fetchWebRoute(id));
         dispatch(updateWebRouteReset());
     }, [dispatch, id]);
 
@@ -124,11 +124,12 @@ const CreateEditForm = ({ t }) => {
 
     //disabled buttons
     const disabledCreateBtn = () => form.name === '' || form.hostname === '' || targetPortErr
-        || (listServices.length > 1 &&  listServices.some(el => weightErr(el.weight)));
+        || (listServices.length > 1 && listServices.some(el => weightErr(el.weight)));
 
     const addService = () => {
         setListServices([...listServices, { id: '', weight: '1' }]);
-        setSplit(true);};
+        setSplit(true);
+    };
 
     const deleteService = (index) => {
         listServices.length > 1 ? setListServices(listServices.filter((e, i) => i !== index)) :
@@ -136,32 +137,36 @@ const CreateEditForm = ({ t }) => {
     };
 
     const createRouteHandler = () => {
-        dispatch(createWebRouteData({ route: { ...form,
-            path: form.path === '' ? '/' : form.path,
-            owner: user.email,
-            target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
-            services: listServices.filter(el => el.id !== ''),
-            ip_version: !ipv ? '4' : '6',
-            insecure: form.insecure === '' ? 'None' : form.insecure
-        } }));
+        dispatch(createWebRouteData({
+            route: {
+                ...form,
+                path: form.path === '' ? '/' : form.path,
+                owner: user.email,
+                target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
+                services: listServices.filter(el => el.id !== ''),
+                ip_version: !ipv ? '4' : '6',
+                insecure: form.insecure === '' ? 'None' : form.insecure
+            }
+        }));
         setForm(state);
         setListServices(initialServices);
     };
 
     const changeRouteHandler = () => {
         dispatch(updateWebRoute({
-                route: { ...form,
-                    path: form.path === '' ? '/' : form.path,
-                    target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
-                    services: listServices.filter(el => el.id !== ''),
-                    ip_version: !ipv ? '4' : '6',
-                    insecure: form.insecure === '' ? 'None' : form.insecure
-                }
-            }, id)
+            route: {
+                ...form,
+                path: form.path === '' ? '/' : form.path,
+                target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
+                services: listServices.filter(el => el.id !== ''),
+                ip_version: !ipv ? '4' : '6',
+                insecure: form.insecure === '' ? 'None' : form.insecure
+            }
+        }, id)
         );
     };
 
-    const altServices = listServices.length > 1 ||  split ? listServices.map((s, index) =>
+    const altServices = listServices.length > 1 || split ? listServices.map((s, index) =>
         <section className='addService' key={index}>
             <div className='firstField'>
                 <label>{t('service')}</label>
@@ -187,7 +192,7 @@ const CreateEditForm = ({ t }) => {
             <div>
                 <label>{t('service')}</label>
                 <Dropdown selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
-                    onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))}/>
+                    onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
                 <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl'>
                     <p onClick={deleteService}>{t('deleteService')}</p>|
@@ -265,27 +270,28 @@ const CreateEditForm = ({ t }) => {
         </div>
         <div className='routeBlock routeBlockColumn'>
             <Header as='h4'>{t('security')}</Header>
-            <Checkbox label={t('traefikSecRoute')} checked={secure} onChange={(e, { checked }) => { setSecure(checked);}}/>
+            <Checkbox label={t('traefikSecRoute')} checked={secure} onChange={(e, { checked }) => { setSecure(checked); }} />
             <span className='subTitleForm'>{t('traefikSecRouteDescript')}</span>
 
             {secure && <>
                 <label>{t('tlsTermination')}</label>
                 <Dropdown selection value={form.tls_termination} options={tlsOptions} placeholder='None'
-                    onChange={(param, data) => setForm({ ...form, tls_termination: data.value })}/>
+                    onChange={(param, data) => setForm({ ...form, tls_termination: data.value })} />
 
                 <label style={{ marginTop: '10px' }}>{t('traefikInsTraffic')}</label>
                 <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None'
-                    onChange={(param, data) => setForm({ ...form, insecure: data.value })}/>
+                    onChange={(param, data) => setForm({ ...form, insecure: data.value })} />
                 <span className='subTitleForm'>{t('traefikInsTrafficDescript')}</span>
 
                 <label>{t('traefikTlsCertificate')}</label>
                 <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None'
-                    onChange={(param, data) => setForm({ ...form, certificate_id: data.value })}/>
+                    onChange={(param, data) => setForm({ ...form, certificate_id: data.value })} />
             </>}
         </div>
         <div className='formActions'>
             <Button
                 content={t('cancel')}
+                style={{ marginRight: '10px' }}
                 onClick={() => setIsOpenCancelChangesModal(true)}
             />
             <Button
@@ -299,7 +305,7 @@ const CreateEditForm = ({ t }) => {
             t={t}
             open={isOpenCancelChangesModal}
             setOpen={openCancelChangesModal}
-            type = 'forRoute'
+            type='forRoute'
         />}
     </Form>;
 };

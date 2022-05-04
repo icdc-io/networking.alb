@@ -11,14 +11,17 @@ import DeleteModal from './DeleteModal';
 import { copyInfo } from '../utilities/copyInfo';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import CertificateImg from '../static/images/certificate.svg';
 
 const CertificateDetails = ({ t }) => {
-    const { menuGroup,  id } = useParams();
+    const { menuGroup, id } = useParams();
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
     const certificateDeleteStatus = useSelector((state) => state.BalancerStore.certificateDeleteStatus);
     const [selectedElement, setSelectedElement] = useState(null);
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+    const user = useSelector(state => state.host.user);
+    const ApiButton = React.lazy(() => import('container/ApiButton'));
 
     const dispatch = useDispatch();
 
@@ -34,7 +37,7 @@ const CertificateDetails = ({ t }) => {
         setIsOpenDeleteModal(isOpen);
     };
 
-    const deleteCertificate = (id) => {dispatch(deleteCertificateAction(id));};
+    // const deleteCertificate = (id) => { dispatch(deleteCertificateAction(id)); };
 
     if (certificateDeleteStatus === 'fulfilled') {
         return <Redirect to={certificatesPath(menuGroup)} />;
@@ -60,57 +63,62 @@ const CertificateDetails = ({ t }) => {
     ];
 
     const cerificateList = certificatesData.map((e, index) => e.value ?
-        <Grid.Row className='certDetailsRow' key={index}>
-            <Table style={{ wordBreak: 'break-all' }}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell textAlign='left'>{t([e.title])}</Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'>{copyInfo(e.value)}</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    <Table.Row>
-                        <Table.Cell className='keyOfCertificate'>
-                            {(e.value && e.value.length > 210) ? `${e.value.substr(0, 210)}...` : e.value}
-                        </Table.Cell>
-                    </Table.Row>
-                </Table.Body>
-            </Table>
+        <Grid.Row className='cert-details-row' key={index}>
+            <div className='api-dialog-snippet-wrapper display-certificate'>
+                <CodeSnippet
+                    title={messages[e.title]}
+                    content={e.value}
+                    copyFuncion={copy} />
+            </div>
         </Grid.Row> :
-        <>
-            <Grid.Row className='certDetailsRow'>
-                <Header as="h3">{t([e.title])}</Header>
+        <Grid.Row className='cert-details-row-none' key={index}>
+            <Grid.Row className='cert-details-row'>
+                <Header as="h4">{t([e.title])}</Header>
             </Grid.Row>
-            <Grid.Row className='certDetailsRow'>
-                <Header as="h5" style={{ width: '700px' }}>{t('none')}</Header>
+            <Grid.Row className='cert-details-row'>
+                <p>{t('none')}</p>
             </Grid.Row>
-        </>
+        </Grid.Row>
     );
 
     return (<section>
         <ButtonBack back={t('back')} path={certificatesPath(menuGroup)} />
         {certificateStatus !== 'fulfilled' || !Object.keys(certificate).length
-            ? <Loader active inline="centered"/>
-            : <><Grid className='certificateDetails'>
-                <div className='certificateDetailsHeader'>
-                    <Header>{certificate.name}</Header>
+            ? <Loader active inline="centered" />
+            : <><Grid className='certificate-details'>
+                <div className='certificate-details-header'>
+                    <Header>
+                        <img src={CertificateImg} width='35' />
+                        {certificate.name}
+                    </Header>
                     <span>
-                        <Link to={editCertificatePath(menuGroup, id)}>
-                            <Button basic color='black' size='small'>{t('edit')}</Button>
-                        </Link>
-                        <Button color='red' size='small' onClick={openDeleteModal}>{t('delete')}</Button>
+                        <div className='create-route-buttons'>
+                            <Link to={editCertificatePath(menuGroup, id)}>
+                                <Button basic color='black' size='small'>{t('edit')}</Button>
+                            </Link>
+                            <ApiButton element='certificate'
+                                user={user} />
+                            {/* <Button color='red' size='small' onClick={openDeleteModal}>{t('delete')}</Button> */}
+                        </div>
                     </span>
                 </div>
                 {cerificateList}
+                <Grid.Row verticalAlign='middle' className='network-delete'>
+                    <Grid.Column width={15}>
+                        <b>{`${t('delete')} ${t('webRoutes')}`.toUpperCase()}</b>
+                        <p>{t('cannotBeUndone')}</p>
+                    </Grid.Column>
+                    <Grid.Column className='delete-webroute-action'><Button size='small' className='delete-route-button' onClick={openDeleteModal}>{t('delete')}</Button></Grid.Column>
+                </Grid.Row>
             </Grid>
-            {selectedElement && <DeleteModal
-                t={t}
-                open={isOpenDeleteModal}
-                setOpen={openDeleteModal}
-                element={selectedElement}
-                type = 'certificate'
-                callback={deleteCertificate}
-            />}
+                {selectedElement && <DeleteModal
+                    t={t}
+                    open={isOpenDeleteModal}
+                    setOpen={openDeleteModal}
+                    element={selectedElement}
+                    type='certificate'
+                    callback={deleteCertificate}
+                />}
             </>}
     </section>);
 };

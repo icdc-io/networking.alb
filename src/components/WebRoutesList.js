@@ -8,12 +8,15 @@ import { createroutePath, detailsPath } from '../constants/routes';
 import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
+import WebRoute from '../static/images/webroutes.svg';
 
 const WebRoutesList = ({ t, items }) => {
     const { menuGroup } = useParams();
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
+    const ApiButton = React.lazy(() => import('container/ApiButton'));
+    const providerId = useSelector(state => state.BalancerStore.providerId);
 
     useEffect(() => {
         setFilteredData(onSearch(items, search));
@@ -31,13 +34,14 @@ const WebRoutesList = ({ t, items }) => {
     const publicHostname = `${user.account}.alb.${user.location}.icdc.io`;
 
     const routes = filteredData.map(el => {
-        const options = ['viewRoutes'];
+        const options = ['edit', 'deleteWebRoutes'];
         const service = (route) => route.services.map(e => e.name).join(', ');
 
         return (
             <Table.Row key={el.id}>
                 <Table.Cell width={2}>
-                    <div>
+                    <div className='name-wrapper'>
+                        <img src={WebRoute} width='35' />
                         <Link to={detailsPath(menuGroup, el.id)}>{el.name}</Link>
                     </div>
                 </Table.Cell>
@@ -47,7 +51,8 @@ const WebRoutesList = ({ t, items }) => {
                 <Table.Cell width={2}>{el.tls_termination ? el.tls_termination : '—'}</Table.Cell>
                 <Table.Cell width={6}>{service(el)}</Table.Cell>
                 <Table.Cell width={2} textAlign='right'>
-                    {true && <OptionsMenu t={t} type='traefik' instance={el} options={options} /> || ''}
+                    {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''}
+
                 </Table.Cell>
             </Table.Row>);
     });
@@ -69,13 +74,19 @@ const WebRoutesList = ({ t, items }) => {
                     icon='search'
                     iconPosition='left'
                     placeholder={t('searchField')}
-                    style={{ width: '600px', margin: '10px 0px 20px 0px' }}
+                    style={{ width: '600px', margin: '10px 0px 0px 0px' }}
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
                 />
-                <Link to={createroutePath(menuGroup)}>
-                    <Button primary size="medium" style={{ height: '40px' }}>{t('createRoute')}</Button>
-                </Link>
+                {/* <ApiButton element='route' item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }} /> */}
+                <div className='create-route-buttons'>
+                    <ApiButton element='routes'
+                        item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
+                        user={user} />
+                    <Link to={createroutePath(menuGroup)}>
+                        <Button primary size="medium" style={{ height: '40px' }}>{t('createRoute')}</Button>
+                    </Link>
+                </div>
             </div>
             <div>
                 <Table basic="very">

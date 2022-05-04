@@ -19,7 +19,7 @@ const Certificates = React.lazy(() => import('./Certificates'));
 const CreateEditRoute = React.lazy(() => import('./CreateEditRoute'));
 const WebRoutesDetails = React.lazy(() => import('./WebRoutesDetails'));
 const CreateEditSertificate = React.lazy(() => import('./CreateEditSertificate'));
-const CertificateDetails = React.lazy(() => import('./CreateEditSertificate'));
+const CertificateDetails = React.lazy(() => import('./certificateDetailsPath'));
 
 const LoadBalancerOverview = ({ t }) => {
     const menuItems = [
