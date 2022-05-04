@@ -8,7 +8,7 @@ const waitingForBaseUrl = () => {
     return locations[location];
 };
 
-const baseForTraefik = (url, id = '') => `${waitingForBaseUrl()}/api/traefik_manager/v1${url}/${id}`;
+const baseForTraefik = (url, id = '') => `${waitingForBaseUrl()}/api/traefik_manager/v1${url}`;
 
 const notificationOptions = { position: 'top-right', hideAfter: 7 };
 
@@ -145,7 +145,10 @@ export const updateWebRoute = async (data, routeId) => {
 
         response.then(() => {
             successNotification('');
-        }, error => errorNotification(error));
+            dispatch(updateWebRouteReset());
+        }, error => {
+            errorNotification(error);
+        });
     };
 };
 
@@ -188,25 +191,6 @@ export const createCertificate = (payload) => {
     };
 };
 
-const deleteCertificate = (id) => ({
-    type: ActionTypes.CERTIFICATE_DELETE,
-    payload: deleteData(ActionTypes.CERTIFICATES_FETCH_URL, {}, id)
-});
-
-export const deleteCertificateAction = (id) => {
-    return dispatch => {
-        const response = dispatch(deleteCertificate(id));
-
-        response.then(() => {
-            successNotification('');
-        }, error => errorNotification(error));
-    };
-};
-
-export const deleteCertificateReset = () => ({
-    type: ActionTypes.CERTIFICATE_DELETE_RESET
-});
-
 const updateCertificateData = (data, certificateId) => ({
     type: ActionTypes.CERTIFICATE_UPDATE,
     payload: updateData(ActionTypes.CERTIFICATES_FETCH_URL, {}, data, certificateId)
@@ -217,11 +201,34 @@ export const updateCertificate = async (data, certificateId) => {
         const response = dispatch(updateCertificateData(data, certificateId));
 
         response.then(() => {
+            dispatch(updateCertificateReset());
             successNotification('');
-        }, error => errorNotification(error));
+        }, error => {
+            errorNotification(error);
+        });
     };
 };
 
 export const updateCertificateReset = () => ({
     type: `${ActionTypes.CERTIFICATE_UPDATE}_RESET`
 });
+
+const deleteCertificateAction = (id) => ({
+    type: ActionTypes.CERTIFICATE_DELETE,
+    payload: deleteData(ActionTypes.certificateUrl(id), {}, 'traefik_manager')
+});
+
+const deleteCertificateReset = () => ({
+    type: ActionTypes.CERTIFICATE_DELETE_RESET
+});
+
+export const deleteCertificate = (id) => dispatch => {
+    const response = dispatch(deleteCertificateAction(id));
+    response.then(() => {
+        successNotification('');
+        dispatch(fetchCertificates());
+        dispatch(deleteCertificateReset());
+    }, error => {
+        errorNotification(error);
+    });
+};

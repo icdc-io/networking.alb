@@ -16,6 +16,7 @@ export const CERTIFICATES_FETCH_URL = `/certificates`;
 export const CERTIFICATE_DELETE = 'CERTIFICATES__DELETE';
 export const CERTIFICATE_CREATE = 'CERTIFICATES__CREATE';
 export const CERTIFICATE_UPDATE = 'CERTIFICATE_UPDATE';
+export const certificateUrl = (id) => `/certificates/${id}`;
 
 export const notificationMessages = {
     ru: {

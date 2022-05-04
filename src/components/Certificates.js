@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CertificatesList from './CertificatesList';
-import { deleteCertificateReset, fetchCertificates, updateCertificateReset } from '../AppActions';
+import { fetchCertificates } from '../AppActions';
 import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
 import { withRouter } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
@@ -17,15 +17,14 @@ const Certificates = ({ t, history }) => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchCertificates());
-        dispatch(deleteCertificateReset());
-        dispatch(updateCertificateReset());
-    }, [dispatch, user]);
+        Object.keys(user).length !== 0 && dispatch(fetchCertificates());
+    }, [dispatch, user.role, user.location, user.account, user]
+    );
 
     return (
         <ContentPage t={t} statuses={[certificatesFetchStatus]} pageData={certificates} title={'certificates'}
             componentDataList={CertificatesList} noContentMessage={'noCertificates'} traefik>
-            <LoadBalancerHeaderContent t={t} isNoData={certificates.length < 1} title={'certificates'}/>
+            <LoadBalancerHeaderContent t={t} isNoData={certificates.length < 1} title={'certificates'} />
         </ContentPage>
     );
 };
