@@ -6,7 +6,7 @@ import { useParams, Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Loader, Grid, Button, Header } from 'semantic-ui-react';
 import { webRoutesPath, editroutePath } from '../constants/routes';
-import { deleteWebRouteAction, fetchWebRoute, updateWebRouteReset, fetchCertificate } from '../AppActions';
+import { fetchWebRoute, updateWebRouteReset, fetchCertificate } from '../AppActions';
 import DeleteModal from './DeleteModal';
 import { withRouter } from 'react-router-dom';
 import WebRoute from '../static/images/webroutes.svg';
@@ -17,9 +17,9 @@ const WebRoutesDetails = ({ t, history }) => {
     const traefikRouteStatus = useSelector((state) => state.BalancerStore.traefikRouteStatus);
     const traefikRouteDeleteStatus = useSelector((state) => state.BalancerStore.traefikRouteDeleteStatus);
     const certificate = useSelector((state) => state.BalancerStore.certificate);
+    const user = useSelector(state => state.host.user);
+    const ApiButton = React.lazy(() => import('container/ApiButton'));
     const dispatch = useDispatch();
-    const [selectedElement, setSelectedElement] = useState(null);
-    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
     window.goToRootRoute = () => history.push('/load_balancer');
 
@@ -31,13 +31,6 @@ const WebRoutesDetails = ({ t, history }) => {
     useEffect(() => {
         traefikRouteStatus === 'fulfilled' && route.certificate_id !== null && dispatch(fetchCertificate(route?.certificate_id));
     }, [dispatch, traefikRouteStatus]);
-
-    const openDeleteModal = (isOpen = true) => {
-        setSelectedElement(route);
-        setIsOpenDeleteModal(isOpen);
-    };
-
-    const deleteRoute = (id) => { dispatch(deleteWebRouteAction(id)); setSelectedElement(null); };
 
     function timeDifference(current, previous) {
         const msPerMinute = 60 * 1000;
@@ -79,14 +72,14 @@ const WebRoutesDetails = ({ t, history }) => {
         {traefikRouteStatus !== 'fulfilled' || !Object.keys(route).length
             ? <Loader active inline="centered" />
             :
-            <Grid className='details-сontainer'>
+            <Grid className='details-container'>
                 <div className='web-routes-details-header'>
                     <Header><img src={WebRoute} width='41' />{route.name}</Header>
-                    <div className='buttons-wrapper'>
+                    <div className='create-route-buttons'>
                         <Link to={editroutePath(menuGroup, id)}>
-                            <Button basic color='black' size='tiny' style={{ minWidth: '80px' }}>{t('edit')}</Button>
+                            <Button basic color='black' size='small'>{t('edit')}</Button>
                         </Link>
-                        {/* <ApiButton element='routesId' item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }} /> */}
+                        <ApiButton element='routesId' user={user} />
                     </div>
                 </div>
                 <Header as='h3' style={{ marginTop: '12px' }}>{t('details')}</Header>
@@ -127,23 +120,13 @@ const WebRoutesDetails = ({ t, history }) => {
                 </Grid.Row>
 
                 <Grid.Row verticalAlign='middle' className='network-delete'>
-                    <Grid.Column width={15}>
+                    <div>
                         <b>{`${t('delete')} ${t('webRoutes')}`.toUpperCase()}</b>
                         <p>{t('cannotBeUndone')}</p>
-                    </Grid.Column>
-                    <Grid.Column className='delete-webroute-action'><Button size='small' className='delete-route-button' onClick={openDeleteModal}>{t('delete')}</Button></Grid.Column>
+                    </div>
+                    <div className='delete-webroute-action'><DeleteModal type='webRoutes' button instance={route} t={t}/></div>
                 </Grid.Row>
             </Grid>}
-        {selectedElement && <DeleteModal
-            t={t}
-            open={isOpenDeleteModal}
-            setOpen={openDeleteModal}
-            element={selectedElement}
-            type='route'
-            status={traefikRouteDeleteStatus}
-            callback={deleteRoute}
-        />}
-
     </>;
 };
 

@@ -11,7 +11,7 @@ import { detailsPath, webRoutesPath } from '../constants/routes';
 
 const CreateEditForm = ({ t }) => {
     const { menuGroup, id } = useParams();
-    const user = useSelector(state => state.host.user);
+    const userEmail = JSON.parse(localStorage.getItem('user')).email;
     const currentRoute = useSelector(state => state.BalancerStore.traefikRoute.route);
     const traefikRouteServices = useSelector(state => state.BalancerStore.traefikRouteServices);
     const currentRouteStatus = useSelector(state => state.BalancerStore.traefikRouteStatus);
@@ -141,7 +141,7 @@ const CreateEditForm = ({ t }) => {
             route: {
                 ...form,
                 path: form.path === '' ? '/' : form.path,
-                owner: user.email,
+                owner: userEmail,
                 target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',

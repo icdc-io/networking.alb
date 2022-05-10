@@ -8,6 +8,7 @@ export const WEB_ROUTE_DELETE_RESET = 'WEB_ROUTE_DELETE_RESET';
 export const WEB_ROUTE_CREATE = 'WEB_ROUTE_CREATE';
 export const WEB_ROUTE_UPDATE = 'WEB_ROUTE_UPDATE';
 export const WEB_ROUTE_UPDATE_RESET = 'WEB_ROUTE_UPDATE_RESET';
+export const webRouteUrl = (id) => `/routes/${id}`;
 
 export const CERTIFICATES_FETCH = 'CERTIFICATES__FETCH';
 export const CERTIFICATE_FETCH = 'CERTIFICATE__FETCH';

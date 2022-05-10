@@ -10,7 +10,7 @@ const OptionsMenu = ({ t, type, instance, options }) => {
     const { menuGroup } = useParams();
     const actions = {
         certificates: {
-            edit: (webRoute, key) => <Link key={key} to={editCertificatePath(menuGroup, webRoute.id)} role='option' className='item'>
+            edit: (certificate, key) => <Link key={key} to={editCertificatePath(menuGroup, certificate.id)} role='option' className='item'>
                 <Dropdown.Item text={t('edit')} />
             </Link>,
             deleteCertificate: (certificate, key) => <DeleteModal t={t} key={key} type={type} instance={certificate} />
@@ -23,12 +23,12 @@ const OptionsMenu = ({ t, type, instance, options }) => {
                 <Dropdown.Item text={t('viewWebRoute')} />
             </Link>
         },
-        // webRoutes: {
-        //     edit: (webRoute, key) => <Link key={key} to={editroutePath(menuGroup, webRoute.id)} role='option' className='item'>
-        //         <Dropdown.Item text={t('edit')} onClick={() => { }} />
-        //     </Link>,
-        //     deleteWebRoutes: (webRoute, key) => <DeleteModal key={key} type={type} instance={webRoute} />
-        // },
+        webRoutes: {
+            edit: (webRoute, key) => <Link key={key} to={editroutePath(menuGroup, webRoute.id)} role='option' className='item'>
+                <Dropdown.Item text={t('edit')} onClick={() => { }} />
+            </Link>,
+            deleteWebRoutes: (webRoute, key) => <DeleteModal key={key} type={type} instance={webRoute} />
+        },
         // certificates: {
         //     edit: (webRoute, key) =>  <Link key={key} to={editCertificatePath(menuGroup, webRoute.id)} role='option' className='item'>
         //         <Dropdown.Item text={t('edit')}/>

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Grid, Header, Loader, Table } from 'semantic-ui-react';
+import { Button, Grid, Header, Loader } from 'semantic-ui-react';
 import './loadBalancer.scss';
 import ButtonBack from '../general/buttonBack';
-import { fetchCertificate, deleteCertificateAction, updateCertificateReset } from '../AppActions';
+import { fetchCertificate, updateCertificateReset } from '../AppActions';
 import { certificatesPath, editCertificatePath } from '../constants/routes';
 import DeleteModal from './DeleteModal';
 import { copyInfo } from '../utilities/copyInfo';
@@ -18,8 +18,6 @@ const CertificateDetails = ({ t }) => {
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
     const certificateDeleteStatus = useSelector((state) => state.BalancerStore.certificateDeleteStatus);
-    const [selectedElement, setSelectedElement] = useState(null);
-    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const user = useSelector(state => state.host.user);
     const ApiButton = React.lazy(() => import('container/ApiButton'));
 
@@ -32,12 +30,6 @@ const CertificateDetails = ({ t }) => {
         dispatch(updateCertificateReset());
     }, [dispatch, id]);
 
-    const openDeleteModal = (isOpen = true) => {
-        setSelectedElement(certificate);
-        setIsOpenDeleteModal(isOpen);
-    };
-
-    // const deleteCertificate = (id) => { dispatch(deleteCertificateAction(id)); };
 
     if (certificateDeleteStatus === 'fulfilled') {
         return <Redirect to={certificatesPath(menuGroup)} />;
@@ -98,27 +90,18 @@ const CertificateDetails = ({ t }) => {
                             </Link>
                             <ApiButton element='certificate'
                                 user={user} />
-                            {/* <Button color='red' size='small' onClick={openDeleteModal}>{t('delete')}</Button> */}
                         </div>
                     </span>
                 </div>
                 {cerificateList}
                 <Grid.Row verticalAlign='middle' className='network-delete'>
-                    <Grid.Column width={15}>
-                        <b>{`${t('delete')} ${t('webRoutes')}`.toUpperCase()}</b>
+                    <div >
+                        <b>{`${t('delete')} ${t('certificate')}`.toUpperCase()}</b>
                         <p>{t('cannotBeUndone')}</p>
-                    </Grid.Column>
-                    <Grid.Column className='delete-webroute-action'><Button size='small' className='delete-route-button' onClick={openDeleteModal}>{t('delete')}</Button></Grid.Column>
+                    </div>
+                    <DeleteModal type='certificates' button instance={certificate} t={t} />
                 </Grid.Row>
             </Grid>
-                {selectedElement && <DeleteModal
-                    t={t}
-                    open={isOpenDeleteModal}
-                    setOpen={openDeleteModal}
-                    element={selectedElement}
-                    type='certificate'
-                    callback={deleteCertificate}
-                />}
             </>}
     </section>);
 };

@@ -6,7 +6,7 @@ import {
     deleteWebRoute
 } from '../AppActions';
 import { useDispatch } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { certificatesPath, webRoutesPath } from '../constants/routes';
 import DangerousHTML from 'react-dangerous-html';
 
@@ -29,19 +29,19 @@ const DeleteModal = ({ t, type, instance, icon, button, history }) => {
                 [dispatch, instance.id, button, history, menuGroup]
             )
         },
-        // webRoutes: {
-        //     item: 'delete',
-        //     header: 'deleteRoute',
-        //     content: ['deleteWebRoute'],
-        //     textOptions: { name: <b>{instance.name}</b> },
-        //     deleteAction: useCallback(
-        //         () => {
-        //             dispatch(deleteWebRoute(instance.id));
-        //             button && history.push(webRoutesPath(menuGroup));
-        //         },
-        //         [dispatch, instance.id, button, history, menuGroup]
-        //     )
-        // }
+        webRoutes: {
+            item: 'delete',
+            header: 'deleteRoute',
+            content: ['deleteWebRoute'],
+            textOptions: { name: <b>{instance.name}</b> },
+            deleteAction: useCallback(
+                () => {
+                    dispatch(deleteWebRoute(instance.id));
+                    button && history.push(webRoutesPath(menuGroup));
+                },
+                [dispatch, instance.id, button, history, menuGroup]
+            )
+        }
     };
     const deleteButtonIsAvailable = types[type].content[0].id === 'deleteWebRoute' || types[type].content[0].id === 'deleteCertificate';
 
@@ -68,9 +68,9 @@ const DeleteModal = ({ t, type, instance, icon, button, history }) => {
     const buttonModal = button ?
         <Button
             onClick={showModal}
-            basic size='tiny' color='red'
+            basic size='small' color='red'
             content={t(types[type].item)}
-            className='delete'
+            className='delete-route-button'
             disabled={hasAssignedVms}
         /> :
         icon ?

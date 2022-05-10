@@ -165,10 +165,6 @@
   margin: 10px -5px 10px 10px;
   justify-content: flex-end;
 }
-.ui.cancelChangesModal {
-  width: 520px;
-  height: 220px;
-}
 .created {
   color: #767676;
   margin-left: 5px;
@@ -221,7 +217,7 @@
   padding: 5px;
 }
 .web-routes-details-header span:first-child {
-  display: flex;
+  // display: flex;
   margin-top: 10px;
 }
 .ui.tiny.modal.deleteModalTraefik {
@@ -236,7 +232,6 @@
 }
 .ui.cancelChangesModal {
   width: 520px;
-  height: 220px;
 }
 .textAreaForCert {
   width: 100%;
@@ -378,6 +373,8 @@ margin: 0px;
   padding: 2rem 0;
   margin-top: 2rem;
   margin-right: 0px;
+  display: flex;
+  justify-content: space-between;
 }
 .ui.grid.details-container > .network-delete .column.delete-webroute-action,
 .ui.grid.certificate-details > .network-delete .column.delete-certificate-action {
@@ -394,9 +391,10 @@ margin: 0px;
   right: 0px;
 }
 .ui.small.button.delete-route-button {
-  border: 1px solid #FF0000;
+  font-weight: 700;
   color: #FF0000;
   background-color: #fff;
+  margin-right: 14px;
 }
 .create-route-buttons {
   display: flex;
