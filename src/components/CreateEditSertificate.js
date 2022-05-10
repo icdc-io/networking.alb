@@ -150,7 +150,6 @@ const CreateEditCertificate = ({ t, history }) => {
         return <Redirect to={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />;
     }
 
-    console.log(requestBody)
     return <>
         <ButtonBack back={t('back')} path={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />
 
