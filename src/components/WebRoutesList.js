@@ -51,7 +51,7 @@ const WebRoutesList = ({ t, items }) => {
                 <Table.Cell width={2}>{el.tls_termination ? el.tls_termination : '—'}</Table.Cell>
                 <Table.Cell width={6}>{service(el)}</Table.Cell>
                 <Table.Cell width={2} textAlign='right'>
-                    {/* {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''} */}
+                    {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''}
 
                 </Table.Cell>
             </Table.Row>);

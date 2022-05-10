@@ -118,7 +118,10 @@ export const createWebRouteData = (payload) => {
 const deleteWebRouteAction = (id) => ({
     type: ActionTypes.WEB_ROUTE_DELETE,
     payload: deleteData(ActionTypes.webRouteUrl(id), {})
-    //deleteData(ActionTypes.certificateUrl(id), {})
+});
+
+export const deleteWebRouteReset = () => ({
+    type: ActionTypes.WEB_ROUTE_DELETE_RESET
 });
 
 export const deleteWebRoute = (id) => {
@@ -127,13 +130,12 @@ export const deleteWebRoute = (id) => {
 
         response.then(() => {
             successNotification('');
+            dispatch(fetchWebRoutes());
+            dispatch(deleteWebRouteReset());
+            
         }, error => errorNotification(error));
     };
 };
-
-export const deleteWebRouteReset = () => ({
-    type: ActionTypes.WEB_ROUTE_DELETE_RESET
-});
 
 const updateWebRouteData = (payload, routeId) => ({
     type: ActionTypes.WEB_ROUTE_UPDATE,
