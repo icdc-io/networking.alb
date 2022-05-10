@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 
 const CreateEditCertificate = ({ t, history }) => {
     const { menuGroup, id } = useParams();
-    const user = useSelector(state => state.host.user);
+    const userEmail = JSON.parse(localStorage.getItem('user')).email;
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateUpdateStatus = useSelector((state) => state.BalancerStore.certificateUpdateStatus);
 
@@ -46,8 +46,8 @@ const CreateEditCertificate = ({ t, history }) => {
     window.goToRootRoute = () => history.push('/load_balancer');
 
     useEffect(() => {
-        !id && setRequestBody({ ...requestBody, owner: user.email });
-    }, [user]);
+        !id && setRequestBody({ ...requestBody, owner: userEmail });
+    }, [id, userEmail]);
 
     useEffect(() => {
         setRequestBody({ ...requestBody,
@@ -57,7 +57,7 @@ const CreateEditCertificate = ({ t, history }) => {
             ca: textCaCertificate,
             dest_ca: textDCaCertificate });
     }, [commonName, textCertificate, textPrivateKey, textCaCertificate, textDCaCertificate]);
-    console.log(certificate)
+
     useEffect(()=>{
         if (id) {
             setCommonName(certificate.name);
@@ -135,7 +135,7 @@ const CreateEditCertificate = ({ t, history }) => {
     const onChangeTextDCaCertificate = (e) => setTextDCaCertificate(e.currentTarget.value);
 
     //edit & create callback's
-    const createNewCertificate = () => dispatch(createCertificate({ certificate: { ...requestBody, owner: user.email } }));
+    const createNewCertificate = () => dispatch(createCertificate({ certificate: { ...requestBody, owner: userEmail } }));
 
     const editCertificate = () => dispatch(updateCertificate({ certificate: requestBody }, id));
 

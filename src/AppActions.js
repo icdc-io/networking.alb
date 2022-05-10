@@ -8,7 +8,7 @@ const waitingForBaseUrl = () => {
     return locations[location];
 };
 
-const baseForTraefik = (url, id = '') => `${waitingForBaseUrl()}/api/traefik_manager/v1${url}`;
+const baseForTraefik = (url, id = '') => `${waitingForBaseUrl()}/api/traefik_manager/v1${url}/${id}`;
 
 const notificationOptions = { position: 'top-right', hideAfter: 7 };
 
@@ -115,33 +115,36 @@ export const createWebRouteData = (payload) => {
     };
 };
 
-const deleteWebRoute = (id) => ({
+const deleteWebRouteAction = (id) => ({
     type: ActionTypes.WEB_ROUTE_DELETE,
-    payload: deleteData(ActionTypes.WEB_ROUTES_FETCH_URL, {}, id)
+    payload: deleteData(ActionTypes.webRouteUrl(id), {})
 });
-
-export const deleteWebRouteAction = (id) => {
-    return dispatch => {
-        const response = dispatch(deleteWebRoute(id));
-
-        response.then(() => {
-            successNotification('');
-        }, error => errorNotification(error));
-    };
-};
 
 export const deleteWebRouteReset = () => ({
     type: ActionTypes.WEB_ROUTE_DELETE_RESET
 });
 
-const updateWebRouteData = (data, routeId) => ({
+export const deleteWebRoute = (id) => {
+    return dispatch => {
+        const response = dispatch(deleteWebRouteAction(id));
+
+        response.then(() => {
+            successNotification('');
+            dispatch(fetchWebRoutes());
+            dispatch(deleteWebRouteReset());
+            
+        }, error => errorNotification(error));
+    };
+};
+
+const updateWebRouteData = (payload, routeId) => ({
     type: ActionTypes.WEB_ROUTE_UPDATE,
-    payload: updateData(ActionTypes.WEB_ROUTES_FETCH_URL, {}, data, routeId)
+    payload: updateData(ActionTypes.webRouteUrl(routeId), {}, payload)
 });
 
-export const updateWebRoute = async (data, routeId) => {
+export const updateWebRoute = (payload, routeId) => {
     return dispatch => {
-        const response = dispatch(updateWebRouteData(data, routeId));
+        const response = dispatch(updateWebRouteData(payload, routeId));
 
         response.then(() => {
             successNotification('');
@@ -169,10 +172,7 @@ const fetchCertificateData = (id) => ({
 export const fetchCertificate = (id) => {
     return dispatch => {
         const response = dispatch(fetchCertificateData(id));
-
-        response.then(() => {
-            successNotification('');
-        }, error => errorNotification(error));
+        response.catch(error => errorNotification(error));
     };
 };
 
@@ -191,12 +191,12 @@ export const createCertificate = (payload) => {
     };
 };
 
-const updateCertificateData = (data, certificateId) => ({
+const updateCertificateData = (payload, certificateId) => ({
     type: ActionTypes.CERTIFICATE_UPDATE,
-    payload: updateData(ActionTypes.CERTIFICATES_FETCH_URL, {}, data, certificateId)
+    payload: updateData(ActionTypes.certificateUrl(certificateId), {}, payload)
 });
 
-export const updateCertificate = async (data, certificateId) => {
+export const updateCertificate = (data, certificateId) => {
     return dispatch => {
         const response = dispatch(updateCertificateData(data, certificateId));
 
@@ -215,7 +215,7 @@ export const updateCertificateReset = () => ({
 
 const deleteCertificateAction = (id) => ({
     type: ActionTypes.CERTIFICATE_DELETE,
-    payload: deleteData(ActionTypes.certificateUrl(id), {}, 'traefik_manager')
+    payload: deleteData(ActionTypes.certificateUrl(id), {})
 });
 
 const deleteCertificateReset = () => ({
