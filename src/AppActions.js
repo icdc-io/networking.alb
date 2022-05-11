@@ -2,13 +2,13 @@ import * as ActionTypes from './AppConstants';
 import API from './utilities/Api';
 import cogoToast from 'cogo-toast';
 
-const waitingForBaseUrl = () => {
-    const { locations } = window.insights.getUserInfo().external;
+const waitingForBaseUrl = async() => {
+    const data = await window.insights.getUserInfo();
     const location = window.insights.getLocation();
-    return locations[location];
+    return data.external.locations[location];
 };
 
-const baseForTraefik = (url, id = '') => `${waitingForBaseUrl()}/api/traefik_manager/v1${url}/${id}`;
+const baseForTraefik = async(url, id = '') => `${await waitingForBaseUrl()}/api/traefik_manager/v1${url}/${id}`;
 
 const notificationOptions = { position: 'top-right', hideAfter: 7 };
 
@@ -66,22 +66,22 @@ const expandHeaders = (headers) => {
 };
 
 const fetchData = async (url, headers, id) => {
-    const response = await API.get(baseForTraefik(url, id), expandHeaders(headers));
+    const response = await API.get(await baseForTraefik(url, id), expandHeaders(headers));
     return response.data;
 };
 
 const createData = async (url, headers, payload) => {
-    const response = await API.post(baseForTraefik(url), expandHeaders(headers), payload);
+    const response = await API.post(await baseForTraefik(url), expandHeaders(headers), payload);
     return response.data;
 };
 
 const updateData = async (url, headers, payload, id) => {
-    const response = await API.put(baseForTraefik(url, id), payload, expandHeaders(headers));
+    const response = await API.put(await baseForTraefik(url, id), payload, expandHeaders(headers));
     return response.data;
 };
 
 const deleteData = async (url, headers, id) => {
-    const response = await API.delete(baseForTraefik(url, id), expandHeaders(headers));
+    const response = await API.delete(await baseForTraefik(url, id), expandHeaders(headers));
     return response;
 };
 
