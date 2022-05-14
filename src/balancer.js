@@ -11,7 +11,7 @@ const Balancer = ({ t, store }) => {
   }, []);
 
   return <Provider store={store}>
-    <Router>
+    <Router basename={process.env.NODE_ENV === 'production' ? '/networking' : ''}>
       <LoadBalancerOverview t={t} />
     </Router>
   </Provider>;
