@@ -10,6 +10,7 @@ import { fetchWebRoute, updateWebRouteReset, fetchCertificate } from '../AppActi
 import DeleteModal from './DeleteModal';
 import { withRouter } from 'react-router-dom';
 import WebRoute from '../static/images/webroutes.svg';
+const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const WebRoutesDetails = ({ t, history }) => {
     const { menuGroup, id } = useParams();
@@ -18,7 +19,8 @@ const WebRoutesDetails = ({ t, history }) => {
     const traefikRouteDeleteStatus = useSelector((state) => state.BalancerStore.traefikRouteDeleteStatus);
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const user = useSelector(state => state.host.user);
-    const ApiButton = React.lazy(() => import('container/ApiButton'));
+    const baseUrls = useSelector(state => state.host.baseUrls);
+
     const dispatch = useDispatch();
 
     window.goToRootRoute = () => history.push('/load_balancer');
@@ -79,7 +81,7 @@ const WebRoutesDetails = ({ t, history }) => {
                         <Link to={editroutePath(menuGroup, id)}>
                             <Button basic color='black' size='small'>{t('edit')}</Button>
                         </Link>
-                        <ApiButton element='routesId' user={user} />
+                        <ApiButton element='routesId' user={user} locationUrl={baseUrls[user.location]} />
                     </div>
                 </div>
                 <Header as='h3' style={{ marginTop: '12px' }}>{t('details')}</Header>

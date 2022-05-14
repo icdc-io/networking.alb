@@ -12,6 +12,7 @@ import { copyInfo } from '../utilities/copyInfo';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import CertificateImg from '../static/images/certificate.svg';
+const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const CertificateDetails = ({ t }) => {
     const { menuGroup, id } = useParams();
@@ -19,7 +20,7 @@ const CertificateDetails = ({ t }) => {
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
     const certificateDeleteStatus = useSelector((state) => state.BalancerStore.certificateDeleteStatus);
     const user = useSelector(state => state.host.user);
-    const ApiButton = React.lazy(() => import('container/ApiButton'));
+    const baseUrls = useSelector(state => state.host.baseUrls);
 
     const dispatch = useDispatch();
 
@@ -89,7 +90,8 @@ const CertificateDetails = ({ t }) => {
                                 <Button basic color='black' size='small'>{t('edit')}</Button>
                             </Link>
                             <ApiButton element='certificate'
-                                user={user} />
+                                user={user}
+                                locationUrl={baseUrls[user.location]} />
                         </div>
                     </span>
                 </div>
