@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +8,6 @@ import ButtonBack from '../general/buttonBack';
 import { fetchCertificate, updateCertificateReset } from '../AppActions';
 import { certificatesPath, editCertificatePath } from '../constants/routes';
 import DeleteModal from './DeleteModal';
-import { copyInfo } from '../utilities/copyInfo';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import CertificateImg from '../static/images/certificate.svg';
@@ -20,8 +19,9 @@ const CertificateDetails = ({ t }) => {
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
     const certificateDeleteStatus = useSelector((state) => state.BalancerStore.certificateDeleteStatus);
     const user = useSelector(state => state.host.user);
-    const baseUrls = useSelector(state => state.host.baseUrls);
 
+    const CodeSnippet = React.lazy(() => import('container/CodeSnippet'));
+    
     const dispatch = useDispatch();
 
     window.goToRootRoute = () => history.push('/load_balancer');
@@ -55,11 +55,13 @@ const CertificateDetails = ({ t }) => {
         }
     ];
 
+    const copy = value => navigator.clipboard.writeText(value);
+
     const cerificateList = certificatesData.map((e, index) => e.value ?
         <Grid.Row className='cert-details-row' key={index}>
             <div className='api-dialog-snippet-wrapper display-certificate'>
                 <CodeSnippet
-                    title={messages[e.title]}
+                    title={t(e.title)}
                     content={e.value}
                     copyFuncion={copy} />
             </div>
@@ -91,7 +93,7 @@ const CertificateDetails = ({ t }) => {
                             </Link>
                             <ApiButton element='certificate'
                                 user={user}
-                                locationUrl={baseUrls[user.location]} />
+                            />
                         </div>
                     </span>
                 </div>

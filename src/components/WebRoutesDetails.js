@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import ButtonBack from '../general/buttonBack';
 import './loadBalancer.scss';
@@ -19,7 +19,6 @@ const WebRoutesDetails = ({ t, history }) => {
     const traefikRouteDeleteStatus = useSelector((state) => state.BalancerStore.traefikRouteDeleteStatus);
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const user = useSelector(state => state.host.user);
-    const baseUrls = useSelector(state => state.host.baseUrls);
 
     const dispatch = useDispatch();
 
@@ -81,7 +80,7 @@ const WebRoutesDetails = ({ t, history }) => {
                         <Link to={editroutePath(menuGroup, id)}>
                             <Button basic color='black' size='small'>{t('edit')}</Button>
                         </Link>
-                        <ApiButton element='routesId' user={user} locationUrl={baseUrls[user.location]} />
+                        <ApiButton element='routesId' user={user} />
                     </div>
                 </div>
                 <Header as='h3' style={{ marginTop: '12px' }}>{t('details')}</Header>
