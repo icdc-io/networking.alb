@@ -16,7 +16,7 @@ const WebRoutesList = ({ t, items }) => {
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
     const ApiButton = React.lazy(() => import('container/ApiButton'));
-    const providerId = useSelector(state => state.BalancerStore.providerId);
+    const baseUrls = useSelector(state => state.host.baseUrls);
 
     useEffect(() => {
         setFilteredData(onSearch(items, search));
@@ -78,11 +78,11 @@ const WebRoutesList = ({ t, items }) => {
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
                 />
-                {/* <ApiButton element='route' item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }} /> */}
                 <div className='create-route-buttons'>
                     <ApiButton element='routes'
                         item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
-                        user={user} />
+                        user={user}
+                        locationUrl={baseUrls[user.location]} />
                     <Link to={createroutePath(menuGroup)}>
                         <Button primary size="medium" style={{ height: '40px' }}>{t('createRoute')}</Button>
                     </Link>

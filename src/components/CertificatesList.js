@@ -14,6 +14,8 @@ const CertificatesList = ({ t, items }) => {
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
+    const baseUrls = useSelector(state => state.host.baseUrls);
+
     const ApiButton = React.lazy(() => import('container/ApiButton'));
 
     useEffect(() => {
@@ -51,7 +53,8 @@ const CertificatesList = ({ t, items }) => {
                 <div className='create-route-buttons'>
                     <ApiButton element='certificates'
                         item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
-                        user={user} />
+                        user={user} 
+                        locationUrl={baseUrls[user.location]}/>
                     <Link to={createCertificatePath(menuGroup)}>
                         <Button primary size="medium" style={{ height: '40px' }}>{t('createCertificate')}</Button>
                     </Link>
