@@ -81,7 +81,7 @@ const WebRoutesDetails = ({ t, history }) => {
                         <Link to={editroutePath(menuGroup, id)}>
                             <Button basic color='black' size='small'>{t('edit')}</Button>
                         </Link>
-                        <ApiButton element='routesId' user={user} locationUrl={baseUrls[user.location]}/>
+                        <ApiButton element='routesId' user={user} locationUrl={baseUrls[user.location]} />
                     </div>
                 </div>
                 <Header as='h3' style={{ marginTop: '12px' }}>{t('details')}</Header>
