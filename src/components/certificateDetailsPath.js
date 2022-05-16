@@ -19,7 +19,8 @@ const CertificateDetails = ({ t }) => {
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
     const certificateDeleteStatus = useSelector((state) => state.BalancerStore.certificateDeleteStatus);
     const user = useSelector(state => state.host.user);
-
+    const baseUrls = useSelector(state => state.host.baseUrls);
+    
     const CodeSnippet = React.lazy(() => import('container/CodeSnippet'));
     
     const dispatch = useDispatch();
@@ -93,6 +94,7 @@ const CertificateDetails = ({ t }) => {
                             </Link>
                             <ApiButton element='certificate'
                                 user={user}
+                                locationUrl={baseUrls[user.location]}
                             />
                         </div>
                     </span>
