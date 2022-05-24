@@ -263,6 +263,10 @@
   margin: 10px 0px 5px 0px;
   letter-spacing: 0.01em;
 }
+.routeBlock section {
+  display: flex;
+  flex-direction: column;
+}
 .formContainer h4.ui.header {
   font-size: 17px;
   line-height: 20px;
