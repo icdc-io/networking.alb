@@ -12,6 +12,8 @@ const initialState = Immutable({
     traefikRouteServicesStatus: '',
     traefikRouteDeleteStatus: '',
     traefikRouteUpdateStatus: '',
+    traefikGateways: [],
+    traefikGatewaysStatus: '',
     certificates: [],
     certificatesStatus: '',
     certificate: {},
@@ -89,6 +91,16 @@ export const BalancerStore = (state = initialState, action) => {
         case ActionTypes.WEB_ROUTE_UPDATE_RESET:
             return Immutable.merge(state, {
                 traefikRouteUpdateStatus: ''
+            });
+
+        case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_PENDING`:
+            return state.set('traefikGatewaysStatus', 'pending');
+        case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_REJECTED`:
+            return state.set('traefikGatewaysStatus', 'rejected');
+        case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_FULFILLED`:
+            return Immutable.merge(state, {
+                traefikGateways: action.payload,
+                traefikGatewaysStatus: 'fulfilled'
             });
 
         case `${ActionTypes.CERTIFICATES_FETCH}_PENDING`:

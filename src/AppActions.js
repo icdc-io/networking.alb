@@ -159,6 +159,12 @@ export const updateWebRouteReset = () => ({
     type: ActionTypes.WEB_ROUTE_UPDATE_RESET
 });
 
+export const fetchGateways = (options) => ({
+    type: ActionTypes.WEB_ROUTES_GATEWAYS_FETCH,
+    payload: fetchData(ActionTypes.WEB_ROUTES_GATEWAYS_FETCH_URL, {}, options, 'traefik_manager')
+});
+
+
 export const fetchCertificates = () => ({
     type: ActionTypes.CERTIFICATES_FETCH,
     payload: fetchData(ActionTypes.CERTIFICATES_FETCH_URL, {})

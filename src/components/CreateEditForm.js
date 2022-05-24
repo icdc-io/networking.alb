@@ -5,7 +5,7 @@ import './loadBalancer.scss';
 import { useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CancelChangesModal from './CancelChangesModal';
-import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, updateWebRouteReset, fetchWebRoutesService } from '../AppActions';
+import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, updateWebRouteReset, fetchWebRoutesService, fetchGateways } from '../AppActions';
 import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
 
@@ -16,6 +16,7 @@ const CreateEditForm = ({ t }) => {
     const traefikRouteServices = useSelector(state => state.BalancerStore.traefikRouteServices);
     const currentRouteStatus = useSelector(state => state.BalancerStore.traefikRouteStatus);
     const traefikRouteUpdateStatus = useSelector((state) => state.BalancerStore.traefikRouteUpdateStatus);
+    const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
     const certificates = useSelector(state => state.BalancerStore.certificates);
     const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ const CreateEditForm = ({ t }) => {
         certificate_id: '',
         owner: '',
         ip_version: '',
-        cloud_gateway_id: 1,
+        cloud_gateway_id: '',
         source_proto: 'tcp',
         destination_proto: 'tcp',
         services: []
@@ -45,6 +46,7 @@ const CreateEditForm = ({ t }) => {
     const [ipv, setIpv] = useState(false);
 
     const tlsOptions = [{ text: 'edge', value: 'edge' }, { text: 'passthrough', value: 'passthrough' }, { text: 're-encrypt', value: 're-encrypt' }];
+    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: el.name, value: el.cloudgw_id }));
     const insecureOptions = [{ text: 'allow', value: 'allow' }, { text: 'redirect', value: 'redirect' }];
     const certificatesOptions = certificates.map(el => ({ text: el.name, value: el.id }));
     const servicesOptions = traefikRouteServices.map(el => ({ text: el.name, value: el.id, key: el.id }));
@@ -101,6 +103,7 @@ const CreateEditForm = ({ t }) => {
 
     useEffect(() => {
         dispatch(fetchCertificates());
+        dispatch(fetchGateways());
     }, []);
 
     useEffect(() => {
@@ -123,7 +126,7 @@ const CreateEditForm = ({ t }) => {
     };
 
     //disabled buttons
-    const disabledCreateBtn = () => form.name === '' || form.hostname === '' || targetPortErr
+    const disabledCreateBtn = () => form.name === '' || form.cloud_gateway_id === '' || form.hostname === '' || targetPortErr
         || (listServices.length > 1 && listServices.some(el => weightErr(el.weight)));
 
     const addService = () => {
@@ -239,6 +242,12 @@ const CreateEditForm = ({ t }) => {
                 error={targetPortErr}
             />
             <span className='subTitleForm'>{t('traefikTargetPortDescript')}</span>
+
+            <section>
+                <label>{t('traefikGateway')}</label>
+                    <Dropdown selection clearable value={form.cloud_gateway_id} options={cloudGatewaysOptions} placeholder='None'
+                        onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
+            </section>
         </div>
         <div className='routeBlock'>
             <Header as='h4' style={{ marginBottom: '10px' }}>{t('traefikTargetServices')}</Header>
