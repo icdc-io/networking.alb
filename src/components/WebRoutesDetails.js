@@ -79,44 +79,55 @@ const WebRoutesDetails = ({ t, history }) => {
                     <Header><img src={WebRoute} width='41' />{route.name}</Header>
                     <div className='create-route-buttons'>
                         <Link to={editroutePath(menuGroup, id)}>
-                            <Button basic color='black' size='small'>{t('edit')}</Button>
+                            <Button basic color='black' size='medium'>{t('edit')}</Button>
                         </Link>
                         <ApiButton element='routesId' user={user} locationUrl={baseUrls[user.location]} />
                     </div>
                 </div>
                 <Header as='h3' style={{ marginTop: '12px' }}>{t('details')}</Header>
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('hostname')}</Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column width={4}>
                         <Header style={{ margin: '0px' }}><a href={`${protocol}${route.hostname}`} target='blank'>{route.hostname}</a></Header>
                     </Grid.Column>
                 </Grid.Row >
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
+                    <Grid.Column width={4}>{t('balancer')}</Grid.Column>
+                    <Grid.Column as='h5' width={4}>{route.cloud_gateway_id === '' ? t('none') : route.cloud_gateway_id}</Grid.Column>
+                </Grid.Row >
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('path')}</Grid.Column>
                     <Grid.Column as='h5' width={4}>{route.path === '' ? t('none') : route.path}</Grid.Column>
                 </Grid.Row>
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('service')}</Grid.Column>
-                    <Grid.Column as='h5' width={4}>
-                        {route.services.length > 0 ? route.services.map(el => el.name).join(', ') : t('none')}
+                    <Grid.Column as='section' width={8}>
+                        {route.services.length > 0 ? route.services.map((el, i) =>
+                                <a 
+                                    key={i} 
+                                    href={`https://compute-dev.zby.icdc.io/ui/service/services/${el.ext_id}`}
+                                    target='_blank'>
+                                        {`${el.name} (${el.ext_id})${i != route.services.length-1 ? ',' : ''}`}
+                                </a>) 
+                            : t('none')}
                     </Grid.Column>
                 </Grid.Row>
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('targetPort')}</Grid.Column>
                     <Grid.Column as='h5' width={4}>{route.target_port}</Grid.Column>
                 </Grid.Row>
 
                 <Header as='h3'>{t('tlcSetting')}</Header>
                 {!route.tls_termination && <Grid.Row><Grid.Column >{t('tlsNotEnabled')}</Grid.Column></Grid.Row>}
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('tlsType')}:</Grid.Column>
                     <Grid.Column as='h5' width={4}>{route.tls_termination ? route.tls_termination : t('none')}</Grid.Column>
                 </Grid.Row>
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('insecureTraffic')}:</Grid.Column>
                     <Grid.Column as='h5' width={4}>{route.insecure === '' ? t('none') : route.insecure}</Grid.Column>
                 </Grid.Row>
-                <Grid.Row style={{ padding: '0 5px 10px' }}>
+                <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('certificate')}:</Grid.Column>
                     <Grid.Column as='h5' width={4}>{route.certificate_id === null ? t('none') : certificate.name}</Grid.Column>
                 </Grid.Row>

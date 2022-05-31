@@ -90,7 +90,7 @@ const CertificateDetails = ({ t }) => {
                     <span>
                         <div className='create-route-buttons'>
                             <Link to={editCertificatePath(menuGroup, id)}>
-                                <Button basic color='black' size='small'>{t('edit')}</Button>
+                                <Button basic color='black' size='medium'>{t('edit')}</Button>
                             </Link>
                             <ApiButton element='certificate'
                                 user={user}
