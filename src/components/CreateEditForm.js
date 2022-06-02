@@ -17,6 +17,7 @@ const CreateEditForm = ({ t }) => {
     const currentRouteStatus = useSelector(state => state.BalancerStore.traefikRouteStatus);
     const traefikRouteUpdateStatus = useSelector((state) => state.BalancerStore.traefikRouteUpdateStatus);
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
+    const traefikGatewaysStatus = useSelector(state => state.BalancerStore.traefikGatewaysStatus);
     const certificates = useSelector(state => state.BalancerStore.certificates);
     const dispatch = useDispatch();
 
@@ -46,10 +47,10 @@ const CreateEditForm = ({ t }) => {
     const [ipv, setIpv] = useState(false);
 
     const tlsOptions = [{ text: 'edge', value: 'edge' }, { text: 'passthrough', value: 'passthrough' }, { text: 're-encrypt', value: 're-encrypt' }];
-    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: el.name, value: el.cloudgw_id }));
+    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: `${el.cloudgw_instance} (${el.name})`, value: el.id }));
     const insecureOptions = [{ text: 'allow', value: 'allow' }, { text: 'redirect', value: 'redirect' }];
     const certificatesOptions = certificates.map(el => ({ text: el.name, value: el.id }));
-    const servicesOptions = traefikRouteServices.map(el => ({ text: el.name, value: el.id, key: el.id }));
+    const servicesOptions = traefikRouteServices.map(el => ({ text: `${el.name} (${el.ext_id})`, value: el.id, key: el.id }));
 
     //field validations
     const portValidation = new RegExp('^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$');
@@ -106,6 +107,10 @@ const CreateEditForm = ({ t }) => {
         dispatch(fetchGateways());
     }, []);
 
+    useEffect(() => {
+       !id && traefikGatewaysStatus === 'fulfilled' && setForm({...form, cloud_gateway_id: cloudGatewaysOptions[0].value })
+    }, [traefikGatewaysStatus, id])
+    
     useEffect(() => {
         !split && setListServices(listServices.filter((el, i) => i === 0).map(el => ({ id: el.id })));
         (split && (id !== undefined ? currentRoute.routes_services.length === 1 : listServices.length === 2)) &&
@@ -195,7 +200,7 @@ const CreateEditForm = ({ t }) => {
             <div>
                 <label>{t('service')}</label>
                 <Dropdown selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
-                    onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
+                    selectOnBlur={false} onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
                 <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl'>
                     <p onClick={deleteService}>{t('deleteService')}</p>|
@@ -244,9 +249,10 @@ const CreateEditForm = ({ t }) => {
             <span className='subTitleForm'>{t('traefikTargetPortDescript')}</span>
 
             <section>
-                <label>{t('traefikGateway')}</label>
+                <label>{t('balancer')}</label>
                     <Dropdown selection clearable value={form.cloud_gateway_id} options={cloudGatewaysOptions} placeholder='None'
-                        onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
+                        selectOnBlur={false} onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
+                <span className='subTitleForm'>{t('balancerDescription')}</span>
             </section>
         </div>
         <div className='routeBlock'>
@@ -288,12 +294,12 @@ const CreateEditForm = ({ t }) => {
                     onChange={(param, data) => setForm({ ...form, tls_termination: data.value })} />
 
                 <label style={{ marginTop: '10px' }}>{t('traefikInsTraffic')}</label>
-                <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None'
+                <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None' selectOnBlur={false}
                     onChange={(param, data) => setForm({ ...form, insecure: data.value })} />
                 <span className='subTitleForm'>{t('traefikInsTrafficDescript')}</span>
 
                 <label>{t('traefikTlsCertificate')}</label>
-                <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None'
+                <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None' selectOnBlur={false}
                     onChange={(param, data) => setForm({ ...form, certificate_id: data.value })} />
             </>}
         </div>

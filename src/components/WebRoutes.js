@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WebRoutesList from './WebRoutesList';
-import { fetchWebRoutes, deleteWebRouteReset, updateWebRouteReset } from '../AppActions';
+import { fetchWebRoutes, deleteWebRouteReset, updateWebRouteReset, fetchGateways } from '../AppActions';
 import { PropTypes } from 'prop-types';
 import { copyInfo } from '../utilities/copyInfo';
 import { Grid, Header } from 'semantic-ui-react';
@@ -23,6 +23,7 @@ const WebRoutes = ({ t, history }) => {
         dispatch(fetchWebRoutes());
         dispatch(deleteWebRouteReset());
         dispatch(updateWebRouteReset());
+        dispatch(fetchGateways());
     }, [dispatch, user]);
 
     const publicHostname = `${user.account}.alb.${user.location}.icdc.io`;

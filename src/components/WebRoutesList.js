@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Input, Table, Button, Header } from 'semantic-ui-react';
+import { Input, Table, Button, Header, Popup, Icon } from 'semantic-ui-react';
 import './loadBalancer.scss';
 import OptionsMenu from '../general/optionsMenu';
 import { Link, useParams } from 'react-router-dom';
@@ -9,14 +9,21 @@ import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
+const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const WebRoutesList = ({ t, items }) => {
     const { menuGroup } = useParams();
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
-    const ApiButton = React.lazy(() => import('container/ApiButton'));
     const baseUrls = useSelector(state => state.host.baseUrls);
+    const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
+
+    const [sortUp, setSortUp] = useState(true);
+    
+    useEffect(() => {
+            setFilteredData([...items].sort((a,b) => sortUp ? a.cloud_gateway_id - b.cloud_gateway_id : b.cloud_gateway_id - a.cloud_gateway_id ))
+    }, [sortUp]);
 
     useEffect(() => {
         setFilteredData(onSearch(items, search));
@@ -28,6 +35,7 @@ const WebRoutesList = ({ t, items }) => {
         { title: t('targetPort') },
         { title: t('tlsTermination') },
         { title: t('service') },
+        { title: t('balancer') },
         { title: '' }
     ];
 
@@ -35,7 +43,15 @@ const WebRoutesList = ({ t, items }) => {
 
     const routes = filteredData.map(el => {
         const options = ['edit', 'deleteWebRoutes'];
-        const service = (route) => route.services.map(e => e.name).join(', ');
+        const service = (route) => route.services.map((e, i) => 
+            <div  key={i} >
+                <a 
+                    href={`https://compute-dev.zby.icdc.io/ui/service/services/${e.ext_id}`}
+                    target='_blank'>
+                        {`${e.name} (${e.ext_id})`}
+                </a>
+                <br/>
+            </div>).slice();
 
         return (
             <Table.Row key={el.id}>
@@ -46,15 +62,44 @@ const WebRoutesList = ({ t, items }) => {
                     </div>
                 </Table.Cell>
 
-                <Table.Cell width={3}>{el.hostname}</Table.Cell>
-                <Table.Cell width={2}>{el.target_port ? el.target_port : '—'}</Table.Cell>
+                <Table.Cell width={2}>{el.hostname}</Table.Cell>
+                <Table.Cell width={1}>{el.target_port ? el.target_port : '—'}</Table.Cell>
                 <Table.Cell width={2}>{el.tls_termination ? el.tls_termination : '—'}</Table.Cell>
-                <Table.Cell width={6}>{service(el)}</Table.Cell>
-                <Table.Cell width={2} textAlign='right'>
+                <Table.Cell width={4}>
+                    <div className='td-wrapper'>
+                        {el.services.length > 0 ? <a 
+                            href={`https://compute-dev.zby.icdc.io/ui/service/services/${el.services[0]?.ext_id}`}
+                            target='_blank'>
+                                {`${el.services[0].name} (${el.services[0].ext_id})`}
+                        </a> : '—'}
+                            {el.services.length > 0 && <Popup
+                                on='click'
+                                pinned
+                                position='top right'
+                                inverted
+                                trigger={<div className='popup-dots'>...</div>}
+                            >
+                            {service(el)}
+                            </Popup>}
+                    </div>
+                </Table.Cell>
+                <Table.Cell width={4}>{el.cloud_gateway ?`${el.cloud_gateway.cloudgw_instance} (${el.cloud_gateway.name})` : '—'}</Table.Cell>
+                <Table.Cell width={1} textAlign='right'>
                     {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''}
 
                 </Table.Cell>
             </Table.Row>);
+    });
+
+    const headers = headerRow.map((el, index) => {
+        if(index == 5) {
+            return <Table.HeaderCell 
+                            className={`sort-col ${sortUp ? 'ascending' : 'descending'}`} 
+                            key={index} 
+                            onClick={() => setSortUp(prev => !prev)}>
+                        {el.title}
+                    </Table.HeaderCell>
+      } else return <Table.HeaderCell key={index}>{el.title}</Table.HeaderCell>        
     });
 
     return (
@@ -83,20 +128,27 @@ const WebRoutesList = ({ t, items }) => {
                         item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
                         user={user}
                         locationUrl={baseUrls[user.location]} />
-                    <Link to={createroutePath(menuGroup)}>
-                        <Button primary size="medium" style={{ height: '40px' }}>{t('createRoute')}</Button>
-                    </Link>
+                   
+                        {!traefikGateways.length ?
+                            <Popup
+                            on='hover'
+                            pinned
+                            trigger={<Button color='blue'  size='small' className='disabled-btn' >
+                                    {t('createWebRoute')}<Icon name='question circle outline' size='large' className='info-icon'/>
+                                </Button>}
+                            inverted
+                            className='vpn'
+                            position='top right'
+                        >{t('balancerPopup')}</Popup> :
+                        <Link to={createroutePath(menuGroup)}><Button primary size="medium" style={{ height: '40px' }}>{t('createWebRoute')}</Button> </Link>}
+                   
                 </div>
             </div>
             <div>
                 <Table basic="very">
                     <Table.Header >
                         <Table.Row >
-                            {headerRow.map((el, index) => (
-                                <Table.HeaderCell key={index}>
-                                    {el.title}
-                                </Table.HeaderCell>
-                            ))}
+                            {headers}
                         </Table.Row>
                     </Table.Header>
                     {filteredData.length > 0 && <Table.Body>{routes}</Table.Body>}

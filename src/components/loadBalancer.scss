@@ -26,6 +26,7 @@
 .inputPath {
   width: 100%;
   margin-top: 0px;
+  background: #f7f7f7;
 }
 .ui.grid.createCertificateForm {
   padding: 0 20px;
@@ -47,9 +48,7 @@
   width: 80%;
   padding-left: 0px;
 }
-.ui.grid > .dragArea input {
-  background: #f7f7f7;
-}
+
 .ui.grid > .dragArea input:focus {
   background-color: white;
 }
@@ -220,6 +219,36 @@
   // display: flex;
   margin-top: 10px;
 }
+.web-routes-details-row-style {
+  padding: 0 5px 10px !important;
+}
+.td-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ui.popup {
+  max-width: max-content;
+}
+.web-routes-details-row-style section {
+  font-weight: 700;
+  display: flex !important;
+  flex-wrap: wrap;
+}
+.web-routes-details-row-style section a{
+margin-right: 4px;
+}
+.popup-dots {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background: #ededed;
+  border-radius: 2px;
+  color: #6a6a6a;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-left: 4px;
+}
 .ui.tiny.modal.deleteModalTraefik {
   width: 420px;
   height: 250px;
@@ -266,6 +295,9 @@
 .routeBlock section {
   display: flex;
   flex-direction: column;
+}
+.routeBlock section .subTitleForm {
+  margin: 4px 0px 0px 0px;
 }
 .formContainer h4.ui.header {
   font-size: 17px;
@@ -411,6 +443,7 @@ margin: 0px;
 .create-route-buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .name-wrapper {
   display: flex;
@@ -418,4 +451,55 @@ margin: 0px;
 }
 .name-wrapper img {
   margin-right: 0.5rem;
+}
+.ui.button > .info-icon {
+  margin: 0px 0px 2px 0px!important;
+  position: relative;
+
+  &:before {
+      position: absolute;
+      bottom: -2px;
+  }
+}
+.disabled-btn {
+  cursor: default;
+  opacity: .45!important;
+  background-image: none!important;
+  box-shadow: none!important;
+  padding-top: 12px!important;
+}
+.ui.table thead th.sort-col {
+  &:hover {
+    cursor: pointer;
+  }
+ 
+}
+.ui.table thead th.sort-col.ascending::after {
+  display: inline-block;
+  content: '\f0d7';
+  font-style: normal;
+  font-weight: 400;
+  text-decoration: inherit;
+  height: 1em;
+  width: auto;
+  opacity: .8;
+  margin: 0 0 0 0.5em;
+  font-family: Icons;
+}
+
+.ui.table thead th.sort-col.descending::after {
+  display: inline-block;
+  content: '\f0d8';
+  font-style: normal;
+  font-weight: 400;
+  text-decoration: inherit;
+  height: 1em;
+  width: auto;
+  opacity: .8;
+  margin: 0 0 0 0.5em;
+  font-family: Icons;
+}
+.fields-wrapper {
+  padding-left: 0px !important;
+  width: 80%;
 }
