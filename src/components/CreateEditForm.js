@@ -47,7 +47,7 @@ const CreateEditForm = ({ t }) => {
     const [ipv, setIpv] = useState(false);
 
     const tlsOptions = [{ text: 'edge', value: 'edge' }, { text: 'passthrough', value: 'passthrough' }, { text: 're-encrypt', value: 're-encrypt' }];
-    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: `${el.cloudgw_instance} (${el.name})`, value: el.cloudgw_id }));
+    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: `${el.cloudgw_instance} (${el.name})`, value: el.id }));
     const insecureOptions = [{ text: 'allow', value: 'allow' }, { text: 'redirect', value: 'redirect' }];
     const certificatesOptions = certificates.map(el => ({ text: el.name, value: el.id }));
     const servicesOptions = traefikRouteServices.map(el => ({ text: `${el.name} (${el.ext_id})`, value: el.id, key: el.id }));
@@ -71,7 +71,7 @@ const CreateEditForm = ({ t }) => {
                 certificate_id: currentRoute.certificate_id,
                 owner: currentRoute.owner,
                 ip_version: currentRoute.ip_version,
-                cloud_gateway_id: currentRoute.cloudgw_id,
+                cloud_gateway_id: currentRoute.cloud_gateway_id,
                 source_proto: currentRoute.source_proto,
                 destination_proto: currentRoute.destination_proto,
                 services: currentRoute.services

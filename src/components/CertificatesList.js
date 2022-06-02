@@ -8,6 +8,7 @@ import { createCertificatePath, certificateDetailsPath } from '../constants/rout
 import { onSearch } from '../utilities/search';
 import { useSelector } from 'react-redux';
 import CertificateImg from '../static/images/certificate.svg';
+const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const CertificatesList = ({ t, items }) => {
     const { menuGroup } = useParams();
@@ -15,8 +16,6 @@ const CertificatesList = ({ t, items }) => {
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
     const baseUrls = useSelector(state => state.host.baseUrls);
-
-    const ApiButton = React.lazy(() => import('container/ApiButton'));
 
     useEffect(() => {
         setFilteredData(onSearch(items, search));

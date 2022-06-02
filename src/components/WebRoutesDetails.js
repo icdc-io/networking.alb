@@ -93,7 +93,7 @@ const WebRoutesDetails = ({ t, history }) => {
                 </Grid.Row >
                 <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('balancer')}</Grid.Column>
-                    <Grid.Column as='h5' width={4}>{route.cloud_gateway_id === '' ? t('none') : route.cloud_gateway_id}</Grid.Column>
+                    <Grid.Column as='h5' width={4}>{route.cloud_gateway_id === '' ? t('none') : `${route.cloud_gateway.cloudgw_instance} (${route.cloud_gateway.name})`}</Grid.Column>
                 </Grid.Row >
                 <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('path')}</Grid.Column>

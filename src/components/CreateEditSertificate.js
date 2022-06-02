@@ -79,7 +79,8 @@ const CreateEditCertificate = ({ t, history }) => {
 
     //upload files using button
     const callbackField = (e, setPath, setText) => {
-        setPath(e.currentTarget.value);
+        let newPath = e.currentTarget.value.split('\\');
+        setPath(newPath[newPath.length-1]);
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
@@ -104,10 +105,11 @@ const CreateEditCertificate = ({ t, history }) => {
 
     const handleDragOver = e => e.preventDefault();
 
-    const handleDrop = (e, setText) => {
+    const handleDrop = (e, setPath, setText) => {
         e.preventDefault();
         let dt = e.dataTransfer;
         let file = dt.files[0];
+        setPath(file.name);
         let reader = new FileReader();
         reader.readAsText(file);
         reader.onloadend = () => {
@@ -174,7 +176,7 @@ const CreateEditCertificate = ({ t, history }) => {
                 <h5>{t('certificate')}</h5>
             </Grid.Row>
             <div className='dragArea'
-                onDrop={e => handleDrop(e, setTextCertificate)}
+                onDrop={e => handleDrop(e, setPathCertificate, setTextCertificate)}
                 onDragOver={e => handleDragOver(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragLeave={e => handleDragLeave(e)}
@@ -201,7 +203,7 @@ const CreateEditCertificate = ({ t, history }) => {
                 <h5>{t('privateKey')}</h5>
             </Grid.Row>
             <div className='dragArea'
-                onDrop={e => handleDrop(e, setTextPrivateKey)}
+                onDrop={e => handleDrop(e, setPathPrivateKey, setTextPrivateKey)}
                 onDragOver={e => handleDragOver(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragLeave={e => handleDragLeave(e)}
@@ -229,7 +231,7 @@ const CreateEditCertificate = ({ t, history }) => {
                 <h5>{t('caCertificate')}</h5>
             </Grid.Row>
             <div className='dragArea'
-                onDrop={e => handleDrop(e, setTextCaCertificate)}
+                onDrop={e => handleDrop(e, setPathCaCertificate, setTextCaCertificate)}
                 onDragOver={e => handleDragOver(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragLeave={e => handleDragLeave(e)}
@@ -258,7 +260,7 @@ const CreateEditCertificate = ({ t, history }) => {
                 <h5>{t('caCertificateDes')}</h5>
             </Grid.Row>
             <div className='dragArea'
-                onDrop={e => handleDrop(e, setTextDCaCertificate)}
+                onDrop={e => handleDrop(e, setPathDCaCertificate, setTextDCaCertificate)}
                 onDragOver={e => handleDragOver(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragLeave={e => handleDragLeave(e)}

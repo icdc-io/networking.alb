@@ -9,13 +9,13 @@ import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
+const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const WebRoutesList = ({ t, items }) => {
     const { menuGroup } = useParams();
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const user = useSelector(state => state.host.user);
-    const ApiButton = React.lazy(() => import('container/ApiButton'));
     const baseUrls = useSelector(state => state.host.baseUrls);
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
 
@@ -84,8 +84,8 @@ const WebRoutesList = ({ t, items }) => {
                             </Popup>}
                     </div>
                 </Table.Cell>
-                <Table.Cell width={4}>{el.cloud_gateway_id}</Table.Cell>
-                <Table.Cell width={2} textAlign='right'>
+                <Table.Cell width={4}>{`${el.cloud_gateway.cloudgw_instance} (${el.cloud_gateway.name})`}</Table.Cell>
+                <Table.Cell width={1} textAlign='right'>
                     {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''}
 
                 </Table.Cell>
