@@ -200,7 +200,7 @@ const CreateEditForm = ({ t }) => {
             <div>
                 <label>{t('service')}</label>
                 <Dropdown selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
-                    onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
+                    selectOnBlur={false} onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
                 <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl'>
                     <p onClick={deleteService}>{t('deleteService')}</p>|
@@ -251,7 +251,7 @@ const CreateEditForm = ({ t }) => {
             <section>
                 <label>{t('balancer')}</label>
                     <Dropdown selection clearable value={form.cloud_gateway_id} options={cloudGatewaysOptions} placeholder='None'
-                        onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
+                        selectOnBlur={false} onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
                 <span className='subTitleForm'>{t('balancerDescription')}</span>
             </section>
         </div>
@@ -294,12 +294,12 @@ const CreateEditForm = ({ t }) => {
                     onChange={(param, data) => setForm({ ...form, tls_termination: data.value })} />
 
                 <label style={{ marginTop: '10px' }}>{t('traefikInsTraffic')}</label>
-                <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None'
+                <Dropdown selection clearable value={form.insecure} options={insecureOptions} placeholder='None' selectOnBlur={false}
                     onChange={(param, data) => setForm({ ...form, insecure: data.value })} />
                 <span className='subTitleForm'>{t('traefikInsTrafficDescript')}</span>
 
                 <label>{t('traefikTlsCertificate')}</label>
-                <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None'
+                <Dropdown selection clearable value={form.certificate_id} options={certificatesOptions} placeholder='None' selectOnBlur={false}
                     onChange={(param, data) => setForm({ ...form, certificate_id: data.value })} />
             </>}
         </div>

@@ -84,7 +84,7 @@ const WebRoutesList = ({ t, items }) => {
                             </Popup>}
                     </div>
                 </Table.Cell>
-                <Table.Cell width={4}>{`${el.cloud_gateway.cloudgw_instance} (${el.cloud_gateway.name})`}</Table.Cell>
+                <Table.Cell width={4}>{el.cloud_gateway ?`${el.cloud_gateway.cloudgw_instance} (${el.cloud_gateway.name})` : '—'}</Table.Cell>
                 <Table.Cell width={1} textAlign='right'>
                     {true && <OptionsMenu t={t} type='webRoutes' instance={el} options={options} /> || ''}
 
