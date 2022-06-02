@@ -20,10 +20,9 @@ const WebRoutesList = ({ t, items }) => {
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
 
     const [sortUp, setSortUp] = useState(true);
+    
     useEffect(() => {
-        sortUp ?
-            setFilteredData([...items].sort((a,b) => a.cloud_gateway_id < b.cloud_gateway_id ? 1 : -1))
-            : setFilteredData([...items].sort((a,b) => a.cloud_gateway_id > b.cloud_gateway_id ? 1 : -1))
+            setFilteredData([...items].sort((a,b) => sortUp ? a.cloud_gateway_id - b.cloud_gateway_id : b.cloud_gateway_id - a.cloud_gateway_id ))
     }, [sortUp]);
 
     useEffect(() => {

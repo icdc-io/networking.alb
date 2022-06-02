@@ -26,6 +26,7 @@
 .inputPath {
   width: 100%;
   margin-top: 0px;
+  background: #f7f7f7;
 }
 .ui.grid.createCertificateForm {
   padding: 0 20px;
@@ -47,9 +48,7 @@
   width: 80%;
   padding-left: 0px;
 }
-.ui.grid > .dragArea input {
-  background: #f7f7f7;
-}
+
 .ui.grid > .dragArea input:focus {
   background-color: white;
 }
@@ -499,4 +498,8 @@ margin: 0px;
   opacity: .8;
   margin: 0 0 0 0.5em;
   font-family: Icons;
+}
+.fields-wrapper {
+  padding-left: 0px !important;
+  width: 80%;
 }
