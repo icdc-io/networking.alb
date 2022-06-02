@@ -38,10 +38,11 @@ const CreateEditCertificate = ({ t, history }) => {
     };
 
     const [certificatesData, setCertificatesData] = useState(initialCertificatesData)
-
     const [commonName, setCommonName] = useState('');
     const [isOpenCancelChangesModal, setIsOpenCancelChangesModal] = useState(false);
     const [requestBody, setRequestBody] = useState(initialState);
+
+    const pathToRedirect = id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup);
 
     window.goToRootRoute = () => history.push('/load_balancer');
 
@@ -166,11 +167,11 @@ const CreateEditCertificate = ({ t, history }) => {
     </div>)});
 
     if (certificateUpdateStatus === 'fulfilled') {
-        return <Redirect to={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />;
+        return <Redirect to={pathToRedirect} />;
     }
 
     return <>
-        <ButtonBack back={t('back')} path={id ? certificateDetailsPath(menuGroup, id) : certificatesPath(menuGroup)} />
+        <ButtonBack back={t('back')} path={pathToRedirect} />
 
         <Grid className='createCertificateForm'>
             <Grid.Row className='certificateHeader'>
