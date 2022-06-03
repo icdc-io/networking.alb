@@ -85,7 +85,7 @@ const CreateEditForm = ({ t }) => {
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.services.length === 0) && setListServices(initialServices);
 
-        (id && currentRouteStatus === 'fulfilled' && currentRoute.tls_termination !== '') &&
+        (id && currentRouteStatus === 'fulfilled' && currentRoute.tls_termination) &&
             setSecure(true);
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.services.length > 1) &&
@@ -118,7 +118,7 @@ const CreateEditForm = ({ t }) => {
     }, [split, id]);
 
     useEffect(() => {
-        !secure ? setForm({ ...form, tls_termination: '', certificate_id: null })
+        !secure ? setForm({ ...form, tls_termination: null, insecure: null, certificate_id: null })
             : setForm({ ...form, tls_termination: tlsOptions[0].value });
     }, [secure]);
 
