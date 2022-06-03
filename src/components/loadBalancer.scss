@@ -476,7 +476,7 @@ margin: 0px;
 }
 .ui.table thead th.sort-col.ascending::after {
   display: inline-block;
-  content: '\f0d7';
+  content: '\f0d7' !important;
   font-style: normal;
   font-weight: 400;
   text-decoration: inherit;
@@ -489,7 +489,7 @@ margin: 0px;
 
 .ui.table thead th.sort-col.descending::after {
   display: inline-block;
-  content: '\f0d8';
+  content: '\f0d8' !important;
   font-style: normal;
   font-weight: 400;
   text-decoration: inherit;
