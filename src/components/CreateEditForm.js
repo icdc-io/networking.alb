@@ -67,7 +67,7 @@ const CreateEditForm = ({ t }) => {
                 path: currentRoute.path,
                 target_port: currentRoute.target_port,
                 tls_termination: currentRoute.tls_termination,
-                insecure: currentRoute.insecure === 'None' ? '' : currentRoute.insecure,
+                insecure: currentRoute.insecure,
                 certificate_id: currentRoute.certificate_id,
                 owner: currentRoute.owner,
                 ip_version: currentRoute.ip_version,
@@ -153,7 +153,6 @@ const CreateEditForm = ({ t }) => {
                 target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
-                insecure: form.insecure === '' ? 'None' : form.insecure
             }
         }));
         setForm(state);
@@ -168,7 +167,6 @@ const CreateEditForm = ({ t }) => {
                 target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
-                insecure: form.insecure === '' ? 'None' : form.insecure
             }
         }, id)
         );
