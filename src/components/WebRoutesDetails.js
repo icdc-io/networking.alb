@@ -125,7 +125,7 @@ const WebRoutesDetails = ({ t, history }) => {
                 </Grid.Row>
                 <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('insecureTraffic')}:</Grid.Column>
-                    <Grid.Column as='h5' width={4}>{route.insecure === '' ? t('none') : route.insecure}</Grid.Column>
+                    <Grid.Column as='h5' width={4}>{route.insecure === null ? t('none') : route.insecure}</Grid.Column>
                 </Grid.Row>
                 <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('certificate')}:</Grid.Column>
