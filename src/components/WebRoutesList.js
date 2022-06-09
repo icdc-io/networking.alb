@@ -144,7 +144,7 @@ const WebRoutesList = ({ t, items }) => {
                    
                 </div>
             </div>
-            <div>
+            <div className='table-container'>
                 <Table basic="very">
                     <Table.Header >
                         <Table.Row >

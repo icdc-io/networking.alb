@@ -59,7 +59,7 @@ const CertificatesList = ({ t, items }) => {
                     </Link>
                 </div>
             </div>
-            <div>
+            <div className='table-container'>
                 <Table basic="very" className='bordered'>
                     {filteredData.length > 0 && <Table.Body>{certificates}</Table.Body>}
                 </Table>
