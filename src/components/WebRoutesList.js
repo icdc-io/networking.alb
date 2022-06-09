@@ -88,7 +88,7 @@ const WebRoutesList = ({ t, items }) => {
                     </Link>
                 </div>
             </div>
-            <div>
+            <div className='table-container'>
                 <Table basic="very">
                     <Table.Header >
                         <Table.Row >
