@@ -30,7 +30,7 @@ const CertificateDetails = ({ t }) => {
     useEffect(() => {
         dispatch(fetchCertificate(id));
         dispatch(updateCertificateReset());
-    }, [dispatch, id]);
+    }, [dispatch, id, user]);
 
 
     if (certificateDeleteStatus === 'fulfilled') {
@@ -77,6 +77,9 @@ const CertificateDetails = ({ t }) => {
         </Grid.Row>
     );
 
+    if (certificateStatus === 'rejected') {
+        return <h2 className='temp-error'>{t('wrong')}</h2>
+    } else 
     return (<section>
         <ButtonBack back={t('back')} path={certificatesPath(menuGroup)} />
         {certificateStatus !== 'fulfilled' || !Object.keys(certificate).length

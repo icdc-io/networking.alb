@@ -96,7 +96,10 @@ export const BalancerStore = (state = initialState, action) => {
         case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_PENDING`:
             return state.set('traefikGatewaysStatus', 'pending');
         case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_REJECTED`:
-            return state.set('traefikGatewaysStatus', 'rejected');
+            return Immutable.merge(state, {
+                traefikGateways: [],
+                traefikGatewaysStatus: 'rejected'
+            });
         case `${ActionTypes.WEB_ROUTES_GATEWAYS_FETCH}_FULFILLED`:
             return Immutable.merge(state, {
                 traefikGateways: action.payload,
