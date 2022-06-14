@@ -221,6 +221,10 @@
 }
 .web-routes-details-row-style {
   padding: 0 5px 10px !important;
+
+  &:nth-child(12) {
+    margin-bottom: 2rem;
+  }
 }
 .td-wrapper {
   display: flex;
@@ -365,6 +369,11 @@ margin: 0px;
   width: 100%;
   margin: 20px 0px;
   align-items: center;
+
+
+  .create-route-buttons a {
+    margin-right: 10px;
+  }
 }
 .certificate-details-header >  .buttons-wrapper, .web-routes-details-header >  .buttons-wrapper {
 margin-right: 5%
@@ -415,7 +424,6 @@ margin: 0px;
 .ui.grid.details-container > .network-delete,
 .ui.grid.certificate-details > .network-delete {
   padding: 2rem 0;
-  margin-top: 2rem;
   margin-right: 0px;
   display: flex;
   justify-content: space-between;
@@ -502,4 +510,8 @@ margin: 0px;
 .fields-wrapper {
   padding-left: 0px !important;
   width: 80%;
+}
+.temp-error {
+  text-align: center;
+  margin: 20% 0 !important;
 }

@@ -28,47 +28,21 @@ const WebRoutesDetails = ({ t, history }) => {
     useEffect(() => {
         dispatch(fetchWebRoute(id));
         dispatch(updateWebRouteReset());
-    }, [dispatch, id]);
+    }, [dispatch, id, user]);
 
     useEffect(() => {
         traefikRouteStatus === 'fulfilled' && route.certificate_id !== null && dispatch(fetchCertificate(route?.certificate_id));
     }, [dispatch, traefikRouteStatus]);
-
-    function timeDifference(current, previous) {
-        const msPerMinute = 60 * 1000;
-        const msPerHour = msPerMinute * 60;
-        const msPerDay = msPerHour * 24;
-        const msPerMonth = msPerDay * 30;
-        const msPerYear = msPerDay * 365;
-
-        let elapsed = current - previous;
-
-        if (elapsed < msPerMinute) {
-            return `${Math.round(elapsed / 1000)} ${t('seconds')}`;
-        }
-        else if (elapsed < msPerHour) {
-            return `${Math.round(elapsed / msPerMinute)} ${t('minutes')}`;
-        }
-        else if (elapsed < msPerDay) {
-            return `${Math.round(elapsed / msPerHour)} ${t('hours')}`;
-        }
-        else if (elapsed < msPerMonth) {
-            return `${Math.round(elapsed / msPerDay)} ${t('days')}`;
-        }
-        else if (elapsed < msPerYear) {
-            return `${Math.round(elapsed / msPerMonth)} ${t('month')}`;
-        }
-        else {
-            return `${Math.round(elapsed / msPerYear)} ${t('years')}`;
-        }
-    }
 
     const protocol = (route?.insecure === 'None' && route?.tls_termination === '') ? 'http://' : 'https://';
 
     if (traefikRouteDeleteStatus === 'fulfilled') {
         return <Redirect to={webRoutesPath(menuGroup)} />;
     }
-
+    
+    if (traefikRouteStatus === 'rejected') {
+        return <h2 className='temp-error'>{t('wrong')}</h2>
+    } else 
     return <>
         <ButtonBack back={t('back')} path={webRoutesPath(menuGroup)} />
         {traefikRouteStatus !== 'fulfilled' || !Object.keys(route).length
