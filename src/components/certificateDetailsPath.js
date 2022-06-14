@@ -12,6 +12,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import CertificateImg from '../static/images/certificate.svg';
 const ApiButton = React.lazy(() => import('container/ApiButton'));
+const NoContent = React.lazy(() => import('container/NoContent'));
 
 const CertificateDetails = ({ t }) => {
     const { menuGroup, id } = useParams();
@@ -78,7 +79,7 @@ const CertificateDetails = ({ t }) => {
     );
 
     if (certificateStatus === 'rejected') {
-        return <h2 className='temp-error'>{t('wrong')}</h2>
+        return <NoContent icon='desktop' textMessage={t('wrong')} />
     } else 
     return (<section>
         <ButtonBack back={t('back')} path={certificatesPath(menuGroup)} />
