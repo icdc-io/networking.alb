@@ -11,6 +11,7 @@ import DeleteModal from './DeleteModal';
 import { withRouter } from 'react-router-dom';
 import WebRoute from '../static/images/webroutes.svg';
 const ApiButton = React.lazy(() => import('container/ApiButton'));
+const NoContent = React.lazy(() => import('container/NoContent'));
 
 const WebRoutesDetails = ({ t, history }) => {
     const { menuGroup, id } = useParams();
@@ -41,7 +42,7 @@ const WebRoutesDetails = ({ t, history }) => {
     }
     
     if (traefikRouteStatus === 'rejected') {
-        return <h2 className='temp-error'>{t('wrong')}</h2>
+        return <NoContent icon='desktop' textMessage={t('wrong')} />
     } else 
     return <>
         <ButtonBack back={t('back')} path={webRoutesPath(menuGroup)} />

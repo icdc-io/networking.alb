@@ -73,6 +73,7 @@ const WebRoutesList = ({ t, items }) => {
                                 {`${el.services[0].name} (${el.services[0].ext_id})`}
                         </a> : '—'}
                             {el.services.length > 0 && <Popup
+                                className='popup-window'
                                 on='click'
                                 pinned
                                 position='top right'
