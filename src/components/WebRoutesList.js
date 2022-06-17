@@ -18,6 +18,7 @@ const WebRoutesList = ({ t, items }) => {
     const user = useSelector(state => state.host.user);
     const baseUrls = useSelector(state => state.host.baseUrls);
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
+    const traefikGatewaysStatus = useSelector(state => state.BalancerStore.traefikGatewaysStatus);
 
     const [sortUp, setSortUp] = useState(true);
     
@@ -130,7 +131,7 @@ const WebRoutesList = ({ t, items }) => {
                         user={user}
                         locationUrl={baseUrls[user.location]} />
                    
-                        {!traefikGateways.length ?
+                        {traefikGateways.length < 1 || traefikGatewaysStatus !== 'fulfilled' ?
                             <Popup
                             on='hover'
                             pinned
