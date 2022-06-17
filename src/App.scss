@@ -1,6 +1,6 @@
-.ui.grid > .row.content-page__header_traefik {
-  padding: 20px 0px 0px 0px;
-}
+// .ui.grid > .row.content-page__header_traefik {
+//   padding: 20px 0px 0px 0px;
+// }
 
 .ui.primary.button.tempButtonforTraefik {
   display: flex;
@@ -13,4 +13,8 @@
   position: absolute;
   right: 10px;
   top: 20px;
+  margin-top: 12px;
+}
+.row.content-page__header_certificates {
+  padding: 14px 0;
 }
