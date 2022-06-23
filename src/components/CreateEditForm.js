@@ -153,6 +153,9 @@ const CreateEditForm = ({ t }) => {
                 target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
+                tls_termination: form.tls_termination === '' ? null : form.tls_termination,
+                insecure: form.insecure === '' ? null : form.insecure,
+                certificate_id: form.certificate_id === '' ? null : form.certificate_id
             }
         }));
         setForm(state);
@@ -167,6 +170,9 @@ const CreateEditForm = ({ t }) => {
                 target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
+                tls_termination: form.tls_termination === '' ? null : form.tls_termination,
+                insecure: form.insecure === '' ? null : form.insecure,
+                certificate_id: form.certificate_id === '' ? null : form.certificate_id
             }
         }, id)
         );
