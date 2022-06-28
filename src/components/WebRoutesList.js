@@ -56,7 +56,7 @@ const WebRoutesList = ({ t, items }) => {
 
         return (
             <Table.Row key={el.id}>
-                <Table.Cell width={2}>
+                <Table.Cell width={3}>
                     <div className='name-wrapper'>
                         <img src={WebRoute} width='35' />
                         <Link to={detailsPath(menuGroup, el.id)}>{el.name}</Link>
