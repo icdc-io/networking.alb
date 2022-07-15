@@ -1,14 +1,6 @@
 import * as ActionTypes from './AppConstants';
-import API from './utilities/Api';
+import { fetchData, createData, updateData, deleteData } from 'container/Api';
 import cogoToast from 'cogo-toast';
-
-const waitingForBaseUrl = async() => {
-    const data = await window.insights.getUserInfo();
-    const location = window.insights.getLocation();
-    return data.external.locations[location];
-};
-
-const baseForTraefik = async(url, id = '') => `${await waitingForBaseUrl()}/api/traefik_manager/v1${url}/${id}`;
 
 const notificationOptions = { position: 'top-right', hideAfter: 7 };
 
@@ -52,57 +44,26 @@ const successNotification = (msg) =>
 export const infoNotification = (msg) =>
     cogoToast.info(msg, notificationOptions);
 
-const expandHeaders = (headers) => {
-    const account = window.insights.getAccount();
-    const role = window.insights.getRole();
-
-    return {
-        ...headers,
-        Authorization: `Bearer ${window.insights.getToken()}`,
-        X_MIQ_GROUP: `${account.toLowerCase()}.${role.toLowerCase()}`,
-        'x-icdc-role': role,
-        'x-icdc-account': account
-    };
-};
-
-const fetchData = async (url, headers, id) => {
-    const response = await API.get(await baseForTraefik(url, id), expandHeaders(headers));
-    return response.data;
-};
-
-const createData = async (url, headers, payload) => {
-    const response = await API.post(await baseForTraefik(url), expandHeaders(headers), payload);
-    return response.data;
-};
-
-const updateData = async (url, headers, payload, id) => {
-    const response = await API.put(await baseForTraefik(url, id), payload, expandHeaders(headers));
-    return response.data;
-};
-
-const deleteData = async (url, headers, id) => {
-    const response = await API.delete(await baseForTraefik(url, id), expandHeaders(headers));
-    return response;
-};
+const getFullPath = (url, id = '') => `/api/traefik_manager/v1${url}/${id}`;
 
 export const fetchWebRoutes = () => ({
     type: ActionTypes.WEB_ROUTES_FETCH,
-    payload: fetchData(ActionTypes.WEB_ROUTES_FETCH_URL, {})
+    payload: fetchData(getFullPath(ActionTypes.WEB_ROUTES_FETCH_URL))
 });
 
 export const fetchWebRoute = (id) => ({
     type: ActionTypes.WEB_ROUTE_FETCH,
-    payload: fetchData(ActionTypes.WEB_ROUTES_FETCH_URL, {}, id)
+    payload: fetchData(getFullPath(ActionTypes.WEB_ROUTES_FETCH_URL, id))
 });
 
 export const fetchWebRoutesService = () => ({
     type: ActionTypes.WEB_ROUTES_SERVICES_FETCH,
-    payload: fetchData(ActionTypes.WEB_ROUTES_SERVICES_FETCH_URL, {})
+    payload: fetchData(getFullPath(ActionTypes.WEB_ROUTES_SERVICES_FETCH_URL))
 });
 
 const createWebRoute = (payload) => ({
     type: ActionTypes.WEB_ROUTE_CREATE,
-    payload: createData(ActionTypes.WEB_ROUTES_FETCH_URL, {}, payload)
+    payload: createData(getFullPath(ActionTypes.WEB_ROUTES_FETCH_URL), payload)
 });
 
 export const createWebRouteData = (payload) => {
@@ -117,7 +78,7 @@ export const createWebRouteData = (payload) => {
 
 const deleteWebRouteAction = (id) => ({
     type: ActionTypes.WEB_ROUTE_DELETE,
-    payload: deleteData(ActionTypes.webRouteUrl(id), {})
+    payload: deleteData(getFullPath(ActionTypes.webRouteUrl(id)))
 });
 
 export const deleteWebRouteReset = () => ({
@@ -139,7 +100,7 @@ export const deleteWebRoute = (id) => {
 
 const updateWebRouteData = (payload, routeId) => ({
     type: ActionTypes.WEB_ROUTE_UPDATE,
-    payload: updateData(ActionTypes.webRouteUrl(routeId), {}, payload)
+    payload: updateData(getFullPath(ActionTypes.webRouteUrl(routeId)), payload)
 });
 
 export const updateWebRoute = (payload, routeId) => {
@@ -159,20 +120,20 @@ export const updateWebRouteReset = () => ({
     type: ActionTypes.WEB_ROUTE_UPDATE_RESET
 });
 
-export const fetchGateways = (options) => ({
+export const fetchGateways = () => ({
     type: ActionTypes.WEB_ROUTES_GATEWAYS_FETCH,
-    payload: fetchData(ActionTypes.WEB_ROUTES_GATEWAYS_FETCH_URL, {}, options, 'traefik_manager')
+    payload: fetchData(getFullPath(ActionTypes.WEB_ROUTES_GATEWAYS_FETCH_URL))
 });
 
 
 export const fetchCertificates = () => ({
     type: ActionTypes.CERTIFICATES_FETCH,
-    payload: fetchData(ActionTypes.CERTIFICATES_FETCH_URL, {})
+    payload: fetchData(getFullPath(ActionTypes.CERTIFICATES_FETCH_URL))
 });
 
 const fetchCertificateData = (id) => ({
     type: ActionTypes.CERTIFICATE_FETCH,
-    payload: fetchData(ActionTypes.CERTIFICATES_FETCH_URL, {}, id)
+    payload: fetchData(getFullPath(ActionTypes.CERTIFICATES_FETCH_URL, id))
 });
 
 export const fetchCertificate = (id) => {
@@ -184,7 +145,7 @@ export const fetchCertificate = (id) => {
 
 const createCertificateData = (payload) => ({
     type: ActionTypes.CERTIFICATE_CREATE,
-    payload: createData(ActionTypes.CERTIFICATES_FETCH_URL, {}, payload)
+    payload: createData(getFullPath(ActionTypes.CERTIFICATES_FETCH_URL), payload)
 });
 
 export const createCertificate = (payload) => {
@@ -199,7 +160,7 @@ export const createCertificate = (payload) => {
 
 const updateCertificateData = (payload, certificateId) => ({
     type: ActionTypes.CERTIFICATE_UPDATE,
-    payload: updateData(ActionTypes.certificateUrl(certificateId), {}, payload)
+    payload: updateData(getFullPath(ActionTypes.certificateUrl(certificateId)), payload)
 });
 
 export const updateCertificate = (data, certificateId) => {
@@ -221,7 +182,7 @@ export const updateCertificateReset = () => ({
 
 const deleteCertificateAction = (id) => ({
     type: ActionTypes.CERTIFICATE_DELETE,
-    payload: deleteData(ActionTypes.certificateUrl(id), {})
+    payload: deleteData(getFullPath(ActionTypes.certificateUrl(id)))
 });
 
 const deleteCertificateReset = () => ({

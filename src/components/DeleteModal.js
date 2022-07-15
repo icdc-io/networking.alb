@@ -5,7 +5,7 @@ import {
     deleteCertificate,
     deleteWebRoute
 } from '../AppActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { certificatesPath, webRoutesPath } from '../constants/routes';
 import DangerousHTML from 'react-dangerous-html';
@@ -13,6 +13,8 @@ import DangerousHTML from 'react-dangerous-html';
 const DeleteModal = ({ t, type, instance, icon, button, history }) => {
     const [isVisible, setIsVisible] = useState(false);
     const { zoneName, menuGroup } = useParams();
+    const user = useSelector(state => state.host.user);
+
     const dispatch = useDispatch();
 
     const types = {
@@ -79,7 +81,7 @@ const DeleteModal = ({ t, type, instance, icon, button, history }) => {
             <Dropdown.Item onClick={showModal} className='delete'>{t(types[type].item)}</Dropdown.Item>;
 
     return (
-        (window.insights.getRole() === 'admin' || deleteButtonIsAvailable) && <>
+        (user.role === 'admin' || deleteButtonIsAvailable) && <>
             {buttonModal}
             <Modal open={isVisible} size='mini' onClick={closeModal} closeIcon>
                 <Header as='h3' content={t(types[type].header)} />
