@@ -221,7 +221,7 @@ const CreateEditForm = ({ t }) => {
             <Header as='h4' style={{ marginBottom: '10px' }}>{t('general')}</Header>
             <FormField
                 value={form.name}
-                label={t('nameSecurityGroups')}
+                label={t('name')}
                 placeholder='my-route'
                 callback={e => setForm({ ...form, name: e.currentTarget.value })}
             />
