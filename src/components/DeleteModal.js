@@ -35,7 +35,7 @@ const DeleteModal = ({ t, type, instance, icon, button, history }) => {
             item: 'delete',
             header: 'deleteRoute',
             content: ['deleteWebRoute'],
-            textOptions: { name: <b>{instance.name}</b> },
+            textOptions: { name: `<b>${instance.name}</b>` },
             deleteAction: useCallback(
                 () => {
                     dispatch(deleteWebRoute(instance.id));
@@ -45,7 +45,7 @@ const DeleteModal = ({ t, type, instance, icon, button, history }) => {
             )
         }
     };
-    const deleteButtonIsAvailable = types[type].content[0].id === 'deleteWebRoute' || types[type].content[0].id === 'deleteCertificate';
+    const deleteButtonIsAvailable = types[type].content[0] === 'deleteWebRoute' || types[type].content[0] === 'deleteCertificate';
 
     const showModal = () => {
         setIsVisible(true);
