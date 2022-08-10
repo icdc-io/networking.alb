@@ -80,7 +80,7 @@ const WebRoutesDetails = ({ t, history }) => {
                         {route.services.length > 0 ? route.services.map((el, i) =>
                                 <a 
                                     key={i} 
-                                    href={`https://compute-dev.zby.icdc.io/ui/service/services/${el.ext_id}`}
+                                    href={`https://compute.zby.icdc.io/ui/service/services/${el.ext_id}`}
                                     target='_blank'>
                                         {`${el.name} (${el.ext_id})${i != route.services.length-1 ? ',' : ''}`}
                                 </a>) 
