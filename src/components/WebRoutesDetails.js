@@ -37,6 +37,8 @@ const WebRoutesDetails = ({ t, history }) => {
 
     const protocol = (route?.insecure === 'None' && route?.tls_termination === '') ? 'http://' : 'https://';
 
+    const computeLink = user.location == 'dby' ? `https://compute-dev.zby.icdc.io` : `https://compute.${user.location}.icdc.io`;
+
     if (traefikRouteDeleteStatus === 'fulfilled') {
         return <Redirect to={webRoutesPath(menuGroup)} />;
     }
@@ -77,10 +79,10 @@ const WebRoutesDetails = ({ t, history }) => {
                 <Grid.Row className='web-routes-details-row-style'>
                     <Grid.Column width={4}>{t('service')}</Grid.Column>
                     <Grid.Column as='section' width={8}>
-                        {route.services.length > 0 ? route.services.map((el, i) =>
+                        {route.services.length > 0 ? route.services.map((el, i) => 
                                 <a 
                                     key={i} 
-                                    href={`https://compute-dev.zby.icdc.io/ui/service/services/${el.ext_id}`}
+                                    href={`${computeLink}/ui/service/services/${el.ext_id}`}
                                     target='_blank'>
                                         {`${el.name} (${el.ext_id})${i != route.services.length-1 ? ',' : ''}`}
                                 </a>) 
