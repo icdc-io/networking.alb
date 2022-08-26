@@ -35,7 +35,7 @@ const WebRoutesDetails = ({ t, history }) => {
         traefikRouteStatus === 'fulfilled' && route.certificate_id !== null && dispatch(fetchCertificate(route?.certificate_id));
     }, [dispatch, traefikRouteStatus]);
 
-    const protocol = (route?.insecure === 'None' && route?.tls_termination === '') ? 'http://' : 'https://';
+    const protocol = (!route?.insecure && !route?.tls_termination) ? 'http://' : 'https://';
 
     const computeLink = user.location == 'dby' ? `https://compute-dev.zby.icdc.io` : `https://compute.${user.location}.icdc.io`;
 
