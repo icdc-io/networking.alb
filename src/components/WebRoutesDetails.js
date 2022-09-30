@@ -122,7 +122,7 @@ const WebRoutesDetails = ({ t, history }) => {
 
 WebRoutesDetails.propTypes = {
     t: PropTypes.func,
-    history: PropTypes.history
+    history: PropTypes.object
 };
 
 export default withRouter(WebRoutesDetails);

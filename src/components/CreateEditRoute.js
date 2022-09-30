@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { Grid, Header } from 'semantic-ui-react';
 import { detailsPath, webRoutesPath } from '../constants/routes';
 import ButtonBack from '../general/buttonBack';

@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 
 const CreateEditCertificate = ({ t, history }) => {
     const { menuGroup, id } = useParams();
+    let refCertificate = useRef(null);
     const userEmail = JSON.parse(localStorage.getItem('user')).email;
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateUpdateStatus = useSelector((state) => state.BalancerStore.certificateUpdateStatus);
@@ -129,7 +130,6 @@ const CreateEditCertificate = ({ t, history }) => {
     ];
 
     const displayCertificatesFileds = certificatesFields.map((el, index) => {
-        let refCertificate = useRef(null);
         const onClickCertificate = () => {refCertificate.current.click();};
         //Drag & Drop upload file
         const handleDragEnter = e => e.preventDefault();
