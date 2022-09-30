@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Grid, Header, Loader } from 'semantic-ui-react';
 import './loadBalancer.scss';
@@ -14,7 +14,7 @@ import CertificateImg from '../static/images/certificate.svg';
 const ApiButton = React.lazy(() => import('container/ApiButton'));
 const NoContent = React.lazy(() => import('container/NoContent'));
 
-const CertificateDetails = ({ t }) => {
+const CertificateDetails = ({ t, history }) => {
     const { menuGroup, id } = useParams();
     const certificate = useSelector((state) => state.BalancerStore.certificate);
     const certificateStatus = useSelector((state) => state.BalancerStore.certificateStatus);
@@ -32,7 +32,6 @@ const CertificateDetails = ({ t }) => {
         dispatch(fetchCertificate(id));
         dispatch(updateCertificateReset());
     }, [dispatch, id, user]);
-
 
     if (certificateDeleteStatus === 'fulfilled') {
         return <Redirect to={certificatesPath(menuGroup)} />;
