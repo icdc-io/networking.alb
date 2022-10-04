@@ -42,12 +42,14 @@ const WebRoutesList = ({ t, items }) => {
 
     const publicHostname = `${user.account}.alb.${user.location}.icdc.io`;
 
+    const computeUrl = user.location == 'dby' ? 'https://compute-dev.zby.icdc.io/ui/service/services/' : `https://compute.${user.location}.icdc.io/ui/service/services/`;
+
     const routes = filteredData.map(el => {
         const options = ['edit', 'deleteWebRoutes'];
         const service = (route) => route.services.map((e, i) => 
             <div  key={i} >
                 <a 
-                    href={`https://compute-dev.zby.icdc.io/ui/service/services/${e.ext_id}`}
+                    href={`${computeUrl}${e.ext_id}`}
                     target='_blank'>
                         {`${e.name} (${e.ext_id})`}
                 </a>
@@ -69,7 +71,7 @@ const WebRoutesList = ({ t, items }) => {
                 <Table.Cell width={4}>
                     <div className='td-wrapper'>
                         {el.services.length > 0 ? <a 
-                            href={`https://compute-dev.zby.icdc.io/ui/service/services/${el.services[0]?.ext_id}`}
+                            href={`${computeUrl}${el.services[0]?.ext_id}`}
                             target='_blank'>
                                 {`${el.services[0].name} (${el.services[0].ext_id})`}
                         </a> : '—'}
