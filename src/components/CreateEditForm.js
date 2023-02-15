@@ -47,7 +47,7 @@ const CreateEditForm = ({ t }) => {
     const [ipv, setIpv] = useState(false);
 
     const tlsOptions = [{ text: 'edge', value: 'edge' }, { text: 'passthrough', value: 'passthrough' }, { text: 're-encrypt', value: 're-encrypt' }];
-    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: `${el.cloudgw_instance} (${el.name})`, value: el.id }));
+    const cloudGatewaysOptions = traefikGateways.map(el => ({ text: `${el.cloudgw_instance} (${el.account}) ${el.name}`, value: el.id }));
     const insecureOptions = [{ text: 'allow', value: 'allow' }, { text: 'redirect', value: 'redirect' }];
     const certificatesOptions = certificates.map(el => ({ text: el.name, value: el.id }));
     const servicesOptions = traefikRouteServices.map(el => ({ text: `${el.name} (${el.ext_id})`, value: el.id, key: el.id }));
