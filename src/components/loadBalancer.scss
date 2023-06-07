@@ -30,6 +30,11 @@
 }
 .ui.grid.createCertificateForm {
   padding: 0 20px;
+
+  .inputs-wrapper {
+    padding: 0;
+    width: 100%;
+  }
 }
 .ui.grid.createCertificateForm > .row {
   padding-top: 0px;

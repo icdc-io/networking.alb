@@ -87,10 +87,12 @@ const CreateEditCertificate = ({ t, history }) => {
         let data = action === 'drop' ? e.dataTransfer : e.currentTarget.value.split('\\');
         let file = action === 'drop' ? data.files[0] : e.target.files[0];
         let reader = new FileReader();
-        reader.readAsText(file);
-        reader.onloadend = () => {
-            setCertificatesData({...certificatesData, [text]: reader.result, [path]: action === 'drop' ? file.name : data[data.length-1]});
-        };
+        if (file) {
+            reader.readAsText(file);
+            reader.onloadend = () => {
+                setCertificatesData({...certificatesData, [text]: reader.result, [path]: action === 'drop' ? file.name : data[data.length-1]});
+            };
+        }
     }
     //onChange callbacks
     const onChangeName = (e) => setCommonName(e.currentTarget.value);
@@ -107,30 +109,36 @@ const CreateEditCertificate = ({ t, history }) => {
             && certificatesData.textDCaCertificate === certificate.values?.dest_ca || commonName  === '';
 
     const certificatesFields = [
-        {title: 'certificate',
-        description: 'certificateUpDescript',
-        path: 'pathCertificate',
-        text: 'textCertificate'
+        {
+            title: 'certificate',
+            description: 'certificateUpDescript',
+            path: 'pathCertificate',
+            text: 'textCertificate'
         },
-        {title: 'privateKey',
-        description: 'certificateKeyDescript',
-        path: 'pathPrivateKey',
-        text: 'textPrivateKey'
+        {
+            title: 'privateKey',
+            description: 'certificateKeyDescript',
+            path: 'pathPrivateKey',
+            text: 'textPrivateKey'
         },
-        {title: 'caCertificate',
-        description: 'certificateCaDescript',
-        path: 'pathCaCertificate',
-        text: 'textCaCertificate'
+        {
+            title: 'caCertificate',
+            description: 'certificateCaDescript',
+            path: 'pathCaCertificate',
+            text: 'textCaCertificate'
         },
-        {title: 'caCertificateDes',
-        description: 'certificateDestDescript',
-        path: 'pathDCaCertificate',
-        text: 'textDCaCertificate'
+        {
+            title: 'caCertificateDes',
+            description: 'certificateDestDescript',
+            path: 'pathDCaCertificate',
+            text: 'textDCaCertificate'
         }
     ];
 
     const displayCertificatesFileds = certificatesFields.map((el, index) => {
-        const onClickCertificate = () => {refCertificate.current.click();};
+        const onClickCertificate = (index) => {
+            refCertificate.current.children[index].children[1].children[0].children[1].click();
+        };
         //Drag & Drop upload file
         const handleDragEnter = e => e.preventDefault();
 
@@ -149,10 +157,9 @@ const CreateEditCertificate = ({ t, history }) => {
             >
                 <Grid.Row style={{ paddingBottom: '0px' }}>
                     <Input type='text' value={certificatesData[el.path]} className='inputPath' action={true} onChange={(e) => onChangeField(e, el.path)}><input disabled/>
-                        <Button onClick={onClickCertificate}>{t('browse')}</Button>
+                        <Button onClick={() => onClickCertificate(index)}>{t('browse')}</Button>
                     </Input><input
                         type='file'
-                        ref={refCertificate}
                         onChange={e => handleFile(e, el.path, el.text, 'callbackField')}
                         style={{ display: 'none' }}
                         accept='.pem'
@@ -189,7 +196,9 @@ const CreateEditCertificate = ({ t, history }) => {
             <Grid.Row>
                 <Input type='text' className='inputPath' style={{ width: '80%' }} value={commonName} onChange={onChangeName}/>
             </Grid.Row>
+            <div ref={refCertificate} className='inputs-wrapper'>
                 {displayCertificatesFileds}
+            </div>
         </Grid>
 
         <div className='footer'>
