@@ -138,7 +138,6 @@ const CreateEditCertificate = ({ t, history }) => {
     const displayCertificatesFileds = certificatesFields.map((el, index) => {
         const onClickCertificate = (index) => {
             refCertificate.current.children[index].children[1].children[0].children[1].click();
-            // refCertificate.current.click();
         };
         //Drag & Drop upload file
         const handleDragEnter = e => e.preventDefault();
@@ -161,8 +160,6 @@ const CreateEditCertificate = ({ t, history }) => {
                         <Button onClick={() => onClickCertificate(index)}>{t('browse')}</Button>
                     </Input><input
                         type='file'
-                        // ref={refCertificate}
-                        // name={el.text}
                         onChange={e => handleFile(e, el.path, el.text, 'callbackField')}
                         style={{ display: 'none' }}
                         accept='.pem'
