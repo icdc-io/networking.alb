@@ -8,6 +8,7 @@ import CancelChangesModal from './CancelChangesModal';
 import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, updateWebRouteReset, fetchWebRoutesService, fetchGateways } from '../AppActions';
 import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
+import isFQDN from 'validator/lib/isFQDN';
 
 const CreateEditForm = ({ t }) => {
     const { menuGroup, id } = useParams();
@@ -131,7 +132,7 @@ const CreateEditForm = ({ t }) => {
     };
 
     //disabled buttons
-    const disabledCreateBtn = () => form.name === '' || form.cloud_gateway_id === '' || form.hostname === '' || targetPortErr
+    const disabledCreateBtn = () => form.name === '' || form.cloud_gateway_id === '' || !isFQDN(form.hostname) || targetPortErr
         || (listServices.length > 1 && listServices.some(el => weightErr(el.weight)));
 
     const addService = () => {
@@ -232,6 +233,7 @@ const CreateEditForm = ({ t }) => {
                 label={t('hostname')}
                 placeholder='www.example.com'
                 callback={e => setForm({ ...form, hostname: e.currentTarget.value })}
+                error={!(isFQDN(form.hostname) || form.hostname === '')}
             />
             <span className='subTitleForm'>{t('traefikPublHostname')}</span>
 
