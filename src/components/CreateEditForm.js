@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, Header, Input, Checkbox, Dropdown, Form, Radio } from 'semantic-ui-react';
+import { Button, Header, Input, Checkbox, Dropdown, Form, Radio, Popup, Icon } from 'semantic-ui-react';
 import './loadBalancer.scss';
 import { useParams, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import CancelChangesModal from './CancelChangesModal';
 import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, updateWebRouteReset, fetchWebRoutesService, fetchGateways } from '../AppActions';
 import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
+import { optionsOfScheme, methodOfApi } from '../constants/options';
 import isFQDN from 'validator/lib/isFQDN';
 
 const CreateEditForm = ({ t }) => {
@@ -37,7 +38,22 @@ const CreateEditForm = ({ t }) => {
         cloud_gateway_id: '',
         source_proto: 'tcp',
         destination_proto: 'tcp',
-        services: []
+        services: [],
+        healthcheck_enabled: false,
+        healthcheck: {
+            path: '',
+            scheme: '',
+            hostname: '',
+            port: '',
+            interval: 30,
+            timeout: 5,
+            headers: {
+              'x-icdc-account': '',
+              'x-icdc-role': ''
+            },
+            method: 'GET',
+            follow_redirects: true
+        }
     };
     let initialServices = [{ id: '' }];
 
@@ -58,6 +74,7 @@ const CreateEditForm = ({ t }) => {
     const weightValidation = new RegExp('^(100|[1-9][0-9]?)$');
     let targetPortErr = !portValidation.test(form.target_port) && form.target_port !== '' ? true : false;
     let weightErr = (weight) => !weightValidation.test(weight) ? true : false;
+    let methodErr = (method) => !methodOfApi.some(el => el.toLowerCase() == method.toLowerCase());
 
     useEffect(() => {
         setListServices(initialServices);
@@ -75,7 +92,22 @@ const CreateEditForm = ({ t }) => {
                 cloud_gateway_id: currentRoute.cloud_gateway_id,
                 source_proto: currentRoute.source_proto,
                 destination_proto: currentRoute.destination_proto,
-                services: currentRoute.services
+                services: currentRoute.services,
+                healthcheck_enabled: currentRoute.healthcheck_enabled,
+                healthcheck: currentRoute.healthcheck_enabled ? {
+                    path: currentRoute?.healthcheck?.path,
+                    scheme: currentRoute?.healthcheck?.scheme,
+                    hostname: currentRoute?.healthcheck?.hostname ? currentRoute.healthcheck.hostname : '',
+                    port: currentRoute?.healthcheck?.port,
+                    interval: currentRoute?.healthcheck?.interval,
+                    timeout: currentRoute?.healthcheck?.timeout,
+                    headers: currentRoute?.healthcheck?.headers ? {
+                      'x-icdc-account': currentRoute?.healthcheck?.headers['x-icdc-account'],
+                      'x-icdc-role': currentRoute?.healthcheck?.headers['x-icdc-role'],
+                    } : state.healthcheck?.headers,
+                    method: currentRoute?.healthcheck?.method,
+                    follow_redirects: currentRoute?.healthcheck?.follow_redirects
+                } : state.healthcheck
             });
 
         (id && currentRouteStatus === 'fulfilled' && currentRoute.routes_services.length > 0) &&
@@ -133,7 +165,9 @@ const CreateEditForm = ({ t }) => {
 
     //disabled buttons
     const disabledCreateBtn = () => form.name === '' || form.cloud_gateway_id === '' || !isFQDN(form.hostname) || targetPortErr
-        || (listServices.length > 1 && listServices.some(el => weightErr(el.weight)));
+        || (listServices.length > 1 && listServices.some(el => weightErr(el.weight))) 
+        || (form.healthcheck_enabled 
+            && ((form?.healthcheck?.hostname && !isFQDN(form?.healthcheck?.hostname)) || methodErr(form?.healthcheck?.method) ) );
 
     const addService = () => {
         setListServices([...listServices, { id: '', weight: '1' }]);
@@ -156,7 +190,12 @@ const CreateEditForm = ({ t }) => {
                 ip_version: !ipv ? '4' : '6',
                 tls_termination: form.tls_termination === '' ? null : form.tls_termination,
                 insecure: form.insecure === '' ? null : form.insecure,
-                certificate_id: form.certificate_id === '' ? null : form.certificate_id
+                certificate_id: form.certificate_id === '' ? null : form.certificate_id,
+                healthcheck: {
+                    ...form.healthcheck,
+                    path: form.healthcheck.path === '' ? '/' : form.healthcheck.path,
+                }
+           
             }
         }));
         setForm(state);
@@ -173,7 +212,11 @@ const CreateEditForm = ({ t }) => {
                 ip_version: !ipv ? '4' : '6',
                 tls_termination: form.tls_termination === '' ? null : form.tls_termination,
                 insecure: form.insecure === '' ? null : form.insecure,
-                certificate_id: form.certificate_id === '' ? null : form.certificate_id
+                certificate_id: form.certificate_id === '' ? null : form.certificate_id,
+                healthcheck: form?.healthcheck_enabled ? {
+                    ...form.healthcheck,
+                    path: form.healthcheck.path === '' ? '/' : form.healthcheck.path,
+                } : state.healthcheck
             }
         }, id)
         );
@@ -224,7 +267,7 @@ const CreateEditForm = ({ t }) => {
                 value={form.name}
                 label={t('name')}
                 placeholder='my-route'
-                callback={e => setForm({ ...form, name: e.currentTarget.value })}
+                callback={e =>setForm({ ...form, name: e.currentTarget.value })}
             />
             <span className='subTitleForm'>{t('traefikUniqName')}</span>
 
@@ -288,6 +331,211 @@ const CreateEditForm = ({ t }) => {
                     </div>
                 </div>
             </Form.Field>
+
+            <div className='health'>
+                <h5>{t('healthCheck')}</h5>
+                <Checkbox
+                    label={t('enabled')}
+                    checked={form.healthcheck_enabled}
+                    onChange={(e, { checked }) => setForm({
+                        ...form,
+                        healthcheck_enabled: checked
+                    })}
+                />
+                {form.healthcheck_enabled && <div className='health-wrapper'>
+                    <Form.Field >
+                        <div>
+                            <label>{`${t('path')} ${t('optional')}`}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipPath')} wide='very' />
+                        </div>
+                        <Input
+                            value={form.healthcheck.path}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    path: e.currentTarget.value
+                                }
+                            })}
+                            placeholder='/'
+                        />
+                    </Form.Field>
+                    <div>
+                        <div>
+                            <label>{`${t('scheme')} ${t('optional')}`}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipScheme')} wide='very' />
+                        </div>
+                        <Dropdown selection
+                            value={form.healthcheck.scheme}
+                            options={optionsOfScheme}
+                            placeholder={t('select')}
+                            style={{ width: '100%' }}
+                            selectOnBlur={false}
+                            onChange={(e, data) => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    scheme: data.value
+                                }
+                            })}
+                        />
+                    </div>
+                    <Form.Field
+                        error={!(isFQDN(form.healthcheck.hostname) || form.healthcheck.hostname === '')}
+                    >
+                        <div>
+                            <label>{`${t('hostname')} ${t('optional')}`}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipHostName')} wide='very' />
+                        </div>
+                        <Input
+                            type='text'
+                            value={form.healthcheck.hostname}
+                            placeholder={t('enterHostname')}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    hostname: e.currentTarget.value
+                                }
+                            })}
+                        />
+                    </Form.Field>
+                    <Form.Field >
+                        <div>
+                            <label>{`${t('port')} ${t('optional')}`}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipPort')} wide='very' />
+                        </div>
+                        <Input
+                            value={form.healthcheck.port}
+                            placeholder={`${t('enterPort')} ${t('exampleOfPort')}`}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    port: e.currentTarget.value
+                                }
+                            })}
+                        />
+                    </Form.Field>
+                    <Form.Field >
+                        <div>
+                            <label>{t('intervalSec')}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipInterval')} wide='very' />
+                        </div>
+                        <Input
+                            value={form.healthcheck.interval}
+                            placeholder={t('enterInterval')}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    interval: e.currentTarget.value
+                                }
+                            })}
+                        />
+                    </Form.Field>
+                    <Form.Field >
+                        <div>
+                            <label>{t('timeout')}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipTimeout')} wide='very' />
+                        </div>
+                        <Input
+                            value={form.healthcheck.timeout}
+                            placeholder={t('enterTimeout')}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    timeout: e.currentTarget.value
+                                }
+                            })}
+                        />
+                    </Form.Field>
+                    <div className='header-content'>
+                        <label>{`${t('headers')} ${t('optional')}`}</label>
+                        <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipHeaders')} wide='very' />
+                    </div>
+                    <FormField
+                        value={form.healthcheck.headers['x-icdc-account']}
+                        label='x-icdc-account'
+                        placeholder={t('enterHeaders')}
+                        callback={e => setForm({
+                            ...form,
+                            healthcheck: {
+                                ...form.healthcheck,
+                                headers: {
+                                    ...form.healthcheck.headers,
+                                    'x-icdc-account': e.currentTarget.value
+                                }
+                            }
+                        })}
+                    />
+                    <FormField
+                        value={form.healthcheck.headers['x-icdc-role']}
+                        label='x-icdc-role'
+                        placeholder={t('enterHeaders')}
+                        callback={e => setForm({
+                            ...form,
+                            healthcheck: {
+                                ...form.healthcheck,
+                                headers: {
+                                    ...form.healthcheck.headers,
+                                    'x-icdc-role': e.currentTarget.value
+                                }
+                            }
+                        })}
+                    />
+                    <div>
+                        <div>
+                            <label>{t('followRedirects')}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipFollowRedirect')} wide='very' />
+                        </div>
+                        <Radio
+                            label={t('trueCheck')}
+                            checked={form.healthcheck.follow_redirects}
+                            onClick={() => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    follow_redirects: true
+                                }
+                            })}
+                        />
+                        <Radio
+                            label={t('falseCheck')}
+                            checked={!form.healthcheck.follow_redirects}
+                            onClick={() => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    follow_redirects: false
+                                }
+                            })}
+                            style={{ margin: '0px 20px' }}
+                        />
+                    </div>
+                    <Form.Field
+                        error={methodErr(form.healthcheck.method)}
+                    >
+                        <div>
+                            <label>{t('method')}</label>
+                            <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipMethod')} wide='very' />
+                        </div>
+                        <Input
+                            value={form.healthcheck.method}
+                            placeholder={t('enterMethod')}
+                            onChange={e => setForm({
+                                ...form,
+                                healthcheck: {
+                                    ...form.healthcheck,
+                                    method: e.currentTarget.value?.toUpperCase()
+                                }
+                            })}
+                        />
+                    </Form.Field>
+                </div>
+                }
+            </div>
         </div>
         <div className='routeBlock routeBlockColumn'>
             <Header as='h4'>{t('security')}</Header>

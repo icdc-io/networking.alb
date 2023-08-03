@@ -94,6 +94,57 @@ const WebRoutesDetails = ({ t, history }) => {
                     <Grid.Column as='h5' width={4}>{route.target_port}</Grid.Column>
                 </Grid.Row>
 
+                {route.healthcheck_enabled && <><Header as='h3'>{t('healthCheck')}</Header>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('hostname')}</Grid.Column>
+                        <Grid.Column width={4}>
+                            {route?.healthcheck?.hostname ?
+                                <Header style={{ margin: '0px' }}><a href={`${protocol}${route.healthcheck.hostname}`} target='blank'>{route.healthcheck.hostname}</a></Header>
+                                : t('none')}
+                        </Grid.Column>
+                    </Grid.Row >
+                    <Grid.Row className='web-routes-details-heathcheck-row-style' >
+                        <Grid.Column width={4}>{t('path')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.path ? route.healthcheck.path : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('scheme')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.scheme ? route.healthcheck.scheme : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('port')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.port ? route.healthcheck.port : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('intervalSec')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.interval ? route.healthcheck.interval : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('timeout')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.timeout ? route.healthcheck.timeout : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}><h5>{t('headers')}:</h5></Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>x-icdc-account</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.headers ? route?.healthcheck?.headers['x-icdc-account'] : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>x-icdc-role</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.headers ? route?.healthcheck?.headers['x-icdc-role'] : t('none')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('followRedirects')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.follow_redirects ? t('trueCheck') : t('falseCheck')}</Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className='web-routes-details-heathcheck-row-style'>
+                        <Grid.Column width={4}>{t('method')}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{route?.healthcheck?.method ? route.healthcheck.method : t('none')}</Grid.Column>
+                    </Grid.Row>
+                </>
+                }
+
                 <Header as='h3'>{t('tlcSetting')}</Header>
                 {!route.tls_termination && <Grid.Row><Grid.Column >{t('tlsNotEnabled')}</Grid.Column></Grid.Row>}
                 <Grid.Row className='web-routes-details-row-style'>

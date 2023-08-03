@@ -231,6 +231,9 @@
     margin-bottom: 2rem;
   }
 }
+.web-routes-details-heathcheck-row-style {
+  padding: 0 5px 10px !important;
+}
 .td-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -515,4 +518,18 @@ margin: 0px;
 .fields-wrapper {
   padding-left: 0px !important;
   width: 80%;
+}
+.health{
+  h5{
+    margin-bottom: 0;
+  }
+  .health-wrapper{
+    margin: 25px 0;
+  }
+  .health-wrapper > div{
+    margin-bottom: 15px !important;
+  }
+  .header-content{
+    margin-top: 20px;
+  }
 }
