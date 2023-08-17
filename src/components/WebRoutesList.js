@@ -9,6 +9,8 @@ import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
+import { getPublicHostname } from '../utilities/publicHostName';
+
 const ApiButton = React.lazy(() => import('container/ApiButton'));
 
 const WebRoutesList = ({ t, items }) => {
@@ -39,8 +41,6 @@ const WebRoutesList = ({ t, items }) => {
         { title: t('balancer') },
         { title: '' }
     ];
-
-    const publicHostname = `${user.account}.alb.${user.location}.icdc.io`;
 
     const computeUrl = user.location == 'dby' ? 'https://compute-dev.zby.icdc.io/ui/service/services/' : `https://compute.${user.location}.icdc.io/ui/service/services/`;
 
@@ -112,7 +112,7 @@ const WebRoutesList = ({ t, items }) => {
                 <p >{t('traefikDescriptionOne')}</p>
                 <div className='publicHostname'>
                     <span>{t('publicHostname')}</span>
-                    <span>{publicHostname}{copyInfo(publicHostname)}</span>
+                    <span>{getPublicHostname(user)}{copyInfo(getPublicHostname(user))}</span>
                 </div>
                 <p>{t('traefikDescriptionTwo')}</p>
             </div>
