@@ -9,7 +9,6 @@ import { onSearch } from '../utilities/search';
 import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
-import { getPublicHostname } from '../utilities/publicHostName';
 
 const ApiButton = React.lazy(() => import('container/ApiButton'));
 
@@ -21,6 +20,7 @@ const WebRoutesList = ({ t, items }) => {
     const baseUrls = useSelector(state => state.host.baseUrls);
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
     const traefikGatewaysStatus = useSelector(state => state.BalancerStore.traefikGatewaysStatus);
+    const vendor = useSelector(state => state.host.vendor);
 
     const [sortUp, setSortUp] = useState(true);
     
@@ -41,6 +41,10 @@ const WebRoutesList = ({ t, items }) => {
         { title: t('balancer') },
         { title: '' }
     ];
+
+    const getPublicHostname = (user) => {
+        return ((user?.location === 'xby') || (user?.location === 'zby')) ? `${user.account}.alb.${user.location}.scdc.io` : `${user.account}.alb.${user.location}.${vendor}.io`
+    } 
 
     const computeUrl = user.location == 'dby' ? 'https://compute-dev.zby.icdc.io/ui/service/services/' : `https://compute.${user.location}.icdc.io/ui/service/services/`;
 

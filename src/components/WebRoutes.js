@@ -7,7 +7,6 @@ import { copyInfo } from '../utilities/copyInfo';
 import { Grid, Header } from 'semantic-ui-react';
 import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
 import { withRouter } from 'react-router-dom';
-import { getPublicHostname } from '../utilities/publicHostName';
 
 const ContentPage = React.lazy(() => import('container/ContentPage'));
 
@@ -15,6 +14,7 @@ const WebRoutes = ({ t, history }) => {
     const routes = useSelector(state => state.BalancerStore.traefikRoutes);
     const routesFetchStatus = useSelector(state => state.BalancerStore.traefikRoutesStatus);
     const user = useSelector(state => state.host.user);
+    const vendor = useSelector(state => state.host.vendor);
 
     const dispatch = useDispatch();
 
@@ -27,6 +27,10 @@ const WebRoutes = ({ t, history }) => {
         dispatch(fetchGateways());
     }, [dispatch, user]);
 
+    const getPublicHostname = (user) => {
+        return ((user?.location === 'xby') || (user?.location === 'zby')) ? `${user.account}.alb.${user.location}.scdc.io` : `${user.account}.alb.${user.location}.${vendor}.io`
+    } 
+    
     const isNoData = routes.length < 1;
 
     return <>
