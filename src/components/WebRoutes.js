@@ -7,6 +7,7 @@ import { copyInfo } from '../utilities/copyInfo';
 import { Grid, Header } from 'semantic-ui-react';
 import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
 import { withRouter } from 'react-router-dom';
+import { getPublicHostname } from '../utilities/getPublicHostname';
 
 const ContentPage = React.lazy(() => import('container/ContentPage'));
 
@@ -14,6 +15,7 @@ const WebRoutes = ({ t, history }) => {
     const routes = useSelector(state => state.BalancerStore.traefikRoutes);
     const routesFetchStatus = useSelector(state => state.BalancerStore.traefikRoutesStatus);
     const user = useSelector(state => state.host.user);
+    const vendor = useSelector(state => state.host.vendor);
 
     const dispatch = useDispatch();
 
@@ -26,7 +28,6 @@ const WebRoutes = ({ t, history }) => {
         dispatch(fetchGateways());
     }, [dispatch, user]);
 
-    const publicHostname = `${user.account}.alb.${user.location}.icdc.io`;
     const isNoData = routes.length < 1;
 
     return <>
@@ -40,7 +41,7 @@ const WebRoutes = ({ t, history }) => {
                         <p>{t('traefikDescriptionOne')}</p>
                         <div className='publicHostname'>
                             <span>{t('publicHostname')}</span>
-                            <span>{publicHostname}{copyInfo(publicHostname)}</span>
+                            <span>{getPublicHostname(user,vendor)}{copyInfo(getPublicHostname(user,vendor))}</span>
                         </div>
                         <p>{t('traefikDescriptionTwo')}</p>
                     </div>
