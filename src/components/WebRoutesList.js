@@ -124,7 +124,7 @@ const WebRoutesList = ({ t, items }) => {
                     icon='search'
                     iconPosition='left'
                     placeholder={t('searchField')}
-                    style={{ width: '600px', margin: '10px 0px 0px 0px' }}
+                    style={{ width: '250px', margin: '10px 0px 0px 0px' }}
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
                 />

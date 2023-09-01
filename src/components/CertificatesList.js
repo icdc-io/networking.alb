@@ -44,7 +44,7 @@ const CertificatesList = ({ t, items }) => {
                 <Input
                     icon='search'
                     iconPosition='left'
-                    style={{ width: '600px', margin: '10px 0px 0px 0px' }}
+                    style={{ width: '250px', margin: '10px 0px 0px 0px' }}
                     placeholder={t('searchField')}
                     value={search}
                     onChange={e => setSearch(e.currentTarget.value)}
