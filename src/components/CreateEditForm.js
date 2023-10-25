@@ -185,7 +185,7 @@ const CreateEditForm = ({ t }) => {
                 ...form,
                 path: form.path === '' ? '/' : form.path,
                 owner: userEmail,
-                target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
+                target_port: form.target_port === '' ? '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
                 tls_termination: form.tls_termination === '' ? null : form.tls_termination,
@@ -207,7 +207,7 @@ const CreateEditForm = ({ t }) => {
             route: {
                 ...form,
                 path: form.path === '' ? '/' : form.path,
-                target_port: form.target_port === '' ? secure ? '443' : '80' : form.target_port,
+                target_port: form.target_port === '' ? '80' : form.target_port,
                 services: listServices.filter(el => el.id !== ''),
                 ip_version: !ipv ? '4' : '6',
                 tls_termination: form.tls_termination === '' ? null : form.tls_termination,
