@@ -10,6 +10,7 @@ import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
 import { optionsOfScheme, methodOfApi } from '../constants/options';
 import isFQDN from 'validator/lib/isFQDN';
+import HeadersFormSection from './HeadersFormSection';
 
 const CreateEditForm = ({ t }) => {
     const { menuGroup, id } = useParams();
@@ -47,10 +48,7 @@ const CreateEditForm = ({ t }) => {
             port: '',
             interval: 30,
             timeout: 5,
-            headers: {
-              'x-icdc-account': '',
-              'x-icdc-role': ''
-            },
+            headers: {},
             method: 'GET',
             follow_redirects: true
         }
@@ -101,10 +99,7 @@ const CreateEditForm = ({ t }) => {
                     port: currentRoute?.healthcheck?.port,
                     interval: currentRoute?.healthcheck?.interval,
                     timeout: currentRoute?.healthcheck?.timeout,
-                    headers: currentRoute?.healthcheck?.headers ? {
-                      'x-icdc-account': currentRoute?.healthcheck?.headers['x-icdc-account'],
-                      'x-icdc-role': currentRoute?.healthcheck?.headers['x-icdc-role'],
-                    } : state.healthcheck?.headers,
+                    headers: currentRoute?.healthcheck?.headers || {},
                     method: currentRoute?.healthcheck?.method,
                     follow_redirects: currentRoute?.healthcheck?.follow_redirects
                 } : state.healthcheck
@@ -451,40 +446,13 @@ const CreateEditForm = ({ t }) => {
                             })}
                         />
                     </Form.Field>
-                    <div className='header-content'>
-                        <label>{`${t('headers')} ${t('optional')}`}</label>
-                        <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipHeaders')} wide='very' />
-                    </div>
-                    <FormField
-                        value={form.healthcheck.headers['x-icdc-account']}
-                        label='x-icdc-account'
-                        placeholder={t('enterHeaders')}
-                        callback={e => setForm({
+                    <HeadersFormSection t={t} headers={form.healthcheck.headers} setHeaders={newHeaders => setForm({
                             ...form,
                             healthcheck: {
                                 ...form.healthcheck,
-                                headers: {
-                                    ...form.healthcheck.headers,
-                                    'x-icdc-account': e.currentTarget.value
-                                }
+                                headers: newHeaders
                             }
-                        })}
-                    />
-                    <FormField
-                        value={form.healthcheck.headers['x-icdc-role']}
-                        label='x-icdc-role'
-                        placeholder={t('enterHeaders')}
-                        callback={e => setForm({
-                            ...form,
-                            healthcheck: {
-                                ...form.healthcheck,
-                                headers: {
-                                    ...form.healthcheck.headers,
-                                    'x-icdc-role': e.currentTarget.value
-                                }
-                            }
-                        })}
-                    />
+                        })} />
                     <div>
                         <div>
                             <label>{t('followRedirects')}</label>

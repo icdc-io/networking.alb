@@ -533,3 +533,28 @@ margin: 0px;
     margin-top: 20px;
   }
 }
+.headers-inputs {
+  .headers-inputs__content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  
+    .field {
+      margin: 0 !important;
+    }
+  
+    .field > label, input.hidden+label {
+      margin: 0 !important;
+    }
+  
+    i.trash:hover {
+      color: initial;
+    }
+  }
+    
+  .ui.button.add-header {
+    margin-top: 1rem;
+  }
+}
