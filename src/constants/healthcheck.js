@@ -17,7 +17,7 @@ export const subTitleHealthchek = [{
 },
 {
   title: 'intervalSec',
-  path: 'healthcheck.intervalSec'
+  path: 'healthcheck.interval'
 },
 {
   title: 'timeout',
