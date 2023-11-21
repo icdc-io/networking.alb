@@ -126,10 +126,12 @@
   flex-direction: column;
 }
 .addService .firstField {
-  width: 40%;
+  flex-basis: 260px;
+  flex-grow: 1;
 }
 .addService .secondField {
-  width: 60%;
+  flex-basis: 360px;
+  flex-grow: 1;
 }
 .addService .secondField .field {
   margin: 0px;
@@ -304,7 +306,7 @@ margin-right: 4px;
   margin: 10px 0px 5px 0px;
   letter-spacing: 0.01em;
 }
-.routeBlock section {
+.routeBlock .balancer-block {
   display: flex;
   flex-direction: column;
 }

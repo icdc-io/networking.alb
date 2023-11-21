@@ -24,12 +24,9 @@ export const subTitleHealthchek = [{
   path: 'healthcheck.timeout'
 },
 {
-  title: 'headers_account',
-  path: 'healthcheck.headers.x-icdc-account'
-},
-{
-  title: 'headers_role',
-  path: 'healthcheck.headers.x-icdc-role'
+  title: 'header',
+  path: 'healthcheck.headers',
+  type: 'headers'
 },
 {
   title: 'followRedirects',

@@ -8,7 +8,7 @@ import CancelChangesModal from './CancelChangesModal';
 import { createWebRouteData, fetchCertificates, fetchWebRoute, updateWebRoute, updateWebRouteReset, fetchWebRoutesService, fetchGateways } from '../AppActions';
 import FormField from './FormField';
 import { detailsPath, webRoutesPath } from '../constants/routes';
-import { optionsOfScheme, methodOfApi } from '../constants/options';
+import { optionsOfScheme, methodsOptions } from '../constants/options';
 import isFQDN from 'validator/lib/isFQDN';
 import HeadersFormSection from './HeadersFormSection';
 
@@ -49,7 +49,7 @@ const CreateEditForm = ({ t }) => {
             interval: 30,
             timeout: 5,
             headers: {},
-            method: 'GET',
+            method: methodsOptions[0].value,
             follow_redirects: true
         }
     };
@@ -72,7 +72,6 @@ const CreateEditForm = ({ t }) => {
     const weightValidation = new RegExp('^(100|[1-9][0-9]?)$');
     let targetPortErr = !portValidation.test(form.target_port) && form.target_port !== '' ? true : false;
     let weightErr = (weight) => !weightValidation.test(weight) ? true : false;
-    let methodErr = (method) => !methodOfApi.some(el => el.toLowerCase() == method.toLowerCase());
 
     useEffect(() => {
         setListServices(initialServices);
@@ -162,7 +161,7 @@ const CreateEditForm = ({ t }) => {
     const disabledCreateBtn = () => form.name === '' || form.cloud_gateway_id === '' || !isFQDN(form.hostname) || targetPortErr
         || (listServices.length > 1 && listServices.some(el => weightErr(el.weight))) 
         || (form.healthcheck_enabled 
-            && ((form?.healthcheck?.hostname && !isFQDN(form?.healthcheck?.hostname)) || methodErr(form?.healthcheck?.method) ) );
+            && ((form?.healthcheck?.hostname && !isFQDN(form?.healthcheck?.hostname))));
 
     const addService = () => {
         setListServices([...listServices, { id: '', weight: '1' }]);
@@ -218,7 +217,7 @@ const CreateEditForm = ({ t }) => {
     };
 
     const altServices = listServices.length > 1 || split ? listServices.map((s, index) =>
-        <section className='addService' key={index}>
+        <section className='addService flex' key={index}>
             <div className='firstField'>
                 <label>{t('service')}</label>
                 <Dropdown selection value={s.id} options={servicesOptions} placeholder='None' style={{ width: '98%' }}
@@ -292,7 +291,7 @@ const CreateEditForm = ({ t }) => {
             />
             <span className='subTitleForm'>{t('traefikTargetPortDescript')}</span>
 
-            <section>
+            <section className='balancer-block'>
                 <label>{t('balancer')}</label>
                     <Dropdown selection clearable value={form.cloud_gateway_id} options={cloudGatewaysOptions} placeholder='None'
                         selectOnBlur={false} onChange={(param, data) => setForm({ ...form, cloud_gateway_id: data.value })} />
@@ -482,21 +481,22 @@ const CreateEditForm = ({ t }) => {
                             style={{ margin: '0px 20px' }}
                         />
                     </div>
-                    <Form.Field
-                        error={methodErr(form.healthcheck.method)}
-                    >
+                    <Form.Field>
                         <div>
                             <label>{t('method')}</label>
                             <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipMethod')} wide='very' />
                         </div>
-                        <Input
+                        <Dropdown selection
                             value={form.healthcheck.method}
+                            options={methodsOptions}
                             placeholder={t('enterMethod')}
-                            onChange={e => setForm({
+                            style={{ width: '100%' }}
+                            selectOnBlur={false}
+                            onChange={(e, data) => setForm({
                                 ...form,
                                 healthcheck: {
                                     ...form.healthcheck,
-                                    method: e.currentTarget.value?.toUpperCase()
+                                    method: data.value
                                 }
                             })}
                         />
