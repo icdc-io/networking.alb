@@ -359,10 +359,12 @@ const CreateEditForm = ({ t }) => {
                             <label>{`${t('scheme')} ${t('optional')}`}</label>
                             <Popup trigger={<Icon name='question circle outline' />} content={t('tooltipScheme')} wide='very' />
                         </div>
-                        <Dropdown selection
+                        <Dropdown
+                            selection
+                            clearable
                             value={form.healthcheck.scheme}
                             options={optionsOfScheme}
-                            placeholder={t('select')}
+                            placeholder={t('scheme')}
                             style={{ width: '100%' }}
                             selectOnBlur={false}
                             onChange={(e, data) => setForm({
