@@ -53,13 +53,19 @@ const WebRoutesDetails = ({ t, history }) => {
                 case 'boolean':
                     input = <Grid.Column as='h5' width={4}>{_.get(data, obj.path) ? t('trueCheck') : t('falseCheck')}</Grid.Column>
                     break;
+                case 'headers':
+                    input = value ? Object.keys(value).map((headerName, key) => <React.Fragment key={key}>
+                        <Grid.Column width={4}>{t([obj.title])} {headerName}</Grid.Column>
+                        <Grid.Column as='h5' width={4}>{value[headerName]}</Grid.Column>
+                    </React.Fragment>) : null;
+                    break;
                 default:
                     input = <Grid.Column as='h5' width={4}>{value ? value : t('none')}</Grid.Column>
                     break;
             }
             return (
                 <Grid.Row key={key} className='web-routes-details-heathcheck-row-style'>
-                    <Grid.Column width={4}>{t([obj.title])}</Grid.Column>
+                    { obj.type !== 'headers' && <Grid.Column width={4}>{t([obj.title])}</Grid.Column> }
                     {input}
                 </Grid.Row>
             )

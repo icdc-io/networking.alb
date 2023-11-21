@@ -4,4 +4,10 @@ export const optionsOfScheme = [
   { key: 'empty', text: 'none', value: '' }
 ];
 
-export const methodOfApi = ['get', 'post', 'put', 'delete', 'head']
+export const methodsOptions = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD'].map(method => (
+  {
+    key: method,
+    text: method,
+    value: method,
+  }
+));
