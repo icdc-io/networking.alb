@@ -65,8 +65,8 @@ const CreateEditCertificate = ({ t, history }) => {
             setCommonName(certificate.name);
 
             setCertificatesData({...certificatesData, 
-                pathCertificate: certificate.values?.cert,
-                textCertificate: certificate.cert_path,
+                pathCertificate: certificate.cert_path,
+                textCertificate: certificate.values?.cert,
                 pathPrivateKey: certificate.key_path,
                 textPrivateKey: certificate.values?.key,
                 pathCaCertificate: certificate.ca_path,
