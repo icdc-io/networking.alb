@@ -241,7 +241,7 @@ const CreateEditForm = ({ t }) => {
         : <section className='addOneService'>
             <div>
                 <label>{t('service')}</label>
-                <Dropdown selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
+                <Dropdown search selection value={listServices[0]?.id} options={servicesOptions} placeholder='None' style={{ width: '100%' }}
                     selectOnBlur={false} onChange={(e, data) => setListServices(listServices.map(el => ({ ...el, id: data.value })))} />
                 <span className='subTitleForm'>{t('altService')}</span>
                 <span className='altServiceControl'>
