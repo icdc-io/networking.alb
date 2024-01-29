@@ -1,5 +1,6 @@
-export const getPublicHostname = (user, vendor) => {
-  const location = user?.location;
+import { returnBaseUrl } from 'container/ReturnBaseUrl';
+
+export const getPublicHostname = (user, baseUrls) => {
   const account = user?.account;
-  return ((location === 'xby') || (location === 'zby')) ? `${account}.alb.${location}.scdc.io` : `${account}.alb.${location}.${vendor}.io`
+  return `${account}.alb.${returnBaseUrl(baseUrls, user.location)}`;
 } 
