@@ -12,6 +12,8 @@ import DeleteModal from './DeleteModal';
 import { withRouter } from 'react-router-dom';
 import WebRoute from '../static/images/webroutes.svg';
 import _ from 'lodash';
+import { returnBaseUrl } from 'container/ReturnBaseUrl';
+
 const ApiButton = React.lazy(() => import('container/ApiButton'));
 const NoContent = React.lazy(() => import('container/NoContent'));
 
@@ -39,7 +41,7 @@ const WebRoutesDetails = ({ t, history }) => {
 
     const protocol = (!route?.insecure && !route?.tls_termination) ? 'http://' : 'https://';
 
-    const computeLink = user.location == 'dby' ? `https://compute-dev.zby.icdc.io` : `https://compute.${user.location}.icdc.io`;
+    const computeLink = `https://compute.${returnBaseUrl(baseUrls, user.location)}`;
 
     const tableRowHealthCheck = (data) =>
         subTitleHealthchek.map((obj, key) => {

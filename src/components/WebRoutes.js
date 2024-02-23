@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import WebRoutesList from './WebRoutesList';
 import { fetchWebRoutes, deleteWebRouteReset, updateWebRouteReset, fetchGateways } from '../AppActions';
 import { PropTypes } from 'prop-types';
-import { copyInfo } from '../utilities/copyInfo';
 import { Grid, Header } from 'semantic-ui-react';
 import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
 import { withRouter } from 'react-router-dom';
-import { getPublicHostname } from '../utilities/getPublicHostname';
+import CopyPublicHostname from './CopyPublicHostname';
 
 const ContentPage = React.lazy(() => import('container/ContentPage'));
 
@@ -15,7 +14,6 @@ const WebRoutes = ({ t, history }) => {
     const routes = useSelector(state => state.BalancerStore.traefikRoutes);
     const routesFetchStatus = useSelector(state => state.BalancerStore.traefikRoutesStatus);
     const user = useSelector(state => state.host.user);
-    const vendor = useSelector(state => state.host.vendor);
 
     const dispatch = useDispatch();
 
@@ -41,7 +39,7 @@ const WebRoutes = ({ t, history }) => {
                         <p>{t('traefikDescriptionOne')}</p>
                         <div className='publicHostname'>
                             <span>{t('publicHostname')}</span>
-                            <span>{getPublicHostname(user,vendor)}{copyInfo(getPublicHostname(user,vendor))}</span>
+                            <CopyPublicHostname />
                         </div>
                         <p>{t('traefikDescriptionTwo')}</p>
                     </div>

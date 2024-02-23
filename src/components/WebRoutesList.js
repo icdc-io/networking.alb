@@ -6,10 +6,10 @@ import OptionsMenu from '../general/optionsMenu';
 import { Link, useParams } from 'react-router-dom';
 import { createroutePath, detailsPath } from '../constants/routes';
 import { onSearch } from '../utilities/search';
-import { copyInfo } from '../utilities/copyInfo';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
-import { getPublicHostname } from '../utilities/getPublicHostname';
+import { returnBaseUrl } from 'container/ReturnBaseUrl';
+import CopyPublicHostname from './CopyPublicHostname';
 
 const ApiButton = React.lazy(() => import('container/ApiButton'));
 
@@ -21,10 +21,9 @@ const WebRoutesList = ({ t, items }) => {
     const baseUrls = useSelector(state => state.host.baseUrls);
     const traefikGateways = useSelector(state => state.BalancerStore.traefikGateways);
     const traefikGatewaysStatus = useSelector(state => state.BalancerStore.traefikGatewaysStatus);
-    const vendor = useSelector(state => state.host.vendor);
 
     const [sortUp, setSortUp] = useState(true);
-    
+
     useEffect(() => {
             setFilteredData([...items].sort((a,b) => sortUp ? a.cloud_gateway_id - b.cloud_gateway_id : b.cloud_gateway_id - a.cloud_gateway_id ))
     }, [sortUp]);
@@ -43,7 +42,7 @@ const WebRoutesList = ({ t, items }) => {
         { title: '' }
     ];
 
-    const computeUrl = user.location == 'dby' ? 'https://compute-dev.zby.icdc.io/ui/service/services/' : `https://compute.${user.location}.icdc.io/ui/service/services/`;
+    const computeUrl = `https://compute.${returnBaseUrl(baseUrls, user.location)}/ui/service/services/`;
 
     const routes = filteredData.map(el => {
         const options = ['edit', 'deleteWebRoutes'];
@@ -113,7 +112,7 @@ const WebRoutesList = ({ t, items }) => {
                 <p >{t('traefikDescriptionOne')}</p>
                 <div className='publicHostname'>
                     <span>{t('publicHostname')}</span>
-                    <span>{getPublicHostname(user,vendor)}{copyInfo(getPublicHostname(user,vendor))}</span>
+                    <CopyPublicHostname />
                 </div>
                 <p>{t('traefikDescriptionTwo')}</p>
             </div>
