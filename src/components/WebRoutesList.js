@@ -5,7 +5,7 @@ import './loadBalancer.scss';
 import OptionsMenu from '../general/optionsMenu';
 import { Link, useParams } from 'react-router-dom';
 import { createroutePath, detailsPath } from '../constants/routes';
-import { onSearch } from '../utilities/search';
+import { onSearch, returnServiceInfo } from '../utilities/search';
 import { useSelector } from 'react-redux';
 import WebRoute from '../static/images/webroutes.svg';
 import { returnBaseUrl } from 'container/ReturnBaseUrl';
@@ -51,7 +51,7 @@ const WebRoutesList = ({ t, items }) => {
                 <a 
                     href={`${computeUrl}${e.ext_id}`}
                     target='_blank'>
-                        {`${e.name} (${e.ext_id})`}
+                        {returnServiceInfo(e)}
                 </a>
                 <br/>
             </div>).slice();
