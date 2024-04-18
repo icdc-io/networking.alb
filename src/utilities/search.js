@@ -11,8 +11,6 @@ const searchInDataStructure = (key, value, searchString) => {
 };
 
 export const onSearch = (array, searchString) => {
-    console.log(array)
-    console.log(searchString)
     if (!searchString) return array;
     return array.filter((item) => Object.keys(item).some(key => (
         item[key] && typeof item[key] !== 'boolean' && !setExceptions(key) && typeof item[key] !== 'number'
