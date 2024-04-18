@@ -220,7 +220,7 @@ const CreateEditForm = ({ t }) => {
         <section className='addService flex' key={index}>
             <div className='firstField'>
                 <label>{t('service')}</label>
-                <Dropdown selection value={s.id} options={servicesOptions} placeholder='None' style={{ width: '98%' }}
+                <Dropdown search selection value={s.id} options={servicesOptions} placeholder='None' style={{ width: '98%' }} selectOnBlur={false}
                     onChange={(e, data) =>
                         setListServices(listServices.map((el, i) => i === index ? ({ ...el, id: data.value }) : ({ ...el })))} />
                 <span className='subTitleForm'>{t('altService')}</span>
