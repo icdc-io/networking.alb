@@ -143,6 +143,10 @@ export const fetchCertificate = (id) => {
     };
 };
 
+export const updateCertificateReset = () => ({
+    type: `${ActionTypes.CERTIFICATE_UPDATE}_RESET`
+});
+
 const createCertificateData = (payload) => ({
     type: ActionTypes.CERTIFICATE_CREATE,
     payload: createData(getFullPath(ActionTypes.CERTIFICATES_FETCH_URL), payload)
@@ -153,6 +157,7 @@ export const createCertificate = (payload) => {
         const response = dispatch(createCertificateData(payload));
 
         response.then(() => {
+            dispatch(updateCertificateReset());
             successNotification('');
         }, error => errorNotification(error));
     };
@@ -175,10 +180,6 @@ export const updateCertificate = (data, certificateId) => {
         });
     };
 };
-
-export const updateCertificateReset = () => ({
-    type: `${ActionTypes.CERTIFICATE_UPDATE}_RESET`
-});
 
 const deleteCertificateAction = (id) => ({
     type: ActionTypes.CERTIFICATE_DELETE,
