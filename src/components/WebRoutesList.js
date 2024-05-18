@@ -128,10 +128,10 @@ const WebRoutesList = ({ t, items }) => {
                     onChange={e => setSearch(e.currentTarget.value)}
                 />
                 <div className='create-route-buttons'>
-                    <ApiButton element='routes'
+                    {!(traefikGateways.length < 1 || traefikGatewaysStatus !== 'fulfilled') && <ApiButton element='routes'
                         item={{ destination: '10.112.0.1/24', nexthop: '0.0.0.0' }}
                         user={user}
-                        locationUrl={baseUrls[user.location]} />
+                        locationUrl={baseUrls[user.location]} />}
                    
                         {traefikGateways.length < 1 || traefikGatewaysStatus !== 'fulfilled' ?
                             <Popup

@@ -20,7 +20,7 @@ const LoadBalancerHeaderContent = ({ t, isNoData, isWebRoutes, title }) => {
         <Grid.Row className="content-page__header" style={isNoData ? { paddingTop: isWebRoutes ? "0px" : "14px" } : {}}>
             <ItemHeader title={isNoData && isWebRoutes ? t("webRoutes") : t(title)} traefik={true} />
             <div className="content-page__header_actions">
-                {isNoData && isWebRoutes && traefikGateways.length > 0 && traefikGatewaysStatus === "fulfilled" && <ApiButton element="routes" item={{ destination: "10.112.0.1/24", nexthop: "0.0.0.0" }} user={user} locationUrl={baseUrls[user.location]} />}
+                {((isNoData && isWebRoutes && traefikGateways.length > 0 && traefikGatewaysStatus === "fulfilled") || (!isWebRoutes && isNoData)) && <ApiButton element={isWebRoutes ? "routes" : "certificates"} item={{ destination: "10.112.0.1/24", nexthop: "0.0.0.0" }} user={user} locationUrl={baseUrls[user.location]} />}
                 {isNoData && isWebRoutes && (traefikGateways.length < 1 || traefikGatewaysStatus !== "fulfilled") && (
                     <Popup
                         on="hover"
@@ -47,7 +47,7 @@ const LoadBalancerHeaderContent = ({ t, isNoData, isWebRoutes, title }) => {
                 )}
                 {isNoData && !isWebRoutes && (
                     <Link to={createCertificatePath(menuGroup)}>
-                        <Button primary size="medium" className="tempButtonforTraefik">
+                        <Button primary size="medium">
                             {t("createCertificate")}
                         </Button>
                     </Link>
