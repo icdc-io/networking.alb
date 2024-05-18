@@ -31,7 +31,7 @@ const WebRoutes = ({ t, history }) => {
     return <>
         { isNoData && (
             <Grid style={{ padding: '0 16px 20px' }}>
-                <Grid.Row className="content-page__header_traefik">
+                <Grid.Row>
                     <Header as='h4' className='webRoutesHeader' content={t('loadBalancer')} />
                 </Grid.Row>
                 <Grid.Row style={{ padding: '0' }}>
