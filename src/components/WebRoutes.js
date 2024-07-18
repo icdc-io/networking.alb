@@ -1,61 +1,77 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import WebRoutesList from './WebRoutesList';
-import { fetchWebRoutes, deleteWebRouteReset, updateWebRouteReset, fetchGateways } from '../AppActions';
-import { PropTypes } from 'prop-types';
-import { Grid, Header } from 'semantic-ui-react';
-import LoadBalancerHeaderContent from './LoadBalancerHeaderContent';
-import { withRouter } from 'react-router-dom';
-import CopyPublicHostname from './CopyPublicHostname';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import WebRoutesList from "./WebRoutesList";
+import {
+  fetchWebRoutes,
+  deleteWebRouteReset,
+  updateWebRouteReset,
+  fetchGateways,
+} from "../AppActions";
+import { Grid, Header } from "semantic-ui-react";
+import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
+import CopyPublicHostname from "./CopyPublicHostname";
+import { useTranslation } from "react-i18next";
 
-const ContentPage = React.lazy(() => import('container/ContentPage'));
+const ContentPage = React.lazy(() => import("container/ContentPage"));
 
-const WebRoutes = ({ t, history }) => {
-    const routes = useSelector(state => state.BalancerStore.traefikRoutes);
-    const routesFetchStatus = useSelector(state => state.BalancerStore.traefikRoutesStatus);
-    const user = useSelector(state => state.host.user);
+const WebRoutes = () => {
+  const { t } = useTranslation();
 
-    const dispatch = useDispatch();
+  const routes = useSelector((state) => state.BalancerStore.traefikRoutes);
+  const routesFetchStatus = useSelector(
+    (state) => state.BalancerStore.traefikRoutesStatus,
+  );
+  const user = useSelector((state) => state.host.user);
 
-    window.goToRootRoute = () => history.push('/load_balancer');
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchWebRoutes());
-        dispatch(deleteWebRouteReset());
-        dispatch(updateWebRouteReset());
-        dispatch(fetchGateways());
-    }, [dispatch, user]);
+  useEffect(() => {
+    dispatch(fetchWebRoutes());
+    dispatch(deleteWebRouteReset());
+    dispatch(updateWebRouteReset());
+    dispatch(fetchGateways());
+  }, [dispatch, user]);
 
-    const isNoData = routes.length < 1;
+  const isNoData = routes.length < 1;
 
-    return <>
-        { isNoData && (
-            <Grid style={{ padding: '0 16px 20px' }}>
-                <Grid.Row>
-                    <Header as='h4' className='webRoutesHeader' content={t('loadBalancer')} />
-                </Grid.Row>
-                <Grid.Row style={{ padding: '0' }}>
-                    <div className='loadBalancerDescription' style={{ margin: '0px' }}>
-                        <p>{t('traefikDescriptionOne')}</p>
-                        <div className='publicHostname'>
-                            <span>{t('publicHostname')}</span>
-                            <CopyPublicHostname />
-                        </div>
-                        <p>{t('traefikDescriptionTwo')}</p>
-                    </div>
-                </Grid.Row>
-            </Grid>
-        )}
-        <ContentPage t={t} statuses={[routesFetchStatus]} pageData={routes} title={'loadBalancer'}
-            componentDataList={WebRoutesList} noContentMessage={'noWebRoutes'}>
-            <LoadBalancerHeaderContent t={t} isNoData={isNoData} isWebRoutes title={'loadBalancer'}/>
-        </ContentPage>
-    </>;
+  return (
+    <>
+      {isNoData && (
+        <Grid style={{ padding: "0 16px 20px" }}>
+          <Grid.Row>
+            <Header
+              as="h4"
+              className="webRoutesHeader"
+              content={t("loadBalancer")}
+            />
+          </Grid.Row>
+          <Grid.Row style={{ padding: "0" }}>
+            <div className="loadBalancerDescription" style={{ margin: "0px" }}>
+              <p>{t("traefikDescriptionOne")}</p>
+              <div className="publicHostname">
+                <span>{t("publicHostname")}</span>
+                <CopyPublicHostname />
+              </div>
+              <p>{t("traefikDescriptionTwo")}</p>
+            </div>
+          </Grid.Row>
+        </Grid>
+      )}
+      <ContentPage
+        statuses={[routesFetchStatus]}
+        pageData={routes}
+        title={"loadBalancer"}
+        componentDataList={WebRoutesList}
+        noContentMessage={"noWebRoutes"}
+      >
+        <LoadBalancerHeaderContent
+          isNoData={isNoData}
+          isWebRoutes
+          title={"loadBalancer"}
+        />
+      </ContentPage>
+    </>
+  );
 };
 
-WebRoutes.propTypes = {
-    t: PropTypes.func,
-    history: PropTypes.any
-};
-
-export default withRouter(WebRoutes);
+export default WebRoutes;

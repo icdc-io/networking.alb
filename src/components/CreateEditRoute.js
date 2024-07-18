@@ -1,33 +1,30 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Grid, Header } from 'semantic-ui-react';
-import { detailsPath, webRoutesPath } from '../constants/routes';
-import ButtonBack from '../general/buttonBack';
-import { PropTypes } from 'prop-types';
-import CreateEditForm from './CreateEditForm';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { Grid, Header } from "semantic-ui-react";
+import { detailsPath, webRoutesPath } from "../constants/routes";
+import ButtonBack from "../general/buttonBack";
+import CreateEditForm from "./CreateEditForm";
+import { useTranslation } from "react-i18next";
 
-const CreateEditRoute = ({ t, history }) => {
-    const { menuGroup, id } = useParams();
+const CreateEditRoute = () => {
+  const { t } = useTranslation();
 
-    window.goToRootRoute = () => history.push('/load_balancer');
+  const { menuGroup, id } = useParams();
 
-    return <>
-        <ButtonBack back={t('back')} path={id ? detailsPath(menuGroup, id) : webRoutesPath(menuGroup)} />
-        <Grid>
-            <Grid.Row className='routeHeader'>
-                <Header as='h2'>
-                    {id ? t('editRoute') : t('createRoute')}
-                </Header>
-            </Grid.Row>
-        </Grid>
-        <CreateEditForm t={t} />
-    </>;
+  return (
+    <>
+      <ButtonBack
+        back={t("back")}
+        path={id ? detailsPath(menuGroup, id) : webRoutesPath(menuGroup)}
+      />
+      <Grid>
+        <Grid.Row className="routeHeader">
+          <Header as="h2">{id ? t("editRoute") : t("createRoute")}</Header>
+        </Grid.Row>
+      </Grid>
+      <CreateEditForm />
+    </>
+  );
 };
 
-CreateEditRoute.propTypes = {
-    t: PropTypes.func,
-    history: PropTypes.any
-};
-
-export default withRouter(CreateEditRoute);
+export default CreateEditRoute;

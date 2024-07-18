@@ -188,7 +188,7 @@
 .close-btn:after {
   position: absolute;
   left: 15px;
-  content: ' ';
+  content: " ";
   height: 25px;
   width: 2px;
   background-color: black;
@@ -248,8 +248,8 @@
   display: flex !important;
   flex-wrap: wrap;
 }
-.web-routes-details-row-style section a{
-margin-right: 4px;
+.web-routes-details-row-style section a {
+  margin-right: 4px;
 }
 .popup-dots {
   cursor: pointer;
@@ -279,7 +279,7 @@ margin-right: 4px;
 .textAreaForCert {
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(34, 36, 38, 0.15); 
+  border: 1px solid rgba(34, 36, 38, 0.15);
   resize: vertical;
 }
 .ipv div.radio label {
@@ -334,8 +334,8 @@ margin-right: 4px;
   padding-bottom: 0px;
 }
 .ui.grid > .row.certificateHeader h2 {
-letter-spacing: 1px;
-font-size: 20px;
+  letter-spacing: 1px;
+  font-size: 20px;
 }
 .loadBalancerDescription {
   font-weight: 500;
@@ -346,14 +346,14 @@ font-size: 20px;
   margin-top: 14px;
   max-width: 800px;
 }
-.loadBalancerDescription p{
-margin: 0px;
+.loadBalancerDescription p {
+  margin: 0px;
 }
 .ui.header.webRoutesHeader {
   font-size: 20px;
   margin: 16px 0;
 }
-.publicHostname{
+.publicHostname {
   font-size: 14px;
   font-weight: 600;
   color: black;
@@ -362,7 +362,7 @@ margin: 0px;
   align-items: center;
 }
 .publicHostname span:last-child {
-  background: #EAEAEA;
+  background: #eaeaea;
   border-radius: 10px;
   height: 30px;
   margin-left: 6px;
@@ -370,36 +370,38 @@ margin: 0px;
   display: flex;
   align-items: center;
 }
-.buttons-wrapper{
+.buttons-wrapper {
   display: flex;
 }
-.certificate-details-header, .web-routes-details-header {
+.certificate-details-header,
+.web-routes-details-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin: 20px 0px;
   align-items: center;
 
-
   .create-route-buttons a {
     margin-right: 10px;
   }
 }
-.certificate-details-header >  .buttons-wrapper, .web-routes-details-header >  .buttons-wrapper {
-margin-right: 5%
+.certificate-details-header > .buttons-wrapper,
+.web-routes-details-header > .buttons-wrapper {
+  margin-right: 5%;
 }
-.web-routes-details-header >  .buttons-wrapper .dropdown-api,
-.web-routes-details-header >  .buttons-wrapper .dropdown-api .api-button,
-.certificate-details-header >  .buttons-wrapper .dropdown-api,
-.certificate-details-header >  .buttons-wrapper .dropdown-api .api-button {
+.web-routes-details-header > .buttons-wrapper .dropdown-api,
+.web-routes-details-header > .buttons-wrapper .dropdown-api .api-button,
+.certificate-details-header > .buttons-wrapper .dropdown-api,
+.certificate-details-header > .buttons-wrapper .dropdown-api .api-button {
   height: 100%;
   margin-left: 5px;
   margin-right: 0;
 }
-.certificate-details-header div.ui.header, .web-routes-details-header div.ui.header {
-display: flex;
-align-items: center;
-margin: 0px;
+.certificate-details-header div.ui.header,
+.web-routes-details-header div.ui.header {
+  display: flex;
+  align-items: center;
+  margin: 0px;
 }
 .cert-details-row {
   margin-left: 16px;
@@ -427,7 +429,7 @@ margin: 0px;
 .ui.grid div.row.cert-details-row-none .cert-details-row:last-child {
   padding-top: 0px;
 }
-.ui.grid>[class*="middle aligned"].row>.column {
+.ui.grid > [class*="middle aligned"].row > .column {
   padding: 32px 0 0;
   white-space: nowrap;
 }
@@ -439,7 +441,9 @@ margin: 0px;
   justify-content: space-between;
 }
 .ui.grid.details-container > .network-delete .column.delete-webroute-action,
-.ui.grid.certificate-details > .network-delete .column.delete-certificate-action {
+.ui.grid.certificate-details
+  > .network-delete
+  .column.delete-certificate-action {
   position: absolute;
   right: 5%;
   padding: 0px;
@@ -447,14 +451,20 @@ margin: 0px;
   height: 36px;
 }
 
-.ui.grid.details-container > .network-delete .column.delete-webroute-action button,
-.ui.grid.certificate-details > .network-delete .column.delete-certificate-action button {
+.ui.grid.details-container
+  > .network-delete
+  .column.delete-webroute-action
+  button,
+.ui.grid.certificate-details
+  > .network-delete
+  .column.delete-certificate-action
+  button {
   position: absolute;
   right: 0px;
 }
 .ui.small.button.delete-route-button {
   font-weight: 700;
-  color: #FF0000;
+  color: #ff0000;
   background-color: #fff;
   margin-right: 14px;
 }
@@ -471,49 +481,48 @@ margin: 0px;
   margin-right: 0.5rem;
 }
 .ui.button > .info-icon {
-  margin: 0px 0px 2px 0px!important;
+  margin: 0px 0px 2px 0px !important;
   position: relative;
 
   &:before {
-      position: absolute;
-      bottom: -2px;
+    position: absolute;
+    bottom: -2px;
   }
 }
 .disabled-btn {
   cursor: default;
-  opacity: .45!important;
-  background-image: none!important;
-  box-shadow: none!important;
-  padding-top: 12px!important;
+  opacity: 0.45 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  padding-top: 12px !important;
 }
 .ui.table thead th.sort-col {
   &:hover {
     cursor: pointer;
   }
- 
 }
 .ui.table thead th.sort-col.ascending::after {
   display: inline-block;
-  content: '\f0d7' !important;
+  content: "\f0d7" !important;
   font-style: normal;
   font-weight: 400;
   text-decoration: inherit;
   height: 1em;
   width: auto;
-  opacity: .8;
+  opacity: 0.8;
   margin: 0 0 0 0.5em;
   font-family: Icons;
 }
 
 .ui.table thead th.sort-col.descending::after {
   display: inline-block;
-  content: '\f0d8' !important;
+  content: "\f0d8" !important;
   font-style: normal;
   font-weight: 400;
   text-decoration: inherit;
   height: 1em;
   width: auto;
-  opacity: .8;
+  opacity: 0.8;
   margin: 0 0 0 0.5em;
   font-family: Icons;
 }
@@ -521,17 +530,17 @@ margin: 0px;
   padding-left: 0px !important;
   width: 80%;
 }
-.health{
-  h5{
+.health {
+  h5 {
     margin-bottom: 0;
   }
-  .health-wrapper{
+  .health-wrapper {
     margin: 25px 0;
   }
-  .health-wrapper > div{
+  .health-wrapper > div {
     margin-bottom: 15px !important;
   }
-  .header-content{
+  .header-content {
     margin-top: 20px;
   }
 }
@@ -542,20 +551,21 @@ margin: 0px;
     gap: 0.5rem;
     flex-wrap: wrap;
     margin-top: 1rem;
-  
+
     .field {
       margin: 0 !important;
     }
-  
-    .field > label, input.hidden+label {
+
+    .field > label,
+    input.hidden + label {
       margin: 0 !important;
     }
-  
+
     i.trash:hover {
       color: initial;
     }
   }
-    
+
   .ui.button.add-header {
     margin-top: 1rem;
   }
