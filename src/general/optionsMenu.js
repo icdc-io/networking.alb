@@ -2,21 +2,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Dropdown } from "semantic-ui-react";
-import { editroutePath, editCertificatePath } from "../constants/routes";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal";
 import { useTranslation } from "react-i18next";
 
 const OptionsMenu = ({ type, instance, options }) => {
   const { t } = useTranslation();
 
-  const { menuGroup } = useParams();
   const actions = {
     certificates: {
       edit: (certificate, key) => (
         <Link
           key={key}
-          to={editCertificatePath(menuGroup, certificate.id)}
+          to={`${certificate.id}/edit`}
           role="option"
           className="item"
         >
@@ -31,7 +29,7 @@ const OptionsMenu = ({ type, instance, options }) => {
       edit: (webRoute, key) => (
         <Link
           key={key}
-          to={editroutePath(menuGroup, webRoute.id)}
+          to={`${webRoute.id}/edit`}
           role="option"
           className="item"
         >

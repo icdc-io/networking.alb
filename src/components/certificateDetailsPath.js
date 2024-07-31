@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Header, Loader } from "semantic-ui-react";
 import ButtonBack from "../general/buttonBack";
 import { fetchCertificate, updateCertificateReset } from "../AppActions";
-import { certificatesPath, editCertificatePath } from "../constants/routes";
+import { certificatesPath } from "../constants/routes";
 import DeleteModal from "./DeleteModal";
 import { Link } from "react-router-dom";
 import CertificateImg from "../static/images/certificate.svg";
@@ -21,7 +21,7 @@ const CertificateDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { menuGroup, id } = useParams();
+  const { id } = useParams();
   const certificate = useSelector((state) => state.BalancerStore.certificate);
   const certificateStatus = useSelector(
     (state) => state.BalancerStore.certificateStatus,
@@ -40,7 +40,7 @@ const CertificateDetails = () => {
   }, [dispatch, id, user]);
 
   if (certificateDeleteStatus === "fulfilled") {
-    return navigate(certificatesPath(menuGroup));
+    return navigate(certificatesPath());
   }
 
   const certificatesData = [
@@ -89,53 +89,52 @@ const CertificateDetails = () => {
 
   if (certificateStatus === "rejected") {
     return <NoContent icon="desktop" textMessage={t("wrong")} />;
-  } else
-    return (
-      <section>
-        <ButtonBack back={t("back")} path={certificatesPath(menuGroup)} />
-        {certificateStatus !== "fulfilled" ||
-        !Object.keys(certificate).length ? (
-          <Loader active inline="centered" />
-        ) : (
-          <>
-            <Grid className="certificate-details">
-              <div className="certificate-details-header">
-                <Header>
-                  <img src={CertificateImg} width="35" />
-                  {certificate.name}
-                </Header>
-                <span>
-                  <div className="create-route-buttons">
-                    <Link to={editCertificatePath(menuGroup, id)}>
-                      <Button basic color="black" size="medium">
-                        {t("edit")}
-                      </Button>
-                    </Link>
-                    <ApiButton
-                      element="certificate"
-                      user={user}
-                      locationUrl={baseUrls[user.location]}
-                    />
-                  </div>
-                </span>
-              </div>
-              {cerificateList}
-              <Grid.Row verticalAlign="middle" className="network-delete">
+  }
+
+  return (
+    <section>
+      <ButtonBack back={t("back")} path={".."} />
+      {certificateStatus !== "fulfilled" || !Object.keys(certificate).length ? (
+        <Loader active inline="centered" />
+      ) : (
+        <>
+          <Grid className="certificate-details">
+            <div className="certificate-details-header">
+              <Header>
                 <div>
-                  <b>{`${t("delete")} ${t("certificate")}`.toUpperCase()}</b>
-                  <p>{t("cannotBeUndone")}</p>
+                  <img src={CertificateImg} width="35" />
                 </div>
-                <DeleteModal
-                  type="certificates"
-                  button
-                  instance={certificate}
-                />
-              </Grid.Row>
-            </Grid>
-          </>
-        )}
-      </section>
-    );
+                &nbsp;&nbsp;
+                {certificate.name}
+              </Header>
+              <span>
+                <div className="create-route-buttons">
+                  <Link to={"edit"}>
+                    <Button basic color="black" size="medium">
+                      {t("edit")}
+                    </Button>
+                  </Link>
+                  <ApiButton
+                    element="certificate"
+                    user={user}
+                    locationUrl={baseUrls[user.location]}
+                  />
+                </div>
+              </span>
+            </div>
+            {cerificateList}
+            <Grid.Row verticalAlign="middle" className="network-delete">
+              <div>
+                <b>{`${t("delete")} ${t("certificate")}`.toUpperCase()}</b>
+                <p>{t("cannotBeUndone")}</p>
+              </div>
+              <DeleteModal type="certificates" button instance={certificate} />
+            </Grid.Row>
+          </Grid>
+        </>
+      )}
+    </section>
+  );
 };
 
 export default CertificateDetails;

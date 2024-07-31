@@ -35,7 +35,7 @@ const CreateEditForm = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { menuGroup, id } = useParams();
+  const { id } = useParams();
   const userEmail = JSON.parse(localStorage.getItem("user")).email;
   const currentRoute = useSelector(
     (state) => state.BalancerStore.traefikRoute.route,
@@ -409,7 +409,7 @@ const CreateEditForm = () => {
     );
 
   if (traefikRouteUpdateStatus === "fulfilled") {
-    return navigate(id ? detailsPath(menuGroup, id) : webRoutesPath(menuGroup));
+    return navigate(id ? detailsPath(id) : webRoutesPath());
   }
 
   return (

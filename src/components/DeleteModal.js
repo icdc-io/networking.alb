@@ -3,7 +3,7 @@ import { Modal, Button, Header, Dropdown, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { deleteCertificate, deleteWebRoute } from "../AppActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { certificatesPath, webRoutesPath } from "../constants/routes";
 import DangerousHTML from "react-dangerous-html";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,6 @@ const DeleteModal = ({ type, instance, icon, button }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
-  const { /*zoneName,*/ menuGroup } = useParams();
   const user = useSelector((state) => state.host.user);
 
   const dispatch = useDispatch();
@@ -25,8 +24,8 @@ const DeleteModal = ({ type, instance, icon, button }) => {
       textOptions: { name: `<b>${instance.name}</b>` },
       deleteAction: useCallback(() => {
         dispatch(deleteCertificate(instance.id));
-        button && navigate(certificatesPath(menuGroup));
-      }, [dispatch, instance.id, button, navigate, menuGroup]),
+        button && navigate(certificatesPath());
+      }, [dispatch, instance.id, button, navigate]),
     },
     webRoutes: {
       item: "delete",
@@ -35,8 +34,8 @@ const DeleteModal = ({ type, instance, icon, button }) => {
       textOptions: { name: `<b>${instance.name}</b>` },
       deleteAction: useCallback(() => {
         dispatch(deleteWebRoute(instance.id));
-        button && navigate.push(webRoutesPath(menuGroup));
-      }, [dispatch, instance.id, button, navigate, menuGroup]),
+        button && navigate.push(webRoutesPath());
+      }, [dispatch, instance.id, button, navigate]),
     },
   };
   const deleteButtonIsAvailable =

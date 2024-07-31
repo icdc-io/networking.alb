@@ -77,12 +77,12 @@ module.exports = {
           requiredVersion: dependencies.react,
           eager: true,
         },
-        // "react-router-dom": {
-        //   singleton: true,
-        //   strictVersion: true,
-        //   requiredVersion: dependencies["react-router-dom"],
-        //   eager: true,
-        // },
+        "react-router-dom": {
+          requiredVersion: dependencies["react-router-dom"],
+          strictVersion: true,
+          singleton: true,
+          eager: true,
+        },
         "react-i18next": {
           singleton: true,
           strictVersion: true,

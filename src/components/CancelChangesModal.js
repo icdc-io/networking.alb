@@ -2,13 +2,12 @@ import React from "react";
 import { Button, Header, Modal } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import "./loadBalancer.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { certificatesPath, webRoutesPath } from "../constants/routes";
 import { useTranslation } from "react-i18next";
 
 const CancelChangesModal = ({ open, setOpen, type }) => {
   const { t } = useTranslation();
-  const { menuGroup } = useParams(); //добавить id если возвращаемся на details страницу
 
   return (
     <Modal
@@ -32,13 +31,7 @@ const CancelChangesModal = ({ open, setOpen, type }) => {
           style={{ marginRight: "10px" }}
           content={t("dismiss")}
         />
-        <Link
-          to={
-            type !== "forRoute"
-              ? certificatesPath(menuGroup)
-              : webRoutesPath(menuGroup)
-          }
-        >
+        <Link to={type !== "forRoute" ? certificatesPath() : webRoutesPath()}>
           <Button primary content={t("yesCancel")} />
         </Link>
       </Modal.Actions>

@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
 import LoadBalancerOverview from "./components/overview";
-import { BrowserRouter } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import { BalancerStore } from "./AppReducer";
-import { Loader } from "semantic-ui-react";
+import { Loader, Segment } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import TabsLayout from "./components/tabsLayout";
+import { certificatesPath, webRoutesPath } from "./constants/routes";
 import "./App.scss";
-
-const Overview = () => {
-  const { i18n } = useTranslation();
-  const lang = useSelector((state) => state.host.lang);
-
-  useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [lang]);
-
-  return (
-    <BrowserRouter basename={window.location.pathname.split("/")[1]}>
-      <LoadBalancerOverview />
-    </BrowserRouter>
-  );
-};
 
 const Balancer = ({ store }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { t } = useTranslation();
+
+  const menuItems = [
+    {
+      name: t("webRoutes"),
+      path: webRoutesPath(),
+    },
+    {
+      name: t("certificates"),
+      path: certificatesPath(),
+    },
+  ];
 
   useEffect(() => {
     store.injectReducer("BalancerStore", BalancerStore);
@@ -33,7 +31,14 @@ const Balancer = ({ store }) => {
 
   return (
     <Provider store={store}>
-      {isLoaded ? <Overview /> : <Loader active inline="centered" />}
+      <TabsLayout menuItems={menuItems} />
+      <Segment attached="bottom">
+        {isLoaded ? (
+          <LoadBalancerOverview />
+        ) : (
+          <Loader active inline="centered" />
+        )}
+      </Segment>
     </Provider>
   );
 };

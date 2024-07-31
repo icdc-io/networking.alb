@@ -4,7 +4,7 @@ import "./loadBalancer.scss";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Loader, Grid, Button, Header } from "semantic-ui-react";
-import { webRoutesPath, editroutePath } from "../constants/routes";
+import { webRoutesPath } from "../constants/routes";
 import { subTitleHealthchek } from "../constants/healthcheck";
 import {
   fetchWebRoute,
@@ -24,7 +24,7 @@ const WebRoutesDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { menuGroup, id } = useParams();
+  const { id } = useParams();
   const route = useSelector((state) => state.BalancerStore.traefikRoute).route;
   const traefikRouteStatus = useSelector(
     (state) => state.BalancerStore.traefikRouteStatus,
@@ -115,7 +115,7 @@ const WebRoutesDetails = () => {
     });
 
   if (traefikRouteDeleteStatus === "fulfilled") {
-    return navigate(webRoutesPath(menuGroup));
+    return navigate(webRoutesPath());
   }
 
   if (traefikRouteStatus === "rejected") {
@@ -123,7 +123,7 @@ const WebRoutesDetails = () => {
   } else
     return (
       <>
-        <ButtonBack back={t("back")} path={webRoutesPath(menuGroup)} />
+        <ButtonBack back={t("back")} path={".."} />
         {traefikRouteStatus !== "fulfilled" || !Object.keys(route).length ? (
           <Loader active inline="centered" />
         ) : (
@@ -134,7 +134,7 @@ const WebRoutesDetails = () => {
                 {route.name}
               </Header>
               <div className="create-route-buttons">
-                <Link to={editroutePath(menuGroup, id)}>
+                <Link to={"edit"}>
                   <Button basic color="black" size="medium">
                     {t("edit")}
                   </Button>

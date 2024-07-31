@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { Input, Table, Button, Header, Popup, Icon } from "semantic-ui-react";
+import { Table, Popup } from "semantic-ui-react";
 import "./loadBalancer.scss";
 import OptionsMenu from "../general/optionsMenu";
-import { Link, useParams } from "react-router-dom";
-import { createroutePath, detailsPath } from "../constants/routes";
+import { Link } from "react-router-dom";
 import { onSearch, returnServiceInfo } from "../utilities/search";
 import { useSelector } from "react-redux";
 import WebRoute from "../static/images/webroutes.svg";
 import { returnBaseUrl } from "container/ReturnBaseUrl";
-import CopyPublicHostname from "./CopyPublicHostname";
 import { useTranslation } from "react-i18next";
 
-const ApiButton = React.lazy(() => import("container/ApiButton"));
-
-const WebRoutesList = ({ items }) => {
+const WebRoutesList = ({ items, search }) => {
   const { t } = useTranslation();
 
-  const { menuGroup } = useParams();
-  const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const user = useSelector((state) => state.host.user);
   const baseUrls = useSelector((state) => state.host.baseUrls);
-  const traefikGateways = useSelector(
-    (state) => state.BalancerStore.traefikGateways,
-  );
-  const traefikGatewaysStatus = useSelector(
-    (state) => state.BalancerStore.traefikGatewaysStatus,
-  );
 
   const [sortUp, setSortUp] = useState(true);
 
@@ -80,7 +68,7 @@ const WebRoutesList = ({ items }) => {
         <Table.Cell width={3}>
           <div className="name-wrapper">
             <img src={WebRoute} width="35" />
-            <Link to={detailsPath(menuGroup, el.id)}>{el.name}</Link>
+            <Link to={`${el.id}`}>{el.name}</Link>
           </div>
         </Table.Cell>
 
@@ -149,67 +137,6 @@ const WebRoutesList = ({ items }) => {
 
   return (
     <section>
-      <div className="loadBalancerDescription">
-        <p>{t("traefikDescriptionOne")}</p>
-        <div className="publicHostname">
-          <span>{t("publicHostname")}</span>
-          <CopyPublicHostname />
-        </div>
-        <p>{t("traefikDescriptionTwo")}</p>
-      </div>
-      <Header as="h4" className="webRoutesHeader" content={t("webRoutes")} />
-
-      <div className="tools">
-        <Input
-          icon="search"
-          iconPosition="left"
-          placeholder={t("searchField")}
-          style={{ width: "250px", margin: "10px 0px 0px 0px" }}
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-        />
-        <div className="create-route-buttons">
-          {!(
-            traefikGateways.length < 1 || traefikGatewaysStatus !== "fulfilled"
-          ) && (
-            <ApiButton
-              element="routes"
-              item={{ destination: "10.112.0.1/24", nexthop: "0.0.0.0" }}
-              user={user}
-              locationUrl={baseUrls[user.location]}
-            />
-          )}
-
-          {traefikGateways.length < 1 ||
-          traefikGatewaysStatus !== "fulfilled" ? (
-            <Popup
-              on="hover"
-              pinned
-              trigger={
-                <Button color="blue" size="small" className="disabled-btn">
-                  {t("createWebRoute")}
-                  <Icon
-                    name="question circle outline"
-                    size="large"
-                    className="info-icon"
-                  />
-                </Button>
-              }
-              inverted
-              className="vpn"
-              position="top right"
-            >
-              {t("balancerPopup")}
-            </Popup>
-          ) : (
-            <Link to={createroutePath(menuGroup)}>
-              <Button primary size="medium" style={{ height: "40px" }}>
-                {t("createWebRoute")}
-              </Button>{" "}
-            </Link>
-          )}
-        </div>
-      </div>
       <div className="table-container">
         <Table basic="very">
           <Table.Header>
@@ -224,6 +151,7 @@ const WebRoutesList = ({ items }) => {
 
 WebRoutesList.propTypes = {
   items: PropTypes.any,
+  search: PropTypes.string,
 };
 
 export default WebRoutesList;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Grid, Button, Popup, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
@@ -12,7 +11,6 @@ const ItemHeader = React.lazy(() => import("container/networking/ItemHeader"));
 
 const LoadBalancerHeaderContent = ({ isNoData, isWebRoutes, title }) => {
   const { t } = useTranslation();
-  const { menuGroup } = useParams();
   const traefikGateways = useSelector(
     (state) => state.BalancerStore.traefikGateways,
   );
@@ -72,7 +70,7 @@ const LoadBalancerHeaderContent = ({ isNoData, isWebRoutes, title }) => {
           isWebRoutes &&
           traefikGateways.length > 0 &&
           traefikGatewaysStatus === "fulfilled" && (
-            <Link to={createroutePath(menuGroup)}>
+            <Link to={createroutePath()}>
               <Button
                 primary
                 size="medium"
@@ -83,7 +81,7 @@ const LoadBalancerHeaderContent = ({ isNoData, isWebRoutes, title }) => {
             </Link>
           )}
         {isNoData && !isWebRoutes && (
-          <Link to={createCertificatePath(menuGroup)}>
+          <Link to={createCertificatePath()}>
             <Button primary size="medium">
               {t("createCertificate")}
             </Button>

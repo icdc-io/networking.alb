@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const ButtonBack = ({ back, path }) => {
   return (
-    <Link to={path}>
+    <Link to={path} relative="path">
       <Button
         className="back back__top"
         labelPosition="left"

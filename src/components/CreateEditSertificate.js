@@ -14,7 +14,7 @@ const CreateEditCertificate = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { menuGroup, id } = useParams();
+  const { id } = useParams();
   let refCertificate = useRef(null);
   const userEmail = JSON.parse(localStorage.getItem("user")).email;
   const certificate = useSelector((state) => state.BalancerStore.certificate);
@@ -51,9 +51,7 @@ const CreateEditCertificate = () => {
     useState(false);
   const [requestBody, setRequestBody] = useState(initialState);
 
-  const pathToRedirect = id
-    ? certificateDetailsPath(menuGroup, id)
-    : certificatesPath(menuGroup);
+  const pathToRedirect = id ? certificateDetailsPath(id) : certificatesPath();
 
   useEffect(() => {
     !id && setRequestBody({ ...requestBody, owner: userEmail });
@@ -226,7 +224,7 @@ const CreateEditCertificate = () => {
 
   return (
     <>
-      <ButtonBack back={t("back")} path={pathToRedirect} />
+      <ButtonBack back={t("back")} path={".."} />
 
       <Grid className="createCertificateForm">
         <Grid.Row className="certificateHeader">

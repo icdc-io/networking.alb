@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CertificatesList from "./CertificatesList";
 import { fetchCertificates } from "../AppActions";
 import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
-
-const ContentPage = React.lazy(() => import("container/ContentPage"));
+import { Loader } from "semantic-ui-react";
 
 const Certificates = () => {
   const certificates = useSelector((state) => state.BalancerStore.certificates);
@@ -16,22 +15,23 @@ const Certificates = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     Object.keys(user).length !== 0 && dispatch(fetchCertificates());
-  }, [dispatch, user.role, user.location, user.account, user]);
+  }, [dispatch, user.role, user.location, user.account]);
 
-  return (
-    <ContentPage
-      statuses={[certificatesFetchStatus]}
-      pageData={certificates}
-      title={"certificates"}
-      componentDataList={CertificatesList}
-      noContentMessage={"noCertificates"}
-      traefik
-    >
-      <LoadBalancerHeaderContent
-        isNoData={certificates.length < 1}
-        title={"certificates"}
-      />
-    </ContentPage>
+  const isError = certificatesFetchStatus === "rejected";
+
+  const isLoading =
+    certificatesFetchStatus === "pending" || !certificatesFetchStatus;
+
+  const isNoData = certificates.length < 1;
+
+  return isError ? (
+    "Error"
+  ) : isLoading ? (
+    <Loader active inline="centered" />
+  ) : isNoData ? (
+    <LoadBalancerHeaderContent isNoData={isNoData} title={"certificates"} />
+  ) : (
+    <CertificatesList items={certificates} />
   );
 };
 

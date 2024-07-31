@@ -1,7 +1,5 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Segment } from "semantic-ui-react";
-import TabsLayout from "./tabsLayout";
 import {
   certificatesPath,
   webRoutesPath,
@@ -12,7 +10,6 @@ import {
   certificateDetailsPath,
   detailsPath,
 } from "../constants/routes";
-import { useTranslation } from "react-i18next";
 
 const WebRoutes = React.lazy(() => import("./WebRoutes"));
 const Certificates = React.lazy(() => import("./Certificates"));
@@ -59,36 +56,15 @@ const routes = [
 ];
 
 const LoadBalancerOverview = () => {
-  const { t } = useTranslation();
-
-  const menuItems = [
-    {
-      name: t("webRoutes"),
-      path: webRoutesPath("load_balancer"),
-      Component: WebRoutes,
-    },
-    {
-      name: t("certificates"),
-      path: certificatesPath("load_balancer"),
-      Component: Certificates,
-    },
-  ];
-
   return (
-    <>
-      <TabsLayout menuItems={menuItems} />
-      <Segment attached="bottom">
-        <Routes>
-          {routes.map((routeInfo, key) => (
-            <Route key={key} exact {...routeInfo} />
-          ))}
-          <Route
-            path="*"
-            element={<Navigate to={menuItems[0].path} replace />}
-          />
-        </Routes>
-      </Segment>
-    </>
+    <React.Suspense fallback={null}>
+      <Routes>
+        {routes.map((routeInfo, key) => (
+          <Route key={key} exact {...routeInfo} />
+        ))}
+        <Route path="*" element={<Navigate to={webRoutesPath()} replace />} />
+      </Routes>
+    </React.Suspense>
   );
 };
 
