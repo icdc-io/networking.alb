@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import {
   certificatesPath,
   webRoutesPath,
@@ -10,6 +10,9 @@ import {
   certificateDetailsPath,
   detailsPath,
 } from "../constants/routes";
+import { useTranslation } from "react-i18next";
+import TabsLayout from "./tabsLayout";
+import { Segment } from "semantic-ui-react";
 
 const WebRoutes = React.lazy(() => import("./WebRoutes"));
 const Certificates = React.lazy(() => import("./Certificates"));
@@ -55,14 +58,45 @@ const routes = [
   },
 ];
 
+const RootElement = () => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const isRootBalancerPath =
+    location.pathname.split("/").filter((route) => route).length < 3;
+
+  if (isRootBalancerPath) return <Navigate to={webRoutesPath()} replace />;
+
+  const menuItems = [
+    {
+      name: t("webRoutes"),
+      path: webRoutesPath(),
+    },
+    {
+      name: t("certificates"),
+      path: certificatesPath(),
+    },
+  ];
+
+  return (
+    <>
+      <TabsLayout menuItems={menuItems} />
+      <Segment attached="bottom">
+        <Outlet />
+      </Segment>
+    </>
+  );
+};
+
 const LoadBalancerOverview = () => {
   return (
     <React.Suspense fallback={null}>
       <Routes>
-        {routes.map((routeInfo, key) => (
-          <Route key={key} exact {...routeInfo} />
-        ))}
-        <Route path="*" element={<Navigate to={webRoutesPath()} replace />} />
+        <Route path="/" Component={RootElement}>
+          {routes.map((routeInfo, key) => (
+            <Route key={key} {...routeInfo} />
+          ))}
+          <Route path="*" element={<Navigate to={webRoutesPath()} replace />} />
+        </Route>
       </Routes>
     </React.Suspense>
   );
