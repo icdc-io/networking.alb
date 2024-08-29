@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import LoadBalancerOverview from "./components/overview";
-import { Provider } from "react-redux";
 import { BalancerStore } from "./AppReducer";
 import { Loader } from "semantic-ui-react";
 import PropTypes from "prop-types";
@@ -15,14 +14,10 @@ const Balancer = ({ store }) => {
     setIsLoaded(true);
   }, []);
 
-  return (
-    <Provider store={store}>
-      {isLoaded ? (
-        <LoadBalancerOverview />
-      ) : (
-        <Loader active inline="centered" />
-      )}
-    </Provider>
+  return isLoaded ? (
+    <LoadBalancerOverview />
+  ) : (
+    <Loader active inline="centered" />
   );
 };
 
