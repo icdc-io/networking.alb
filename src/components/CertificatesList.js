@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { Input, Table, Button } from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { Button, Input, Table } from "semantic-ui-react";
 import "./loadBalancer.scss";
-import OptionsMenu from "../general/optionsMenu";
-import { Link } from "react-router-dom";
-import { onSearch } from "../utilities/search";
-import { useSelector } from "react-redux";
-import CertificateImg from "../static/images/certificate.svg";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import OptionsMenu from "../general/optionsMenu";
+import CertificateImg from "../static/images/certificate.svg";
+import { onSearch } from "../utilities/search";
 const ApiButton = React.lazy(() => import("container/ApiButton"));
 
 const CertificatesList = ({ items }) => {
@@ -28,7 +28,7 @@ const CertificatesList = ({ items }) => {
       <Table.Row key={el.id}>
         <Table.Cell textAlign="left">
           <div className="name-wrapper">
-            <img src={CertificateImg} width="35" />
+            <img src={CertificateImg} width="35" alt="Certificate" />
             <Link to={`${el.id}`}>{el.name}</Link>
           </div>
         </Table.Cell>

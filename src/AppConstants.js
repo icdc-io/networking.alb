@@ -1,8 +1,8 @@
 export const WEB_ROUTES_FETCH = "WEB_ROUTES_FETCH";
 export const WEB_ROUTE_FETCH = "WEB_ROUTE_FETCH";
 export const WEB_ROUTES_SERVICES_FETCH = "WEB_ROUTES_SERVICES_FETCH";
-export const WEB_ROUTES_FETCH_URL = `/routes`;
-export const WEB_ROUTES_SERVICES_FETCH_URL = `/services`;
+export const WEB_ROUTES_FETCH_URL = "/routes";
+export const WEB_ROUTES_SERVICES_FETCH_URL = "/services";
 export const WEB_ROUTE_DELETE = "WEB_ROUTE_DELETE";
 export const WEB_ROUTE_DELETE_RESET = "WEB_ROUTE_DELETE_RESET";
 export const WEB_ROUTE_CREATE = "WEB_ROUTE_CREATE";
@@ -16,7 +16,7 @@ export const WEB_ROUTES_GATEWAYS_FETCH_URL = "/gateways";
 export const CERTIFICATES_FETCH = "CERTIFICATES__FETCH";
 export const CERTIFICATE_FETCH = "CERTIFICATE__FETCH";
 export const CERTIFICATE_DELETE_RESET = "CERTIFICATE_DELETE_RESET";
-export const CERTIFICATES_FETCH_URL = `/certificates`;
+export const CERTIFICATES_FETCH_URL = "/certificates";
 export const CERTIFICATE_DELETE = "CERTIFICATES__DELETE";
 export const CERTIFICATE_CREATE = "CERTIFICATES__CREATE";
 export const CERTIFICATE_UPDATE = "CERTIFICATE_UPDATE";
@@ -31,7 +31,8 @@ export const notificationMessages = {
     routerNotExist: "Сетевого маршрутизатора с таким ID не существует",
     unauthorized: "Пользователь не авторизирован",
     // removalProcessStarted: 'Процесс удаления запущен',
-    cannotDeleteGroupWithAssignedVmsNics: `Невозможно удалить группу безопасности с назначенными NICs`,
+    cannotDeleteGroupWithAssignedVmsNics:
+      "Невозможно удалить группу безопасности с назначенными NICs",
     ruleAlreadyExists: "Правило уже существует",
   },
   en: {

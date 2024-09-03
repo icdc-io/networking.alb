@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
 import ButtonBack from "../general/buttonBack";
 import "./loadBalancer.scss";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { Loader, Grid, Button, Header } from "semantic-ui-react";
-import { webRoutesPath } from "../constants/routes";
-import { subTitleHealthchek } from "../constants/healthcheck";
+import { returnBaseUrl } from "container/ReturnBaseUrl";
+import _ from "lodash";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Grid, Header, Loader } from "semantic-ui-react";
 import {
+  fetchCertificate,
   fetchWebRoute,
   updateWebRouteReset,
-  fetchCertificate,
 } from "../AppActions";
-import DeleteModal from "./DeleteModal";
+import { subTitleHealthchek } from "../constants/healthcheck";
+import { webRoutesPath } from "../constants/routes";
 import WebRoute from "../static/images/webroutes.svg";
-import _ from "lodash";
-import { returnBaseUrl } from "container/ReturnBaseUrl";
-import { useTranslation } from "react-i18next";
+import DeleteModal from "./DeleteModal";
 
 const ApiButton = React.lazy(() => import("container/ApiButton"));
 const NoContent = React.lazy(() => import("container/NoContent"));
@@ -57,7 +57,7 @@ const WebRoutesDetails = () => {
   const tableRowHealthCheck = (data) =>
     subTitleHealthchek.map((obj, key) => {
       let input = {};
-      let value = _.get(data, obj.path, null);
+      const value = _.get(data, obj.path, null);
 
       switch (obj.type) {
         case "url":
@@ -105,7 +105,7 @@ const WebRoutesDetails = () => {
           break;
       }
       return obj.type === "headers" ? (
-        <>{input}</>
+        input
       ) : (
         <Grid.Row key={key} className="web-routes-details-heathcheck-row-style">
           <Grid.Column width={4}>{t([obj.title])}</Grid.Column>
@@ -120,128 +120,128 @@ const WebRoutesDetails = () => {
 
   if (traefikRouteStatus === "rejected") {
     return <NoContent icon="desktop" textMessage={t("wrong")} />;
-  } else
-    return (
-      <>
-        <ButtonBack back={t("back")} path={".."} />
-        {traefikRouteStatus !== "fulfilled" || !Object.keys(route).length ? (
-          <Loader active inline="centered" />
-        ) : (
-          <Grid className="details-container">
-            <div className="web-routes-details-header">
-              <Header>
-                <img src={WebRoute} width="41" />
-                {route.name}
-              </Header>
-              <div className="create-route-buttons">
-                <Link to={"edit"}>
-                  <Button basic color="black" size="medium">
-                    {t("edit")}
-                  </Button>
-                </Link>
-                <ApiButton
-                  element="routesId"
-                  user={user}
-                  locationUrl={baseUrls[user.location]}
-                />
-              </div>
-            </div>
-            <Header as="h3" style={{ marginTop: "12px" }}>
-              {t("details")}
+  }
+  return (
+    <>
+      <ButtonBack back={t("back")} path={".."} />
+      {traefikRouteStatus !== "fulfilled" || !Object.keys(route).length ? (
+        <Loader active inline="centered" />
+      ) : (
+        <Grid className="details-container">
+          <div className="web-routes-details-header">
+            <Header>
+              <img src={WebRoute} width="41" alt="WebRoute" />
+              {route.name}
             </Header>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("hostname")}</Grid.Column>
-              <Grid.Column width={4}>
-                <Header style={{ margin: "0px" }}>
-                  <a href={`${protocol}${route.hostname}`} target="blank">
-                    {route.hostname}
-                  </a>
-                </Header>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("balancer")}</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.cloud_gateway_id === ""
-                  ? t("none")
-                  : `${route.cloud_gateway.cloudgw_instance} (${route.cloud_gateway.name})`}
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("path")}</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.path === "" ? t("none") : route.path}
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("service")}</Grid.Column>
-              <Grid.Column as="section" width={8}>
-                {route.services.length > 0
-                  ? route.services.map((el, i) => (
-                      <a
-                        key={i}
-                        href={`${computeLink}/ui/service/services/${el.ext_id}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {`${el.name} (${el.ext_id})${i != route.services.length - 1 ? "," : ""}`}
-                      </a>
-                    ))
-                  : t("none")}
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("targetPort")}</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.target_port}
-              </Grid.Column>
-            </Grid.Row>
+            <div className="create-route-buttons">
+              <Link to={"edit"}>
+                <Button basic color="black" size="medium">
+                  {t("edit")}
+                </Button>
+              </Link>
+              <ApiButton
+                element="routesId"
+                user={user}
+                locationUrl={baseUrls[user.location]}
+              />
+            </div>
+          </div>
+          <Header as="h3" style={{ marginTop: "12px" }}>
+            {t("details")}
+          </Header>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("hostname")}</Grid.Column>
+            <Grid.Column width={4}>
+              <Header style={{ margin: "0px" }}>
+                <a href={`${protocol}${route.hostname}`} target="blank">
+                  {route.hostname}
+                </a>
+              </Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("balancer")}</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.cloud_gateway_id === ""
+                ? t("none")
+                : `${route.cloud_gateway.cloudgw_instance} (${route.cloud_gateway.name})`}
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("path")}</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.path === "" ? t("none") : route.path}
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("service")}</Grid.Column>
+            <Grid.Column as="section" width={8}>
+              {route.services.length > 0
+                ? route.services.map((el, i) => (
+                    <a
+                      key={i}
+                      href={`${computeLink}/ui/service/services/${el.ext_id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {`${el.name} (${el.ext_id})${i !== route.services.length - 1 ? "," : ""}`}
+                    </a>
+                  ))
+                : t("none")}
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("targetPort")}</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.target_port}
+            </Grid.Column>
+          </Grid.Row>
 
-            {route.healthcheck_enabled && (
-              <>
-                <Header as="h3">{t("healthCheck")}</Header>
-                {tableRowHealthCheck(route)}
-              </>
-            )}
+          {route.healthcheck_enabled && (
+            <>
+              <Header as="h3">{t("healthCheck")}</Header>
+              {tableRowHealthCheck(route)}
+            </>
+          )}
 
-            <Header as="h3">{t("tlcSetting")}</Header>
-            {!route.tls_termination && (
-              <Grid.Row>
-                <Grid.Column>{t("tlsNotEnabled")}</Grid.Column>
-              </Grid.Row>
-            )}
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("tlsType")}:</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.tls_termination ? route.tls_termination : t("none")}
-              </Grid.Column>
+          <Header as="h3">{t("tlcSetting")}</Header>
+          {!route.tls_termination && (
+            <Grid.Row>
+              <Grid.Column>{t("tlsNotEnabled")}</Grid.Column>
             </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("insecureTraffic")}:</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.insecure === null ? t("none") : route.insecure}
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="web-routes-details-row-style">
-              <Grid.Column width={4}>{t("certificate")}:</Grid.Column>
-              <Grid.Column as="h5" width={4}>
-                {route.certificate_id === null ? t("none") : certificate.name}
-              </Grid.Column>
-            </Grid.Row>
+          )}
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("tlsType")}:</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.tls_termination ? route.tls_termination : t("none")}
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("insecureTraffic")}:</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.insecure === null ? t("none") : route.insecure}
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row className="web-routes-details-row-style">
+            <Grid.Column width={4}>{t("certificate")}:</Grid.Column>
+            <Grid.Column as="h5" width={4}>
+              {route.certificate_id === null ? t("none") : certificate.name}
+            </Grid.Column>
+          </Grid.Row>
 
-            <Grid.Row verticalAlign="middle" className="network-delete">
-              <div>
-                <b>{`${t("delete")} ${t("webRoutes")}`.toUpperCase()}</b>
-                <p>{t("cannotBeUndone")}</p>
-              </div>
-              <div className="delete-webroute-action">
-                <DeleteModal type="webRoutes" button instance={route} />
-              </div>
-            </Grid.Row>
-          </Grid>
-        )}
-      </>
-    );
+          <Grid.Row verticalAlign="middle" className="network-delete">
+            <div>
+              <b>{`${t("delete")} ${t("webRoutes")}`.toUpperCase()}</b>
+              <p>{t("cannotBeUndone")}</p>
+            </div>
+            <div className="delete-webroute-action">
+              <DeleteModal type="webRoutes" button instance={route} />
+            </div>
+          </Grid.Row>
+        </Grid>
+      )}
+    </>
+  );
 };
 
 export default WebRoutesDetails;

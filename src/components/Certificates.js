@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import CertificatesList from "./CertificatesList";
-import { fetchCertificates } from "../AppActions";
-import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
+import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "semantic-ui-react";
+import { fetchCertificates } from "../AppActions";
+import CertificatesList from "./CertificatesList";
+import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
 
 const Certificates = () => {
   const certificates = useSelector((state) => state.BalancerStore.certificates);

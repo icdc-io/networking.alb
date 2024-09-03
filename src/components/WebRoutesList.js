@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { Table, Popup } from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { Popup, Table } from "semantic-ui-react";
 import "./loadBalancer.scss";
-import OptionsMenu from "../general/optionsMenu";
-import { Link } from "react-router-dom";
-import { onSearch, returnServiceInfo } from "../utilities/search";
-import { useSelector } from "react-redux";
-import WebRoute from "../static/images/webroutes.svg";
 import { returnBaseUrl } from "container/ReturnBaseUrl";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import OptionsMenu from "../general/optionsMenu";
+import WebRoute from "../static/images/webroutes.svg";
+import { onSearch, returnServiceInfo } from "../utilities/search";
 
 const WebRoutesList = ({ items, search }) => {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ const WebRoutesList = ({ items, search }) => {
       <Table.Row key={el.id}>
         <Table.Cell width={3}>
           <div className="name-wrapper">
-            <img src={WebRoute} width="35" />
+            <img src={WebRoute} width="35" alt="WebRoute" />
             <Link to={`${el.id}`}>{el.name}</Link>
           </div>
         </Table.Cell>
@@ -122,7 +122,7 @@ const WebRoutesList = ({ items, search }) => {
   });
 
   const headers = headerRow.map((el, index) => {
-    if (index == 5) {
+    if (index === 5) {
       return (
         <Table.HeaderCell
           className={`sort-col ${sortUp ? "ascending" : "descending"}`}
@@ -132,7 +132,8 @@ const WebRoutesList = ({ items, search }) => {
           {el.title}
         </Table.HeaderCell>
       );
-    } else return <Table.HeaderCell key={index}>{el.title}</Table.HeaderCell>;
+    }
+    return <Table.HeaderCell key={index}>{el.title}</Table.HeaderCell>;
   });
 
   return (

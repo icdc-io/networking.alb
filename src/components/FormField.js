@@ -1,6 +1,6 @@
+import { PropTypes } from "prop-types";
 import React from "react";
 import { Form, Input } from "semantic-ui-react";
-import { PropTypes } from "prop-types";
 
 const FormField = ({
   label,

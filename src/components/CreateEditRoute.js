@@ -1,10 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { Grid, Header } from "semantic-ui-react";
 // import { detailsPath, webRoutesPath } from "../constants/routes";
 import ButtonBack from "../general/buttonBack";
 import CreateEditForm from "./CreateEditForm";
-import { useTranslation } from "react-i18next";
 
 const CreateEditRoute = () => {
   const { t } = useTranslation();

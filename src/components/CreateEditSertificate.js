@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Grid, Header, Input, TextArea } from "semantic-ui-react";
-import { useParams, useNavigate } from "react-router-dom";
+import { createCertificate, updateCertificate } from "../AppActions";
 import { certificateDetailsPath, certificatesPath } from "../constants/routes";
 import ButtonBack from "../general/buttonBack";
 import CancelChangesModal from "./CancelChangesModal";
-import { useSelector, useDispatch } from "react-redux";
-import { createCertificate, updateCertificate } from "../AppActions";
-import { useTranslation } from "react-i18next";
 import "./loadBalancer.scss";
 
 const CreateEditCertificate = () => {
@@ -15,7 +15,7 @@ const CreateEditCertificate = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  let refCertificate = useRef(null);
+  const refCertificate = useRef(null);
   const userEmail = JSON.parse(localStorage.getItem("user")).email;
   const certificate = useSelector((state) => state.BalancerStore.certificate);
   const certificateUpdateStatus = useSelector(
@@ -94,10 +94,10 @@ const CreateEditCertificate = () => {
 
   const handleFile = (e, path, text, action) => {
     e.preventDefault();
-    let data =
+    const data =
       action === "drop" ? e.dataTransfer : e.currentTarget.value.split("\\");
-    let file = action === "drop" ? data.files[0] : e.target.files[0];
-    let reader = new FileReader();
+    const file = action === "drop" ? data.files[0] : e.target.files[0];
+    const reader = new FileReader();
     if (file) {
       reader.readAsText(file);
       reader.onloadend = () => {

@@ -1,18 +1,18 @@
 import React from "react";
-import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import {
-  certificatesPath,
-  webRoutesPath,
-  createroutePath,
-  editroutePath,
-  createCertificatePath,
-  editCertificatePath,
-  certificateDetailsPath,
-  detailsPath,
-} from "../constants/routes";
 import { useTranslation } from "react-i18next";
-import TabsLayout from "./tabsLayout";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Segment } from "semantic-ui-react";
+import {
+  certificateDetailsPath,
+  certificatesPath,
+  createCertificatePath,
+  createroutePath,
+  detailsPath,
+  editCertificatePath,
+  editroutePath,
+  webRoutesPath,
+} from "../constants/routes";
+import TabsLayout from "./tabsLayout";
 
 const WebRoutes = React.lazy(() => import("./WebRoutes"));
 const Certificates = React.lazy(() => import("./Certificates"));

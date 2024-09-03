@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
+import React, { useEffect, useState } from "react";
 import {
   Button,
-  Header,
-  Input,
   Checkbox,
   Dropdown,
   Form,
-  Radio,
-  Popup,
+  Header,
   Icon,
+  Input,
+  Popup,
+  Radio,
 } from "semantic-ui-react";
 import "./loadBalancer.scss";
-import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import CancelChangesModal from "./CancelChangesModal";
+import { useNavigate, useParams } from "react-router-dom";
+import isFQDN from "validator/lib/isFQDN";
 import {
   createWebRouteData,
   fetchCertificates,
+  fetchGateways,
   fetchWebRoute,
+  fetchWebRoutesService,
   updateWebRoute,
   updateWebRouteReset,
-  fetchWebRoutesService,
-  fetchGateways,
 } from "../AppActions";
-import FormField from "./FormField";
+import { methodsOptions, optionsOfScheme } from "../constants/options";
 import { detailsPath, webRoutesPath } from "../constants/routes";
-import { optionsOfScheme, methodsOptions } from "../constants/options";
-import isFQDN from "validator/lib/isFQDN";
+import CancelChangesModal from "./CancelChangesModal";
+import FormField from "./FormField";
 import HeadersFormSection from "./HeadersFormSection";
-import { useTranslation } from "react-i18next";
 
 const CreateEditForm = () => {
   const { t } = useTranslation();
@@ -60,7 +60,7 @@ const CreateEditForm = () => {
 
   const [isOpenCancelChangesModal, setIsOpenCancelChangesModal] =
     useState(false);
-  let state = {
+  const state = {
     /* eslint camelcase: 0 */
     name: "",
     hostname: "",
@@ -88,7 +88,7 @@ const CreateEditForm = () => {
       follow_redirects: true,
     },
   };
-  let initialServices = [{ id: "" }];
+  const initialServices = [{ id: "" }];
 
   const [form, setForm] = useState(state);
   const [split, setSplit] = useState(false);
@@ -120,15 +120,13 @@ const CreateEditForm = () => {
   }));
 
   //field validations
-  const portValidation = new RegExp(
-    "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$",
-  );
-  const weightValidation = new RegExp("^(100|[1-9][0-9]?)$");
-  let targetPortErr =
+  const portValidation =
+    /^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/;
+  const weightValidation = /^(100|[1-9][0-9]?)$/;
+  const targetPortErr = !!(
     !portValidation.test(form.target_port) && form.target_port !== ""
-      ? true
-      : false;
-  let weightErr = (weight) => (!weightValidation.test(weight) ? true : false);
+  );
+  const weightErr = (weight) => !weightValidation.test(weight);
 
   useEffect(() => {
     setListServices(initialServices);

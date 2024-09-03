@@ -1,10 +1,10 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, Header, Modal } from "semantic-ui-react";
-import PropTypes from "prop-types";
 import "./loadBalancer.scss";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { certificatesPath, webRoutesPath } from "../constants/routes";
-import { useTranslation } from "react-i18next";
 
 const CancelChangesModal = ({ open, setOpen, type }) => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ const CancelChangesModal = ({ open, setOpen, type }) => {
       className="cancelChangesModal"
     >
       <Modal.Content>
-        <div className="close-btn" onClick={() => setOpen(false)}></div>
+        <div className="close-btn" onClick={() => setOpen(false)} />
         <Header as="h2" style={{ margin: "auto 0 23px 0" }}>
           {t("cancelChanges")}
         </Header>

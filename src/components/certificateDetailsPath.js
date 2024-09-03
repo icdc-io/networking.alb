@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { Button, Grid, Header, Loader } from "semantic-ui-react";
-import ButtonBack from "../general/buttonBack";
 import { fetchCertificate, updateCertificateReset } from "../AppActions";
 import { certificatesPath } from "../constants/routes";
-import DeleteModal from "./DeleteModal";
-import { Link } from "react-router-dom";
+import ButtonBack from "../general/buttonBack";
 import CertificateImg from "../static/images/certificate.svg";
-import { useTranslation } from "react-i18next";
+import DeleteModal from "./DeleteModal";
 import "./loadBalancer.scss";
 
 const ApiButton = React.lazy(() => import("container/ApiButton"));
@@ -102,7 +102,7 @@ const CertificateDetails = () => {
             <div className="certificate-details-header">
               <Header>
                 <div>
-                  <img src={CertificateImg} width="35" />
+                  <img src={CertificateImg} width="35" alt="Certificate" />
                 </div>
                 &nbsp;&nbsp;
                 {certificate.name}

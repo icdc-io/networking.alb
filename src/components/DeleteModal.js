@@ -1,12 +1,12 @@
-import React, { useState, useCallback } from "react";
-import { Modal, Button, Header, Dropdown, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import { deleteCertificate, deleteWebRoute } from "../AppActions";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { certificatesPath, webRoutesPath } from "../constants/routes";
+import React, { useState, useCallback } from "react";
 import DangerousHTML from "react-dangerous-html";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Button, Dropdown, Header, Icon, Modal } from "semantic-ui-react";
+import { deleteCertificate, deleteWebRoute } from "../AppActions";
+import { certificatesPath, webRoutesPath } from "../constants/routes";
 
 const DeleteModal = ({ type, instance, icon, button }) => {
   const { t } = useTranslation();

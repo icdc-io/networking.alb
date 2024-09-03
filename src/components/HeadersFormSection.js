@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import { PropTypes } from "prop-types";
-import { Button, Popup, Icon } from "semantic-ui-react";
-import FormField from "./FormField";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Button, Icon, Popup } from "semantic-ui-react";
+import FormField from "./FormField";
 
 const HeadersFormSection = ({ headers, setHeaders }) => {
   const { t } = useTranslation();
