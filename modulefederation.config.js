@@ -3,10 +3,10 @@ const { dependencies } = require("./package.json");
 const isEnvProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-  name: "load_balancer",
+  name: "loadbalancer",
   filename: "remoteEntry.js",
   exposes: {
-    "./load_balancer": "./src/balancer.jsx",
+    "./loadbalancer": "./src/balancer.jsx",
   },
   remotes: {
     container: isEnvProduction
