@@ -1,14 +1,569 @@
-.content-page__header_actions {
-  display: flex;
+.networking_balancer {
+  .content-page__header_actions {
+    display: flex;
+  }
+  
+  .ui.primary.button.tempButtonforTraefik {
+    display: flex;
+    align-items: center;
+    margin: 2px 6px 0px 0px;
+  }
+  
+  .ui.grid > .row.routeHeader h2.create-route__title {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .ui.sortable.table thead th {
+    border-left: none;
+  }
+  .tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 10px 0px 20px 0px;
+  }
+  .tools input {
+    max-width: 250px;
+  }
+  
+  .subTitleForm {
+    font-size: 13px;
+    color: #757575;
+    margin-bottom: 10px;
+  }
+  .ui.grid > .row.certificateHeaderDescription {
+    font-size: 13px;
+    color: #757575;
+    padding: 5px 0px;
+  }
+  .inputPath {
+    width: 100%;
+    margin-top: 0px;
+    background: #f7f7f7;
+  }
+  .ui.grid.createCertificateForm {
+    padding: 0 20px;
+    margin-top: 20px;
+  
+    .inputs-wrapper {
+      padding: 0;
+      width: 100%;
+    }
+  }
+  .ui.grid.createCertificateForm > .row {
+    padding-top: 0px;
+  }
+  .ui.grid.certificate-details > .row {
+    padding-top: 0px;
+  }
+  .footer {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 30px 0px;
+  }
+  .ui.grid > .dragArea {
+    width: 80%;
+    padding-left: 0px;
+  }
+  
+  .ui.grid > .dragArea input:focus {
+    background-color: white;
+  }
+  .keyOfCertificate {
+    color: #5a91a3;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 15px;
+    font-family: monospace;
+  }
+  .headerKeyOfCertificate {
+    display: flex;
+    justify-content: space-between;
+  }
+  .controlPanel {
+    max-width: 700px;
+  }
+  .certificate-details-header {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin: 20px 0px;
+    align-items: center;
+    margin-top: 3rem;
+  }
+  .certificate-details-header div.ui.header {
+    height: 10px;
+  }
+  .certDetailsRow {
+    margin-left: 16px;
+  }
+  .certDetailsRow table {
+    max-width: 700px;
+    height: 100px;
+    border-radius: 5px;
+  }
+  .altServices {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  .altServices .firstField {
+    width: 40%;
+  }
+  .altServices .secondField {
+    width: 58%;
+  }
+  .altServiceControl {
+    font-size: 13px;
+    color: #757575;
+    display: flex;
+    margin: 2px 0px 0px -5px;
+  }
+  .altServiceControl p {
+    color: #0066ff;
+    cursor: pointer;
+    margin: 0px 5px;
+  }
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    margin-right: 160px;
+  }
+  .addService {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .addService div {
+    display: flex;
+    flex-direction: column;
+  }
+  .addService .firstField {
+    flex-basis: 260px;
+    flex-grow: 1;
+  }
+  .addService .secondField {
+    flex-basis: 360px;
+    flex-grow: 1;
+  }
+  .addService .secondField .field {
+    margin: 0px;
+  }
+  .addService .firstField label,
+  .addService .secondField label,
+  .ui.form.formContainer .field > label,
+  .addOneService label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 10px 0px 5px 0px;
+    letter-spacing: 0.01em;
+  }
+  .marks {
+    height: 6px;
+    width: 100%;
+    display: flex;
+    padding: 0px 6px 0px 6px;
+    margin: -6px 0px 5px 0px;
+  }
+  .marks div:first-child {
+    border-left: 1px solid #b8bbbe;
+  }
+  .marks div {
+    border-right: 1px solid #b8bbbe;
+    width: 25%;
+  }
+  .rangeValues {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+  }
+  .formActions {
+    display: flex;
+    margin: 10px -5px 10px 10px;
+    justify-content: flex-end;
+  }
+  .created {
+    color: #767676;
+    margin-left: 5px;
+    margin-top: auto;
+  }
+  
+  .subtitle {
+    color: #767676;
+  }
+  .status {
+    font-size: 16px;
+    margin: 4px 0 0 16px;
+  }
+  .web-routes-details-header {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin: 10px 0px;
+  }
+  // .details-сontainer {
+  //   max-width: 700px;
+  // }
+  .ui.grid.details-сontainer {
+    margin-bottom: 10%;
+  }
+  .ui.grid.details-сontainer > .row {
+    padding: 5px;
+  }
+  .web-routes-details-header span:first-child {
+    // display: flex;
+    margin-top: 10px;
+  }
+  .web-routes-details-row-style {
+    padding: 0 5px 10px !important;
+  
+    &:nth-child(12) {
+      margin-bottom: 2rem;
+    }
+  }
+  .web-routes-details-heathcheck-row-style {
+    padding: 0 5px 10px !important;
+  }
+  .td-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .ui.popup.popup-window {
+    max-width: max-content;
+  }
+  .web-routes-details-row-style section {
+    font-weight: 700;
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+  .web-routes-details-row-style section a {
+    margin-right: 4px;
+  }
+  .popup-dots {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    background: #ededed;
+    border-radius: 2px;
+    color: #6a6a6a;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-left: 4px;
+  }
+  .ui.tiny.modal.deleteModalTraefik {
+    width: 420px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .ui.modal > .deleteModalTraefikControl {
+    background: none;
+  }
+  
+  .textAreaForCert {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    resize: vertical;
+  }
+  .ipv div.radio label {
+    font-weight: normal;
+  }
+  .ipv div.ui.radio.checkbox label {
+    padding-left: 20px;
+  }
+  .ui.very.basic.table.bordered {
+    border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+    border-top: 1px solid rgba(34, 36, 38, 0.1);
+  }
+  .routeBlock {
+    border-radius: 6px;
+    padding: 14px;
+    background: #f5f5f5;
+    margin-bottom: 10px;
+  }
+  .routeBlock label {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 10px 0px 5px 0px;
+    letter-spacing: 0.01em;
+  }
+  .routeBlock .balancer-block {
+    display: flex;
+    flex-direction: column;
+  }
+  .routeBlock section .subTitleForm {
+    margin: 4px 0px 0px 0px;
+  }
+  .formContainer h4.ui.header {
+    font-size: 17px;
+    line-height: 20px;
+    font-style: normal;
+    font-weight: normal;
+  }
+  .routeBlockColumn {
+    display: flex;
+    flex-direction: column;
+  }
+  .ui.grid > .row.routeHeader {
+    padding: 0px 16px 16px 16px;
+  }
+  .ui.grid > .row.routeHeader h2 {
+    margin: 0 0 10px 0px;
+    font-size: 20px;
+  }
+  .ui.grid > .row.certificateHeader {
+    padding-bottom: 0px;
+  }
+  .ui.grid > .row.certificateHeader h2 {
+    letter-spacing: 1px;
+    font-size: 20px;
+  }
+  .loadBalancerDescription {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.01em;
+    color: #969696;
+    margin-top: 14px;
+    max-width: 800px;
+  }
+  .loadBalancerDescription p {
+    margin: 0px;
+  }
+  .ui.header.webRoutesHeader {
+    font-size: 20px;
+    margin: 16px 0;
+  }
+  .publicHostname {
+    font-size: 14px;
+    font-weight: 600;
+    color: black;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .publicHostname span:last-child {
+    background: #eaeaea;
+    border-radius: 10px;
+    height: 30px;
+    margin-left: 6px;
+    padding-left: 0 6px 0 12px;
+    display: flex;
+    align-items: center;
+  }
+  .buttons-wrapper {
+    display: flex;
+  }
+  .certificate-details-header,
+  .web-routes-details-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 40px 0px 20px;
+    align-items: center;
+  
+    .create-route-buttons a {
+      margin-right: 10px;
+    }
+  }
+  .certificate-details-header > .buttons-wrapper,
+  .web-routes-details-header > .buttons-wrapper {
+    margin-right: 5%;
+  }
+  .web-routes-details-header > .buttons-wrapper .dropdown-api,
+  .web-routes-details-header > .buttons-wrapper .dropdown-api .api-button,
+  .certificate-details-header > .buttons-wrapper .dropdown-api,
+  .certificate-details-header > .buttons-wrapper .dropdown-api .api-button {
+    height: 100%;
+    margin-left: 5px;
+    margin-right: 0;
+  }
+  .certificate-details-header div.ui.header,
+  .web-routes-details-header div.ui.header {
+    display: flex;
+    align-items: center;
+    margin: 0px;
+  }
+  .cert-details-row {
+    margin-left: 16px;
+    padding: 8px 0px;
+  }
+  .cert-details-row table {
+    max-width: 700px;
+    height: 100px;
+    border-radius: 5px;
+  }
+  .display-certificate {
+    word-break: break-all;
+    width: 700px;
+    height: 130px;
+  }
+  .display-certificate div pre {
+    height: 75px;
+    box-sizing: inherit;
+  }
+  .ui.grid div.row.cert-details-row-none {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0px;
+  }
+  .ui.grid div.row.cert-details-row-none .cert-details-row:last-child {
+    padding-top: 0px;
+  }
+  .ui.grid > [class*="middle aligned"].row > .column {
+    padding: 32px 0 0;
+    white-space: nowrap;
+  }
+  .ui.grid.details-container > .network-delete,
+  .ui.grid.certificate-details > .network-delete {
+    padding: 2rem 0;
+    margin-right: 0px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ui.grid.details-container > .network-delete .column.delete-webroute-action,
+  .ui.grid.certificate-details
+    > .network-delete
+    .column.delete-certificate-action {
+    position: absolute;
+    right: 5%;
+    padding: 0px;
+    width: 80px;
+    height: 36px;
+  }
+  
+  .ui.grid.details-container
+    > .network-delete
+    .column.delete-webroute-action
+    button,
+  .ui.grid.certificate-details
+    > .network-delete
+    .column.delete-certificate-action
+    button {
+    position: absolute;
+    right: 0px;
+  }
+  .ui.small.button.delete-route-button {
+    font-weight: 700;
+    color: #ff0000;
+    background-color: #fff;
+    margin-right: 14px;
+  }
+  .create-route-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .name-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .name-wrapper img {
+    margin-right: 0.5rem;
+  }
+  .ui.button > .info-icon {
+    margin: 0px 0px 2px 0px !important;
+    position: relative;
+  
+    &:before {
+      position: absolute;
+      bottom: -2px;
+    }
+  }
+  .disabled-btn {
+    cursor: default;
+    opacity: 0.45 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    padding-top: 12px !important;
+  }
+  .ui.table thead th.sort-col {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .ui.table thead th.sort-col.ascending::after {
+    display: inline-block;
+    content: "\f0d7" !important;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    height: 1em;
+    width: auto;
+    opacity: 0.8;
+    margin: 0 0 0 0.5em;
+    font-family: Icons;
+  }
+  
+  .ui.table thead th.sort-col.descending::after {
+    display: inline-block;
+    content: "\f0d8" !important;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    height: 1em;
+    width: auto;
+    opacity: 0.8;
+    margin: 0 0 0 0.5em;
+    font-family: Icons;
+  }
+  .fields-wrapper {
+    padding-left: 0px !important;
+    width: 80%;
+  }
+  .health {
+    h5 {
+      margin-bottom: 0;
+    }
+    .health-wrapper {
+      margin: 25px 0;
+    }
+    .health-wrapper > div {
+      margin-bottom: 15px !important;
+    }
+    .header-content {
+      margin-top: 20px;
+    }
+  }
+  .headers-inputs {
+    .headers-inputs__content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+  
+      .field {
+        margin: 0 !important;
+      }
+  
+      .field > label,
+      input.hidden + label {
+        margin: 0 !important;
+      }
+  
+      i.trash:hover {
+        color: initial;
+      }
+    }
+  
+    .ui.button.add-header {
+      margin-top: 1rem;
+    }
+  }
 }
 
-.ui.primary.button.tempButtonforTraefik {
-  display: flex;
-  align-items: center;
-  margin: 2px 6px 0px 0px;
-}
-
-.ui.grid > .row.routeHeader h2.create-route__title {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+.ui.cancelChangesModal {
+  width: 520px;
 }

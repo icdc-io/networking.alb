@@ -9,7 +9,6 @@ import { certificatesPath } from "../constants/routes";
 import ButtonBack from "../general/buttonBack";
 import CertificateImg from "../static/images/certificate.svg";
 import DeleteModal from "./DeleteModal";
-import "./loadBalancer.scss";
 
 const ApiButton = React.lazy(() => import("container/ApiButton"));
 const NoContent = React.lazy(() => import("container/networking/NoContent"));

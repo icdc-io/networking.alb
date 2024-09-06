@@ -89,16 +89,21 @@ const RootElement = () => {
 
 const LoadBalancerOverview = () => {
   return (
-    <React.Suspense fallback={null}>
-      <Routes>
-        <Route path="/" Component={RootElement}>
-          {routes.map((routeInfo, key) => (
-            <Route key={key} {...routeInfo} />
-          ))}
-          <Route path="*" element={<Navigate to={webRoutesPath()} replace />} />
-        </Route>
-      </Routes>
-    </React.Suspense>
+    <div className="networking_balancer">
+      <React.Suspense fallback={null}>
+        <Routes>
+          <Route path="/" Component={RootElement}>
+            {routes.map((routeInfo, key) => (
+              <Route key={key} {...routeInfo} />
+            ))}
+            <Route
+              path="*"
+              element={<Navigate to={webRoutesPath()} replace />}
+            />
+          </Route>
+        </Routes>
+      </React.Suspense>
+    </div>
   );
 };
 

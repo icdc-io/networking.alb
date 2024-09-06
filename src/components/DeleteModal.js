@@ -95,7 +95,13 @@ const DeleteModal = ({ type, instance, icon, button }) => {
     (user.role === "admin" || deleteButtonIsAvailable) && (
       <>
         {buttonModal}
-        <Modal open={isVisible} size="mini" onClick={closeModal} closeIcon>
+        <Modal
+          className="networking_balancer_modal"
+          open={isVisible}
+          size="mini"
+          onClick={closeModal}
+          closeIcon
+        >
           <Header as="h3" content={t(types[type].header)} />
           <Modal.Content
             content={modalText(

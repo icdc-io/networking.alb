@@ -1,11 +1,10 @@
+import { returnBaseUrl } from "container/ReturnBaseUrl";
 import { PropTypes } from "prop-types";
 import React, { useEffect, useState } from "react";
-import { Popup, Table } from "semantic-ui-react";
-import "./loadBalancer.scss";
-import { returnBaseUrl } from "container/ReturnBaseUrl";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Popup, Table } from "semantic-ui-react";
 import OptionsMenu from "../general/optionsMenu";
 import WebRoute from "../static/images/webroutes.svg";
 import { onSearch, returnServiceInfo } from "../utilities/search";

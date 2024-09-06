@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Header, Modal } from "semantic-ui-react";
-import "./loadBalancer.scss";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { Button, Header, Modal } from "semantic-ui-react";
 import { certificatesPath, webRoutesPath } from "../constants/routes";
 
 const CancelChangesModal = ({ open, setOpen, type }) => {
@@ -15,7 +14,7 @@ const CancelChangesModal = ({ open, setOpen, type }) => {
       onOpen={() => setOpen(true)}
       open={open}
       size="tiny"
-      className="cancelChangesModal"
+      className="cancelChangesModal networking_balancer_modal"
     >
       <Modal.Content>
         <div className="close-btn" onClick={() => setOpen(false)} />

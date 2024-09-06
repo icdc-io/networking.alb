@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import ButtonBack from "../general/buttonBack";
-import "./loadBalancer.scss";
 import { returnBaseUrl } from "container/ReturnBaseUrl";
 import _ from "lodash";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -14,6 +12,7 @@ import {
 } from "../AppActions";
 import { subTitleHealthchek } from "../constants/healthcheck";
 import { webRoutesPath } from "../constants/routes";
+import ButtonBack from "../general/buttonBack";
 import WebRoute from "../static/images/webroutes.svg";
 import DeleteModal from "./DeleteModal";
 

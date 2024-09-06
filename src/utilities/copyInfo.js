@@ -14,6 +14,7 @@ export const copyInfo = (value) => {
           className="reset-button"
           onClick={() => navigator.clipboard.writeText(value)}
         >
+          &nbsp;
           <Icon name="copy outline" />
         </button>
       }

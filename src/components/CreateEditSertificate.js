@@ -8,7 +8,6 @@ import { createCertificate, updateCertificate } from "../AppActions";
 import { certificateDetailsPath, certificatesPath } from "../constants/routes";
 import ButtonBack from "../general/buttonBack";
 import CancelChangesModal from "./CancelChangesModal";
-import "./loadBalancer.scss";
 
 const CreateEditCertificate = () => {
   const { t } = useTranslation();

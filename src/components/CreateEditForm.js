@@ -1,5 +1,8 @@
 import { PropTypes } from "prop-types";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -11,10 +14,6 @@ import {
   Popup,
   Radio,
 } from "semantic-ui-react";
-import "./loadBalancer.scss";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import isFQDN from "validator/lib/isFQDN";
 import {
   createWebRouteData,
