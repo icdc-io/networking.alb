@@ -54,7 +54,6 @@ const CertificatesList = ({ items }) => {
           <React.Suspense fallback={null}>
             <ApiButton
               element="certificates"
-              item={{ destination: "10.112.0.1/24", nexthop: "0.0.0.0" }}
               user={user}
               locationUrl={baseUrls[user.location]}
             />
