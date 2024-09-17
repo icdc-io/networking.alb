@@ -1,8 +1,10 @@
 import { PropTypes } from "prop-types";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Icon, Popup } from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 import FormField from "./FormField";
+
+const Popup = React.lazy(() => import("container/Popup"));
 
 const HeadersFormSection = ({ headers, setHeaders }) => {
   const { t } = useTranslation();
@@ -47,11 +49,11 @@ const HeadersFormSection = ({ headers, setHeaders }) => {
     <div className="headers-inputs">
       <div className="header-content">
         <label>{`${t("headers")} ${t("optional")}`}</label>
-        <Popup
-          trigger={<Icon name="question circle outline" />}
-          content={t("tooltipHeaders")}
-          wide="very"
-        />
+        <Popup content={t("tooltipHeaders")}>
+          <button type="button">
+            <Icon name="question circle outline" />
+          </button>
+        </Popup>
       </div>
       {headersKeysInputs.map((_, key) => (
         <div className="headers-inputs__content" key={key}>

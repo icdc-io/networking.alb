@@ -11,7 +11,6 @@ import {
   Header,
   Icon,
   Input,
-  Popup,
   Radio,
 } from "semantic-ui-react";
 import isFQDN from "validator/lib/isFQDN";
@@ -25,10 +24,11 @@ import {
   updateWebRouteReset,
 } from "../AppActions";
 import { methodsOptions, optionsOfScheme } from "../constants/options";
-import { detailsPath, webRoutesPath } from "../constants/routes";
 import CancelChangesModal from "./CancelChangesModal";
 import FormField from "./FormField";
 import HeadersFormSection from "./HeadersFormSection";
+
+const Popup = React.lazy(() => import("container/Popup"));
 
 const CreateEditForm = () => {
   const { t } = useTranslation();
@@ -406,7 +406,7 @@ const CreateEditForm = () => {
     );
 
   if (traefikRouteUpdateStatus === "fulfilled") {
-    return navigate(id ? detailsPath(id) : webRoutesPath());
+    return navigate(-1);
   }
 
   return (
@@ -516,11 +516,11 @@ const CreateEditForm = () => {
               <Form.Field>
                 <div>
                   <label>{`${t("path")} ${t("optional")}`}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipPath")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipPath")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Input
                   value={form.healthcheck.path}
@@ -539,11 +539,11 @@ const CreateEditForm = () => {
               <div>
                 <div>
                   <label>{`${t("scheme")} ${t("optional")}`}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipScheme")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipScheme")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Dropdown
                   selection
@@ -574,11 +574,11 @@ const CreateEditForm = () => {
               >
                 <div>
                   <label>{`${t("hostname")} ${t("optional")}`}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipHostName")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipHostName")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Input
                   type="text"
@@ -598,11 +598,11 @@ const CreateEditForm = () => {
               <Form.Field>
                 <div>
                   <label>{`${t("port")} ${t("optional")}`}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipPort")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipPort")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Input
                   value={form.healthcheck.port}
@@ -621,11 +621,11 @@ const CreateEditForm = () => {
               <Form.Field>
                 <div>
                   <label>{t("intervalSec")}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipInterval")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipInterval")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Input
                   value={form.healthcheck.interval}
@@ -644,11 +644,11 @@ const CreateEditForm = () => {
               <Form.Field>
                 <div>
                   <label>{t("timeout")}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipTimeout")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipTimeout")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Input
                   value={form.healthcheck.timeout}
@@ -679,11 +679,11 @@ const CreateEditForm = () => {
               <div>
                 <div>
                   <label>{t("followRedirects")}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipFollowRedirect")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipFollowRedirect")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Radio
                   label={t("trueCheck")}
@@ -716,11 +716,11 @@ const CreateEditForm = () => {
               <Form.Field>
                 <div>
                   <label>{t("method")}</label>
-                  <Popup
-                    trigger={<Icon name="question circle outline" />}
-                    content={t("tooltipMethod")}
-                    wide="very"
-                  />
+                  <Popup content={t("tooltipMethod")}>
+                    <button type="button">
+                      <Icon name="question circle outline" />
+                    </button>
+                  </Popup>
                 </div>
                 <Dropdown
                   selection

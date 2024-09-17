@@ -50,8 +50,6 @@ const CreateEditCertificate = () => {
     useState(false);
   const [requestBody, setRequestBody] = useState(initialState);
 
-  const pathToRedirect = id ? certificateDetailsPath(id) : certificatesPath();
-
   useEffect(() => {
     !id && setRequestBody({ ...requestBody, owner: userEmail });
   }, [id, userEmail]);
@@ -218,7 +216,7 @@ const CreateEditCertificate = () => {
   });
 
   if (certificateUpdateStatus === "fulfilled") {
-    return navigate(pathToRedirect);
+    return navigate(-1);
   }
 
   return (

@@ -41,14 +41,23 @@ const errorHandler = (error) => {
     ].cannotDeleteGroupWithAssignedVmsNics;
   }
 
-  return "";
+  return error;
 };
 
-const errorNotification = (error) => {
-  const errorTypeCheck = error instanceof Object ? error.message : error;
+const errorNotification = (errorResponse) => {
+  const errorInfo = errorResponse.response.data.data;
+  const errorTypeCheck =
+    errorInfo instanceof Object ? errorInfo.message : errorInfo;
   toast.error(
-    ActionTypes.notificationMessages[localStorage.getItem("icdc-lang") || "en"]
-      .error + errorHandler(errorTypeCheck),
+    <b>
+      {
+        ActionTypes.notificationMessages[
+          localStorage.getItem("icdc-lang") || "en"
+        ].error
+      }
+      <br />
+      {errorHandler(errorTypeCheck)}
+    </b>,
     notificationOptions,
   );
 };

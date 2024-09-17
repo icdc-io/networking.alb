@@ -13,6 +13,7 @@ const Certificates = () => {
   const user = useSelector((state) => state.host.user);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     Object.keys(user).length !== 0 && dispatch(fetchCertificates());
   }, [dispatch, user.role, user.location, user.account]);

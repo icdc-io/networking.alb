@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Header, Icon, Input, Loader, Popup } from "semantic-ui-react";
+import { Button, Header, Icon, Input, Loader } from "semantic-ui-react";
 import {
   deleteWebRouteReset,
   fetchGateways,
@@ -14,6 +14,7 @@ import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
 import WebRoutesList from "./WebRoutesList";
 
 const ApiButton = React.lazy(() => import("container/ApiButton"));
+const Popup = React.lazy(() => import("container/Popup"));
 
 const WebRoutes = () => {
   const { t } = useTranslation();
@@ -92,24 +93,18 @@ const WebRoutes = () => {
 
               {traefikGateways.length < 1 ||
               traefikGatewaysStatus !== "fulfilled" ? (
-                <Popup
-                  on="hover"
-                  pinned
-                  trigger={
-                    <Button color="blue" size="small" className="disabled-btn">
-                      {t("createWebRoute")}
-                      <Icon
-                        name="question circle outline"
-                        size="large"
-                        className="info-icon"
-                      />
-                    </Button>
-                  }
-                  inverted
-                  className="vpn"
-                  position="top right"
-                >
-                  {t("balancerPopup")}
+                <Popup content={t("balancerPopup")} className="vpn">
+                  <button
+                    className="ui blue small button primary disabled-btn"
+                    type="button"
+                  >
+                    {t("createWebRoute")}
+                    <Icon
+                      name="question circle outline"
+                      size="large"
+                      className="info-icon"
+                    />
+                  </button>
                 </Popup>
               ) : (
                 <Link to={"create"}>

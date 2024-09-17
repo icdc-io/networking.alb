@@ -3,11 +3,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Grid, Icon, Popup } from "semantic-ui-react";
+import { Button, Grid, Icon } from "semantic-ui-react";
 import { createCertificatePath, createroutePath } from "../constants/routes";
 const ApiButton = React.lazy(() => import("container/ApiButton"));
 
 const ItemHeader = React.lazy(() => import("container/networking/ItemHeader"));
+const Popup = React.lazy(() => import("container/Popup"));
 
 const LoadBalancerHeaderContent = ({ isNoData, isWebRoutes, title }) => {
   const { t } = useTranslation();
@@ -45,24 +46,18 @@ const LoadBalancerHeaderContent = ({ isNoData, isWebRoutes, title }) => {
           isWebRoutes &&
           (traefikGateways.length < 1 ||
             traefikGatewaysStatus !== "fulfilled") && (
-            <Popup
-              on="hover"
-              pinned
-              trigger={
-                <Button className="disabled-btn" primary size="medium">
-                  {t("createWebRoute")}
-                  <Icon
-                    name="question circle outline"
-                    size="large"
-                    className="info-icon"
-                  />
-                </Button>
-              }
-              inverted
-              className="vpn"
-              position="top right"
-            >
-              {t("balancerPopup")}
+            <Popup content={t("balancerPopup")} align="start">
+              <button
+                className="ui blue medium button primary disabled-btn"
+                type="button"
+              >
+                {t("createWebRoute")}
+                <Icon
+                  name="question circle outline"
+                  size="large"
+                  className="info-icon"
+                />
+              </button>
             </Popup>
           )}
         {isNoData &&
