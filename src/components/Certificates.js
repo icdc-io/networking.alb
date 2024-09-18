@@ -4,6 +4,7 @@ import { Loader } from "semantic-ui-react";
 import { fetchCertificates } from "../AppActions";
 import CertificatesList from "./CertificatesList";
 import LoadBalancerHeaderContent from "./LoadBalancerHeaderContent";
+const ErrorScreen = React.lazy(() => import("container/ErrorScreen"));
 
 const Certificates = () => {
   const certificates = useSelector((state) => state.BalancerStore.certificates);
@@ -26,7 +27,7 @@ const Certificates = () => {
   const isNoData = certificates.length < 1;
 
   return isError ? (
-    "Error"
+    <ErrorScreen />
   ) : isLoading ? (
     <Loader active inline="centered" />
   ) : isNoData ? (

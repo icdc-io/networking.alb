@@ -15,6 +15,7 @@ import WebRoutesList from "./WebRoutesList";
 
 const ApiButton = React.lazy(() => import("container/ApiButton"));
 const Popup = React.lazy(() => import("container/Popup"));
+const ErrorScreen = React.lazy(() => import("container/ErrorScreen"));
 
 const WebRoutes = () => {
   const { t } = useTranslation();
@@ -62,7 +63,7 @@ const WebRoutes = () => {
       </div>
       <Header as="h4" className="webRoutesHeader" content={t("webRoutes")} />
       {isError ? (
-        "Error"
+        <ErrorScreen />
       ) : isLoading ? (
         <Loader active inline="centered" />
       ) : isNoData ? (
