@@ -1,41 +1,53 @@
 {
-  "name": "icdc-networking-loadbalancer",
-  "version": "1.0.0",
-  "author": "icdc",
-  "description": "Networking Loadbalancer remote app",
-  "main": "balancer.jsx",
-  "repository": {
-    "type": "git",
-    "url": "https://code.icz.icdc.io/icdc/networking/loadbalancer"
-  },
-  "scripts": {
-    "build": "rsbuild build",
-    "check": "biome check --write",
-    "dev": "rsbuild dev --open",
-    "format": "biome format --write",
-    "preview": "rsbuild preview"
-  },
-  "keywords": [],
-  "license": "ISC",
-  "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
-    "@module-federation/enhanced": "^0.6.0",
-    "@rsbuild/core": "1.0.1-rc.3",
-    "@rsbuild/plugin-react": "1.0.1-rc.3",
-    "@rsbuild/plugin-sass": "^1.0.1-rc.3",
-    "dotenv-webpack": "^8.1.0",
-    "lefthook": "^1.7.15",
-    "redux-logger": "^3.0.6"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dangerous-html": "^1.0.0",
-    "react-i18next": "^14.1.2",
-    "react-redux": "^9.1.0",
-    "react-router-dom": "^6.22.1",
-    "seamless-immutable": "^7.1.4",
-    "semantic-ui-react": "^2.1.5",
-    "sonner": "^1.4.0",
-    "validator": "^13.9.0"
-  }
+	"name": "icdc-networking-loadbalancer",
+	"version": "1.0.0",
+	"author": "icdc",
+	"description": "Networking Loadbalancer remote app",
+	"main": "balancer.jsx",
+	"repository": {
+		"type": "git",
+		"url": "https://code.icz.icdc.io/icdc/networking/loadbalancer"
+	},
+	"scripts": {
+		"build": "rsbuild build",
+		"check": "biome check --write",
+		"dev": "rsbuild dev --open",
+		"format": "biome format --write",
+		"preview": "rsbuild preview",
+		"create-api-schema": "node generate-types.js"
+	},
+	"keywords": [],
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
+		"@module-federation/enhanced": "^0.6.0",
+		"@rsbuild/core": "^1.2.7",
+		"@rsbuild/plugin-react": "^1.1.0",
+		"@rsbuild/plugin-sass": "^1.2.1",
+		"@types/dotenv-webpack": "^7.0.7",
+		"@types/node": "^22.7.4",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@types/validator": "^13.12.2",
+		"dotenv-webpack": "^8.1.0",
+		"lefthook": "^1.7.15",
+		"openapi-typescript": "^7.4.1",
+		"redux-logger": "^3.0.6",
+		"typescript": "^5.6.2",
+		"typescript-plugin-css-modules": "^5.1.0"
+	},
+	"dependencies": {
+		"@tanstack/react-query": "^5.66.9",
+		"lucide-react": "^0.447.0",
+		"react": "^18.2.0",
+		"react-dangerous-html": "^1.0.0",
+		"react-hook-form": "^7.54.2",
+		"react-i18next": "^14.1.2",
+		"react-redux": "^9.1.0",
+		"react-router-dom": "^6.22.1",
+		"seamless-immutable": "^7.1.4",
+		"semantic-ui-react": "^2.1.5",
+		"validator": "^13.9.0",
+		"zod": "^3.24.2"
+	}
 }
