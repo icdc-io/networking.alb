@@ -58,7 +58,6 @@ const routes = [
 ];
 
 const LoadBalancerOverview = () => {
-	console.log("qqqqqqq");
 	return (
 		<div className="networking_balancer h-full">
 			<React.Suspense fallback={null}>

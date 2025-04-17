@@ -17,8 +17,6 @@ const WebRoutes = () => {
 	const { data: routes = [], isError, isFetching, refetch } = getRoutesList();
 	const [search, setSearch] = useState("");
 
-	console.log(routes);
-
 	return (
 		<>
 			<h3>{t("loadBalancer")}</h3>

@@ -28,7 +28,6 @@ function CancelChangesModal(
 
 	useImperativeHandle(ref, () => ({
 		handleClick: () => {
-			console.log("eeeeeeeee");
 			setOpen(true);
 		},
 	}));

@@ -2,6 +2,7 @@ import { getFullPath } from "@/AppConstants";
 import { webRouteUrl } from "@/AppConstants";
 import type { WebRoute } from "@/entities/WebRoute";
 import { useMutateData } from "container/Api";
+import OptionsMenu from "container/OptionsMenu";
 import Popup from "container/Popup";
 import { useAppSelector } from "container/ReduxActions";
 import { returnBaseUrl } from "container/ReturnBaseUrl";
@@ -16,7 +17,6 @@ import {
 import { type FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import OptionsMenu from "../general/optionsMenu";
 import WebRouteIcon from "../static/images/webroutes.svg";
 import { returnServiceInfo } from "../utilities/search";
 import DeleteModal, { type ModalRef } from "./DeleteModal";
@@ -68,16 +68,14 @@ const WebRoutesList: FC<WebRoutesList> = ({ items, refetch }) => {
 			))
 			.slice();
 
-	const onEdit =
-		(instance: WebRoute) => (_e: React.MouseEvent<HTMLDivElement>) =>
-			navigate(`${instance.id}/edit`);
+	const onEdit = (instance: WebRoute) => (_e: Event) =>
+		navigate(`${instance.id}/edit`);
 
-	const onDelete =
-		(instance: WebRoute) => (_e: React.MouseEvent<HTMLDivElement>) => {
-			if (ref.current) {
-				ref.current.handleClick(instance);
-			}
-		};
+	const onDelete = (instance: WebRoute) => (_e: Event) => {
+		if (ref.current) {
+			ref.current.handleClick(instance);
+		}
+	};
 
 	const options = [
 		{

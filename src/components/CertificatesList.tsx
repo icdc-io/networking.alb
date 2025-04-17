@@ -2,11 +2,11 @@ import { getFullPath } from "@/AppConstants";
 import { certificateUrl } from "@/AppConstants";
 import type { Certificate } from "@/entities/Certificate";
 import { useMutateData } from "container/Api";
+import OptionsMenu from "container/OptionsMenu";
 import { Table, TableBody, TableCell, TableRow } from "container/Table";
 import { type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import OptionsMenu from "../general/optionsMenu";
 import CertificateImg from "../static/images/certificate.svg";
 import DeleteModal, { type ModalRef } from "./DeleteModal";
 
@@ -28,16 +28,14 @@ const CertificatesList: FC<CertificatesList> = ({ items, refetch }) => {
 	const ref = useRef<ModalRef<Instance>>(null);
 	const { t } = useTranslation();
 
-	const onEdit =
-		(instance: CertificateInstance) => (_e: React.MouseEvent<HTMLDivElement>) =>
-			navigate(`${instance.id}/edit`);
+	const onEdit = (instance: CertificateInstance) => (_e: Event) =>
+		navigate(`${instance.id}/edit`);
 
-	const onDelete =
-		(instance: Instance) => (_e: React.MouseEvent<HTMLDivElement>) => {
-			if (ref.current) {
-				ref.current.handleClick(instance);
-			}
-		};
+	const onDelete = (instance: Instance) => (_e: Event) => {
+		if (ref.current) {
+			ref.current.handleClick(instance);
+		}
+	};
 
 	const options = [
 		{

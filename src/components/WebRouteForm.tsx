@@ -71,7 +71,6 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 	const navigate = useNavigate();
 
 	const onSubmit = (values: z.infer<typeof WebRouteFormSchema>) => {
-		console.log(values);
 		const body = {
 			route: {
 				...toRequestBody(values),
