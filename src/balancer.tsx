@@ -9,6 +9,7 @@ const Balancer = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const queryClient = useQueryClient();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		setIsLoaded(true);
 		return () => {

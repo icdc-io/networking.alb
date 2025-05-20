@@ -49,15 +49,15 @@ const CertificateDetailsContent: FC<CertificateDetailsContent> = ({
 		},
 	];
 
-	const certificateList = certificatesData.map((e, index) =>
+	const certificateList = certificatesData.map((e) =>
 		e.value ? (
-			<div className="fle flex-col cert-details-row" key={index}>
+			<div className="fle flex-col cert-details-row" key={e.title}>
 				<div className="api-dialog-snippet-wrapper display-certificate">
 					<CodeSnippet title={t(e.title)} content={e.value} />
 				</div>
 			</div>
 		) : (
-			<div className="flex flex-col cert-details-row-none" key={index}>
+			<div className="flex flex-col cert-details-row-none" key={e.title}>
 				<div className="flex cert-details-row">
 					<h4>{t([e.title])}</h4>
 				</div>

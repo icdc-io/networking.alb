@@ -59,7 +59,7 @@ const WebRoutesList: FC<WebRoutesList> = ({ items, refetch }) => {
 	const service = (route: WebRoute) =>
 		route.services
 			?.map((e, i) => (
-				<div key={i}>
+				<div key={e.id}>
 					<a href={`${computeUrl}${e.ext_id}`} target="_blank" rel="noreferrer">
 						{returnServiceInfo(e)}
 					</a>
@@ -171,12 +171,12 @@ const WebRoutesList: FC<WebRoutesList> = ({ items, refetch }) => {
 	const headers = headerRow.map((el, index) => {
 		if (el === "balancer") {
 			return (
-				<TableHead key={index} sorted={order[+sortUp]} onSort={onSort}>
+				<TableHead key={el} sorted={order[+sortUp]} onSort={onSort}>
 					{t(el)}
 				</TableHead>
 			);
 		}
-		return <TableHead key={index}>{t(el)}</TableHead>;
+		return <TableHead key={el}>{t(el)}</TableHead>;
 	});
 
 	return (

@@ -66,6 +66,7 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 				const headersObject = value as Record<string, string>;
 
 				return Object.keys(headersObject).map((headerName, key) => (
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					<dl key={key} className="flex">
 						<dt>
 							{t([obj.title])} {headerName}
@@ -76,6 +77,7 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 			}
 
 			return (
+				// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 				<dl key={key} className="flex">
 					<dt>{t([obj.title])}</dt>
 					{(obj.type &&
@@ -149,6 +151,7 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 						{route.services && route.services.length > 0
 							? route.services.map((el, i) => (
 									<a
+										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										key={i}
 										href={`${computeLink}/ui/service/services/${el.ext_id}`}
 										target="_blank"

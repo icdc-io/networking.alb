@@ -138,14 +138,14 @@ export const toInitialValues = (data: RouteInfo): FormData => {
 		name: data.name ?? "",
 		hostname: data.hostname ?? "",
 		path: data.path ?? "",
-		target_port: data.target_port ? data.target_port + "" : "",
+		target_port: data.target_port ? `${data.target_port}` : "",
 		healthcheck_enabled: data.healthcheck_enabled ?? false,
 		isSecure: !!data.tls_termination,
 		tls_termination: data.tls_termination ?? "",
 		insecure: data.insecure ?? "",
-		ip_version: data.ip_version ? data.ip_version + "" : ipOptions[0].value,
-		certificate_id: data.certificate_id ? data.certificate_id + "" : "",
-		cloud_gateway_id: data.cloud_gateway_id ? data.cloud_gateway_id + "" : "",
+		ip_version: data.ip_version ? `${data.ip_version}` : ipOptions[0].value,
+		certificate_id: data.certificate_id ? `${data.certificate_id}` : "",
+		cloud_gateway_id: data.cloud_gateway_id ? `${data.cloud_gateway_id}` : "",
 		destination_proto: data.destination_proto ?? "",
 		source_proto: data.source_proto ?? "",
 		healthcheck: data.healthcheck
@@ -153,12 +153,12 @@ export const toInitialValues = (data: RouteInfo): FormData => {
 					path: data.healthcheck.path ?? "",
 					scheme: data.healthcheck.scheme ?? "",
 					hostname: data.healthcheck.hostname ?? "",
-					port: data.healthcheck.port ? data.healthcheck.port + "" : "",
+					port: data.healthcheck.port ? `${data.healthcheck.port}` : "",
 					interval: data.healthcheck.interval
-						? data.healthcheck.interval + ""
+						? `${data.healthcheck.interval}`
 						: "",
 					timeout: data.healthcheck.timeout
-						? data.healthcheck.timeout + ""
+						? `${data.healthcheck.timeout}`
 						: "",
 					headers,
 					method: data.healthcheck.method ?? "",
@@ -167,8 +167,8 @@ export const toInitialValues = (data: RouteInfo): FormData => {
 			: initialState.healthcheck,
 		services: data.routes_services?.length
 			? data.routes_services.map((serviceInfo) => ({
-					id: serviceInfo.service_id + "",
-					weight: serviceInfo.value ? serviceInfo.value + "" : "",
+					id: `${serviceInfo.service_id}`,
+					weight: serviceInfo.value ? `${serviceInfo.value}` : "",
 				}))
 			: [
 					{
@@ -236,7 +236,7 @@ export const servicesToOptions = (
 	services: paths["/services"]["get"]["responses"]["200"]["content"]["application/json"],
 ) =>
 	services.map((serviceInfo) => ({
-		value: serviceInfo.id + "",
+		value: `${serviceInfo.id}`,
 		text: `${serviceInfo.name} (${serviceInfo.ext_id})`,
 	}));
 
@@ -246,7 +246,7 @@ export const certificatesToOptions = (
 	certificates
 		.filter((certificate) => certificate.id)
 		.map((certificate) => ({
-			value: certificate.id + "",
+			value: `${certificate.id}`,
 			text: certificate.name || "",
 		}));
 

@@ -87,11 +87,12 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		});
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!isGatewaysFetchSuccess || isEditing) return;
 		form.setValue(
 			"cloud_gateway_id",
-			gateways[0].id ? gateways[0].id + "" : "",
+			gateways[0].id ? `${gateways[0].id}` : "",
 		);
 	}, [isGatewaysFetchSuccess, isEditing]);
 
@@ -116,7 +117,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		.filter((gateway) => gateway.id)
 		.map((el) => ({
 			text: `${el.cloudgw_instance} (${el.account}) ${el.name}`,
-			value: el.id + "",
+			value: `${el.id}`,
 		}));
 
 	const options = {
@@ -147,8 +148,8 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		}
 	};
 
-	const formFields = formSections.map((sectionInfo, index) => (
-		<div className="routeBlock" key={index}>
+	const formFields = formSections.map((sectionInfo) => (
+		<div className="routeBlock" key={sectionInfo.title}>
 			<h4>{t(sectionInfo.title)}</h4>
 			{sectionInfo.description && (
 				<span className="subTitleForm">{t(sectionInfo.description)}</span>
@@ -159,6 +160,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 					!!(fieldInfo as ContentField).content
 				)
 					return isHidden(fieldInfo.valuesToHide) ? null : (
+						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						<Fragment key={key}>{(fieldInfo as ContentField).content}</Fragment>
 					);
 

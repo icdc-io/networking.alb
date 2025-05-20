@@ -63,8 +63,8 @@ const LoadBalancerOverview = () => {
 			<React.Suspense fallback={null}>
 				<Routes>
 					<Route path="/" Component={RootElement}>
-						{routes.map((routeInfo, key) => (
-							<Route key={key} {...routeInfo} />
+						{routes.map((routeInfo) => (
+							<Route key={routeInfo.path} {...routeInfo} />
 						))}
 						<Route
 							path="*"
