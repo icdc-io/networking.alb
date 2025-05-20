@@ -77,7 +77,7 @@ const CertificatesList: FC<CertificatesList> = ({ items, refetch }) => {
 	) : (
 		<TableRow>
 			<TableCell align="center" colSpan={2}>
-				<b>{t("listEmpty")}</b>
+				<h2>{t("listEmpty")}</h2>
 			</TableCell>
 		</TableRow>
 	);
