@@ -1,7 +1,7 @@
 import { dependencies } from "./package.json";
 
 module.exports = {
-	name: "networking_loadbalancer",
+	name: "networking_alb",
 	filename: "remoteEntry.js",
 	exposes: {
 		"./loadbalancer": "./src/balancer",
