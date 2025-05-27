@@ -4,7 +4,7 @@ module.exports = {
 	name: "networking_alb",
 	filename: "remoteEntry.js",
 	exposes: {
-		"./loadbalancer": "./src/balancer",
+		"./alb": "./src/balancer",
 	},
 	remotes: {
 		container: "host@/general.js",
