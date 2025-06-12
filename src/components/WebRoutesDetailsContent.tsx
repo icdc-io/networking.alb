@@ -185,17 +185,15 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 				)}
 				<dl className="flex flex-wrap gap-2">
 					<dt>{t("tlsType")}:</dt>
-					<dd>{route.tls_termination ? route.tls_termination : t("none")}</dd>
+					<dd>{route.tls_termination || t("none")}</dd>
 				</dl>
 				<dl className="flex flex-wrap gap-2">
 					<dt>{t("insecureTraffic")}:</dt>
-					<dd>{route.insecure === null ? t("none") : route.insecure}</dd>
+					<dd>{route.insecure || t("none")}</dd>
 				</dl>
 				<dl className="flex flex-wrap gap-2">
 					<dt>{t("certificate")}:</dt>
-					<dd>
-						{route.certificate_id === null ? t("none") : certificate?.name}
-					</dd>
+					<dd>{route.certificate_id ? certificate?.name : t("none")}</dd>
 				</dl>
 			</div>
 
