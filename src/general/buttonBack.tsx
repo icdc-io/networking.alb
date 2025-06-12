@@ -6,7 +6,7 @@ const ButtonBack = () => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 
-	const onClick = () => navigate(-1);
+	const onClick = () => navigate("..", { relative: "path" });
 
 	return (
 		<Button variant="back" size="lg" onClick={onClick}>

@@ -103,7 +103,7 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 			endpoint: getFullPath(webRouteUrl(instance.id)),
 		}).then(() => {
 			refetch();
-			navigate("..");
+			navigate("..", { relative: "path" });
 		});
 	};
 

@@ -9,4 +9,5 @@ export const getCertificateDetails = (id: string | number | undefined) =>
 	>({
 		endpoint: getFullPath(certificateUrl(id)),
 		enabled: !!id,
+		gcTime: 0,
 	});

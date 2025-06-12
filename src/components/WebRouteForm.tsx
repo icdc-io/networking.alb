@@ -83,8 +83,9 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 			endpoint: getFullPath(isEditing ? webRouteUrl(id) : WEB_ROUTES_FETCH_URL),
 			body,
 		}).then(() => {
-			isEditing ? refetch?.() : refetchRoutesList();
-			navigate("..");
+			if (isEditing) refetch?.();
+			refetchRoutesList();
+			navigate("..", { relative: "path" });
 		});
 	};
 

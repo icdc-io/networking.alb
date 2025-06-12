@@ -11,4 +11,5 @@ export const getRouteDetails = (id: string | undefined) =>
 		endpoint: getFullPath(webRouteUrl(id)),
 		select: (data) => data.route,
 		enabled: !!id,
+		gcTime: 0,
 	});

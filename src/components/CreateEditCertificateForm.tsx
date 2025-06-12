@@ -1,4 +1,5 @@
 import { CERTIFICATES_FETCH_URL, certificateUrl } from "@/AppConstants";
+import { getCertificatesList } from "@/queries/getCertificatesList";
 import { CertificateForm } from "@/schemas/CertificateForm";
 import type { components, paths } from "@/schemas/balancer-api";
 import { useMutateData } from "container/Api";
@@ -77,7 +78,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 		components["schemas"]["Certificate_POST"],
 		CertificateBody
 	>({});
-
+	const { refetch } = getCertificatesList();
 	const form = useForm({
 		resolver: zodResolver(CertificateForm),
 		defaultValues: initialFormState
@@ -242,7 +243,10 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 					owner: isEditing ? initialFormState.owner : userEmail,
 				},
 			},
-		}).then(() => navigate(".."));
+		}).then(() => {
+			refetch();
+			navigate("../..", { relative: "path" });
+		});
 	};
 
 	const isSubmitDisabled = isEditing

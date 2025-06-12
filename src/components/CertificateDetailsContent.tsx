@@ -74,7 +74,7 @@ const CertificateDetailsContent: FC<CertificateDetailsContent> = ({
 			endpoint: getFullPath(certificateUrl(instance.id)),
 		}).then(() => {
 			refetch();
-			navigate("..");
+			navigate("..", { relative: "path" });
 		});
 	};
 

@@ -8,7 +8,7 @@ import {
 	DialogTitle,
 } from "container/Modal";
 import React, { useState, type Ref, useImperativeHandle } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 type DeleteModalProps<T> = {
 	onSubmit: (instance: T) => Promise<unknown>;
@@ -47,7 +47,7 @@ function DeleteModal<T extends Instance>(
 	const getDescription = () => {
 		if (!instance) return t(description);
 
-		return t(description, { name: instance.name });
+		return <Trans i18nKey={description} values={{ name: instance.name }} />;
 	};
 
 	return (
