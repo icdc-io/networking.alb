@@ -213,9 +213,9 @@ export const toRequestBody = (values: z.infer<typeof WebRouteFormSchema>) => {
 
 	return {
 		...form,
-		certificate_id: +certificate_id || undefined,
-		insecure: insecure || undefined,
-		tls_termination: tls_termination || undefined,
+		certificate_id: certificate_id ? +certificate_id : undefined,
+		insecure: insecure,
+		tls_termination: tls_termination,
 		cloud_gateway_id: +cloud_gateway_id,
 		services: servicesInfo,
 		path: path || "/",
@@ -497,7 +497,7 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 			{
 				type: FIELD_TYPES.SELECT,
 				name: "tls_termination",
-				label: ["traefikInsTraffic"],
+				label: ["tlsTermination"],
 				placeholder: ["none"],
 				valuesToHide: ["isSecure"],
 			},

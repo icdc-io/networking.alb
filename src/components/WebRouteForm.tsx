@@ -67,6 +67,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 	>({});
 	const { refetch: refetchRoutesList } = getRoutesList();
 	const ref = useRef<CancelModalRef>(null);
+	const isSecure = form.watch("isSecure");
 
 	const navigate = useNavigate();
 
@@ -95,6 +96,14 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 			gateways[0].id ? `${gateways[0].id}` : "",
 		);
 	}, [isGatewaysFetchSuccess, isEditing]);
+
+	useEffect(() => {
+		if (!isSecure) {
+			form.setValue("certificate_id", "");
+			form.setValue("insecure", "");
+			form.setValue("tls_termination", "");
+		}
+	}, [isSecure]);
 
 	const healthCheckSubtitle = (
 		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
