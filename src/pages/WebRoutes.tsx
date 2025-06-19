@@ -19,7 +19,7 @@ const WebRoutes = () => {
 
 	return (
 		<>
-			<h3>{t("loadBalancer")}</h3>
+			<h2 className="page-title">{t("loadBalancer")}</h2>
 			<div className="loadBalancerDescription">
 				<p>{t("traefikDescriptionOne")}</p>
 				<div className="publicHostname">

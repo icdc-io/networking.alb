@@ -24,7 +24,7 @@ const Certificates = () => {
 
 	return (
 		<>
-			<h3>{t("certificates")}</h3>
+			<h2 className="page-title">{t("certificates")}</h2>
 			<div className="tools">
 				<Input
 					variant="search"

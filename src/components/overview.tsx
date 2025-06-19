@@ -61,17 +61,14 @@ const LoadBalancerOverview = () => {
 	return (
 		<div className="networking_balancer h-full">
 			<React.Suspense fallback={null}>
-				<Routes>
-					<Route path="/" Component={RootElement}>
+				<RootElement>
+					<Routes>
 						{routes.map((routeInfo) => (
 							<Route key={routeInfo.path} {...routeInfo} />
 						))}
-						<Route
-							path="*"
-							element={<Navigate to={webRoutesPath()} replace />}
-						/>
-					</Route>
-				</Routes>
+						<Route path="*" element={<h1>sdfsdfsdfsdf</h1>} />
+					</Routes>
+				</RootElement>
 			</React.Suspense>
 		</div>
 	);

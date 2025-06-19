@@ -215,7 +215,9 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 			<div>
 				<ButtonBack />
 			</div>
-			<h2>{t("editRoute")}</h2>
+			<h2 className="page-title">
+				{t(isEditing ? "editRoute" : "createRoute")}
+			</h2>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}

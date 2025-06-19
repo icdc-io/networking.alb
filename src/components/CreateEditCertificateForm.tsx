@@ -261,7 +261,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 
 	return (
 		<div className="flex flex-col h-full">
-			<h2 className="certificateHeader">
+			<h2 className="page-title certificateHeader">
 				{isEditing ? t("editCertificate") : t("createCertificate")}
 			</h2>
 			<p className="subTitleForm">{t("certificateDescript")}</p>

@@ -112,7 +112,7 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 			<div className="flex justify-between flex-wrap gap-2">
 				<div className="flex items-center gap-4">
 					<img src={WebRoute} width="41" alt="WebRoute" />
-					<h2>{route.name}</h2>
+					<h2 className="page-title">{route.name}</h2>
 				</div>
 				<div className="create-route-buttons">
 					<BalancerApiButton name="routesId" />
