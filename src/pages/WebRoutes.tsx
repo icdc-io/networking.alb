@@ -28,8 +28,7 @@ const WebRoutes = () => {
 				</div>
 				<p>{t("traefikDescriptionTwo")}</p>
 			</div>
-			<br />
-			<h3 className="webRoutesHeader">{t("webRoutes")}</h3>
+			<h3 className="webRoutesHeader mt-4">{t("webRoutes")}</h3>
 			<div className="tools">
 				<Input
 					variant="search"
