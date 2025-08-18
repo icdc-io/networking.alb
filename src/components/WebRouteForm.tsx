@@ -14,6 +14,7 @@ import {
 	type FormFieldComponent,
 	type RouteInfo,
 	type SelectField,
+	certificateDefaultOptions,
 	certificatesToOptions,
 	createFormSections,
 	initialState,
@@ -98,27 +99,6 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		);
 	}, [isGatewaysFetchSuccess, isEditing]);
 
-	useEffect(() => {
-		if (!isSecure) {
-			form.setValue("certificate_id", "");
-			form.setValue("insecure", "");
-			form.setValue("tls_termination", "");
-		}
-	}, [isSecure]);
-
-	const healthCheckSubtitle = (
-		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
-	);
-
-	const fieldsByTypes = {
-		[FIELD_TYPES.INPUT]: FormInput,
-		[FIELD_TYPES.SELECT]: FormSelect,
-		[FIELD_TYPES.RADIO]: FormRadio,
-		[FIELD_TYPES.CHECKBOX]: FormCheckbox,
-		[FIELD_TYPES.CONTENT]: null,
-		[FIELD_TYPES.COMBOBOX]: FormCombobox,
-	};
-
 	const certificatesOptions = certificatesToOptions(
 		certificates.filter((el) => el.id),
 	);
@@ -136,7 +116,45 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		"healthcheck.method": methodsOptions,
 		tls_termination: tlsOptions,
 		insecure: insecureOptions,
-		certificate_id: certificatesOptions,
+		certificate_id: [...certificateDefaultOptions, ...certificatesOptions],
+	};
+
+	useEffect(() => {
+		if (!isSecure) {
+			form.setValue("certificate_id", "");
+			form.setValue("insecure", "");
+			form.setValue("tls_termination", "");
+		}
+	}, [isSecure]);
+
+	useEffect(() => {
+		if (!isEditing && isSecure) {
+			form.setValue("certificate_id", options.certificate_id[0].value);
+			form.setValue("tls_termination", options.tls_termination[0].value);
+		}
+		if (isEditing && isSecure) {
+			form.setValue(
+				"certificate_id",
+				toInitialValues(initialValues).certificate_id,
+			);
+			form.setValue(
+				"tls_termination",
+				toInitialValues(initialValues).tls_termination,
+			);
+		}
+	}, [isEditing, isSecure]);
+
+	const healthCheckSubtitle = (
+		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
+	);
+
+	const fieldsByTypes = {
+		[FIELD_TYPES.INPUT]: FormInput,
+		[FIELD_TYPES.SELECT]: FormSelect,
+		[FIELD_TYPES.RADIO]: FormRadio,
+		[FIELD_TYPES.CHECKBOX]: FormCheckbox,
+		[FIELD_TYPES.CONTENT]: null,
+		[FIELD_TYPES.COMBOBOX]: FormCombobox,
 	};
 
 	const formSections = createFormSections([
@@ -187,6 +205,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 				if (formFieldInfo.type === FIELD_TYPES.SELECT)
 					(formFieldInfo as SelectField).options =
 						options[formFieldInfo.name as keyof typeof options];
+
 				return (
 					<FormField
 						key={formFieldInfo.name}

@@ -73,9 +73,13 @@ export const methodsOptions = toOptions<(typeof methods)[number]>(methods);
 export const optionsOfScheme = toOptions<(typeof methods)[number]>(schemes);
 
 export const tlsOptions = [
-	{ text: "edge", value: "edge" },
-	{ text: "passthrough", value: "passthrough" },
-	{ text: "re-encrypt", value: "re-encrypt" },
+	{ text: "Edge", value: "edge" },
+	{ text: "Re-encrypt", value: "re-encrypt" },
+	{ text: "Passthrough", value: "passthrough" },
+];
+
+export const certificateDefaultOptions = [
+	{ text: "Let's Encrypt", value: "none" },
 ];
 
 export const insecureOptions = [
@@ -213,7 +217,12 @@ export const toRequestBody = (values: z.infer<typeof WebRouteFormSchema>) => {
 
 	return {
 		...form,
-		certificate_id: certificate_id ? +certificate_id : undefined,
+		certificate_id:
+			certificate_id === "none"
+				? certificate_id
+				: certificate_id
+					? +certificate_id
+					: undefined,
 		insecure: insecure,
 		tls_termination: tls_termination,
 		cloud_gateway_id: +cloud_gateway_id,
@@ -516,7 +525,6 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 				label: ["traefikTlsCertificate"],
 				placeholder: ["none"],
 				valuesToHide: ["isSecure"],
-				isClearable: true,
 			},
 		],
 	},
