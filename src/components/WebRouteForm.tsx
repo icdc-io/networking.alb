@@ -6,7 +6,6 @@ import { Form, FormField, useForm, zodResolver } from "container/Form";
 import { useAppSelector } from "container/ReduxActions";
 
 import { WEB_ROUTES_FETCH_URL, getFullPath, webRouteUrl } from "@/AppConstants";
-import { webRoutesPath } from "@/constants/routes";
 import {
 	type ContentField,
 	FIELD_TYPES,
@@ -133,14 +132,19 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 			form.setValue("tls_termination", options.tls_termination[0].value);
 		}
 		if (isEditing && isSecure) {
-			form.setValue(
-				"certificate_id",
-				toInitialValues(initialValues).certificate_id,
-			);
-			form.setValue(
-				"tls_termination",
-				toInitialValues(initialValues).tls_termination,
-			);
+			toInitialValues(initialValues).certificate_id
+				? form.setValue(
+						"certificate_id",
+						toInitialValues(initialValues).certificate_id,
+					)
+				: form.setValue("certificate_id", options.certificate_id[0].value);
+
+			toInitialValues(initialValues).tls_termination
+				? form.setValue(
+						"tls_termination",
+						toInitialValues(initialValues).tls_termination,
+					)
+				: form.setValue("tls_termination", options.tls_termination[0].value);
 		}
 	}, [isEditing, isSecure]);
 
@@ -251,10 +255,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 					</div>
 				</form>
 			</Form>
-			<CancelChangesModal
-				ref={ref}
-				onConfirm={() => navigate(webRoutesPath())}
-			/>
+			<CancelChangesModal ref={ref} onConfirm={() => navigate(-1)} />
 		</div>
 	);
 };
