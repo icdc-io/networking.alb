@@ -222,7 +222,7 @@ export const toRequestBody = (values: z.infer<typeof WebRouteFormSchema>) => {
 				? certificate_id
 				: certificate_id
 					? +certificate_id
-					: undefined,
+					: "",
 		insecure: insecure,
 		tls_termination: tls_termination,
 		cloud_gateway_id: +cloud_gateway_id,
