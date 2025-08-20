@@ -13,6 +13,7 @@ import {
 	type FormFieldComponent,
 	type RouteInfo,
 	type SelectField,
+	TlsTermination,
 	certificateDefaultOptions,
 	certificatesToOptions,
 	createFormSections,
@@ -118,6 +119,14 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		certificate_id: [...certificateDefaultOptions, ...certificatesOptions],
 	};
 
+	const tlsTermination = form.watch("tls_termination");
+
+	useEffect(() => {
+		if (tlsTermination === TlsTermination.PASSTHROUGH) {
+			form.setValue("insecure", "");
+		}
+	}, [tlsTermination]);
+
 	useEffect(() => {
 		if (!isSecure) {
 			form.setValue("certificate_id", "");
@@ -209,6 +218,13 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 				if (formFieldInfo.type === FIELD_TYPES.SELECT)
 					(formFieldInfo as SelectField).options =
 						options[formFieldInfo.name as keyof typeof options];
+
+				if (
+					formFieldInfo.name === "insecure" &&
+					tlsTermination === TlsTermination.PASSTHROUGH
+				) {
+					(formFieldInfo as SelectField).disabled = true;
+				}
 
 				return (
 					<FormField
