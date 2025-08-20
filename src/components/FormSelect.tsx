@@ -54,7 +54,7 @@ const FormSelect: FC<FormFieldComponent<SelectField>> = ({
 				// disabled={!isSuccess}
 			>
 				<FormControl>
-					<SelectTrigger {...triggerProps}>
+					<SelectTrigger {...triggerProps} disabled={fieldInfo.disabled}>
 						<SelectValue placeholder={t(fieldInfo.placeholder)} />
 					</SelectTrigger>
 				</FormControl>
