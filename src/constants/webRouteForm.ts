@@ -72,10 +72,20 @@ const followRedirectsOptions = [
 export const methodsOptions = toOptions<(typeof methods)[number]>(methods);
 export const optionsOfScheme = toOptions<(typeof methods)[number]>(schemes);
 
+export enum TlsTermination {
+	EDGE = "edge",
+	RE_ENCRYPT = "re-encrypt",
+	PASSTHROUGH = "passthrough",
+}
+
 export const tlsOptions = [
-	{ text: "edge", value: "edge" },
-	{ text: "passthrough", value: "passthrough" },
-	{ text: "re-encrypt", value: "re-encrypt" },
+	{ text: "Edge", value: TlsTermination.EDGE },
+	{ text: "Re-encrypt", value: TlsTermination.RE_ENCRYPT },
+	{ text: "Passthrough", value: TlsTermination.PASSTHROUGH },
+];
+
+export const certificateDefaultOptions = [
+	{ text: "Let's Encrypt", value: "none" },
 ];
 
 export const insecureOptions = [
@@ -213,7 +223,8 @@ export const toRequestBody = (values: z.infer<typeof WebRouteFormSchema>) => {
 
 	return {
 		...form,
-		certificate_id: certificate_id ? +certificate_id : undefined,
+		certificate_id:
+			certificate_id && certificate_id !== "none" ? +certificate_id : null,
 		insecure: insecure,
 		tls_termination: tls_termination,
 		cloud_gateway_id: +cloud_gateway_id,
@@ -294,6 +305,7 @@ export type SelectField = {
 	clarification?: string;
 	valuesToHide?: string[];
 	isClearable?: boolean;
+	disabled?: boolean;
 };
 
 export type ComboboxField = {
@@ -509,6 +521,7 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 				description: "traefikInsTrafficDescript",
 				valuesToHide: ["isSecure"],
 				isClearable: true,
+				disabled: false,
 			},
 			{
 				type: FIELD_TYPES.SELECT,
@@ -516,7 +529,6 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 				label: ["traefikTlsCertificate"],
 				placeholder: ["none"],
 				valuesToHide: ["isSecure"],
-				isClearable: true,
 			},
 		],
 	},

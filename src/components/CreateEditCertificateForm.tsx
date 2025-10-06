@@ -31,7 +31,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
 import { getFullPath } from "../AppConstants";
-import { webRoutesPath } from "../constants/routes";
 import CancelChangesModal, { type CancelModalRef } from "./CancelChangesModal";
 
 const certFields = {
@@ -307,10 +306,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 					</div>
 				</form>
 			</Form>
-			<CancelChangesModal
-				ref={ref}
-				onConfirm={() => navigate(webRoutesPath())}
-			/>
+			<CancelChangesModal ref={ref} onConfirm={() => navigate(-1)} />
 		</div>
 	);
 };

@@ -66,7 +66,10 @@ const LoadBalancerOverview = () => {
 						{routes.map((routeInfo) => (
 							<Route key={routeInfo.path} {...routeInfo} />
 						))}
-						<Route path="*" element={<h1>sdfsdfsdfsdf</h1>} />
+						<Route
+							path="*"
+							element={<Navigate to={webRoutesPath()} replace />}
+						/>
 					</Routes>
 				</RootElement>
 			</React.Suspense>

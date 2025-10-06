@@ -6,7 +6,6 @@ import { Form, FormField, useForm, zodResolver } from "container/Form";
 import { useAppSelector } from "container/ReduxActions";
 
 import { WEB_ROUTES_FETCH_URL, getFullPath, webRouteUrl } from "@/AppConstants";
-import { webRoutesPath } from "@/constants/routes";
 import {
 	type ContentField,
 	FIELD_TYPES,
@@ -14,6 +13,8 @@ import {
 	type FormFieldComponent,
 	type RouteInfo,
 	type SelectField,
+	TlsTermination,
+	certificateDefaultOptions,
 	certificatesToOptions,
 	createFormSections,
 	initialState,
@@ -98,27 +99,6 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		);
 	}, [isGatewaysFetchSuccess, isEditing]);
 
-	useEffect(() => {
-		if (!isSecure) {
-			form.setValue("certificate_id", "");
-			form.setValue("insecure", "");
-			form.setValue("tls_termination", "");
-		}
-	}, [isSecure]);
-
-	const healthCheckSubtitle = (
-		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
-	);
-
-	const fieldsByTypes = {
-		[FIELD_TYPES.INPUT]: FormInput,
-		[FIELD_TYPES.SELECT]: FormSelect,
-		[FIELD_TYPES.RADIO]: FormRadio,
-		[FIELD_TYPES.CHECKBOX]: FormCheckbox,
-		[FIELD_TYPES.CONTENT]: null,
-		[FIELD_TYPES.COMBOBOX]: FormCombobox,
-	};
-
 	const certificatesOptions = certificatesToOptions(
 		certificates.filter((el) => el.id),
 	);
@@ -136,7 +116,58 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		"healthcheck.method": methodsOptions,
 		tls_termination: tlsOptions,
 		insecure: insecureOptions,
-		certificate_id: certificatesOptions,
+		certificate_id: [...certificateDefaultOptions, ...certificatesOptions],
+	};
+
+	const tlsTermination = form.watch("tls_termination");
+
+	useEffect(() => {
+		if (tlsTermination === TlsTermination.PASSTHROUGH) {
+			form.setValue("insecure", "");
+		}
+	}, [tlsTermination]);
+
+	useEffect(() => {
+		if (!isSecure) {
+			form.setValue("certificate_id", "");
+			form.setValue("insecure", "");
+			form.setValue("tls_termination", "");
+		}
+	}, [isSecure]);
+
+	useEffect(() => {
+		if (!isEditing && isSecure) {
+			form.setValue("certificate_id", options.certificate_id[0].value);
+			form.setValue("tls_termination", options.tls_termination[0].value);
+		}
+		if (isEditing && isSecure) {
+			toInitialValues(initialValues).certificate_id
+				? form.setValue(
+						"certificate_id",
+						toInitialValues(initialValues).certificate_id,
+					)
+				: form.setValue("certificate_id", options.certificate_id[0].value);
+
+			toInitialValues(initialValues).tls_termination
+				? form.setValue(
+						"tls_termination",
+						toInitialValues(initialValues).tls_termination,
+					)
+				: form.setValue("tls_termination", options.tls_termination[0].value);
+		}
+	}, [isEditing, isSecure]);
+
+	const healthCheckSubtitle = (
+		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
+	);
+
+	const fieldsByTypes = {
+		[FIELD_TYPES.INPUT]: FormInput,
+		[FIELD_TYPES.SELECT]: FormSelect,
+		[FIELD_TYPES.RADIO]: FormRadio,
+		[FIELD_TYPES.CHECKBOX]: FormCheckbox,
+		[FIELD_TYPES.CONTENT]: null,
+		[FIELD_TYPES.COMBOBOX]: FormCombobox,
 	};
 
 	const formSections = createFormSections([
@@ -187,6 +218,14 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 				if (formFieldInfo.type === FIELD_TYPES.SELECT)
 					(formFieldInfo as SelectField).options =
 						options[formFieldInfo.name as keyof typeof options];
+
+				if (
+					formFieldInfo.name === "insecure" &&
+					tlsTermination === TlsTermination.PASSTHROUGH
+				) {
+					(formFieldInfo as SelectField).disabled = true;
+				}
+
 				return (
 					<FormField
 						key={formFieldInfo.name}
@@ -232,10 +271,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 					</div>
 				</form>
 			</Form>
-			<CancelChangesModal
-				ref={ref}
-				onConfirm={() => navigate(webRoutesPath())}
-			/>
+			<CancelChangesModal ref={ref} onConfirm={() => navigate(-1)} />
 		</div>
 	);
 };
