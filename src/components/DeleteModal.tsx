@@ -7,7 +7,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "container/Modal";
-import React, { useState, type Ref, useImperativeHandle } from "react";
+import React, { type Ref, useImperativeHandle, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 type DeleteModalProps<T> = {

@@ -1,7 +1,6 @@
-import { getFullPath } from "@/AppConstants";
-import { WEB_ROUTES_FETCH_URL } from "@/AppConstants";
-import type { WebRoute } from "@/entities/WebRoute";
 import { useFetchData } from "container/Api";
+import { getFullPath, WEB_ROUTES_FETCH_URL } from "@/AppConstants";
+import type { WebRoute } from "@/entities/WebRoute";
 
 export const getRoutesList = () =>
 	useFetchData<WebRoute[]>({

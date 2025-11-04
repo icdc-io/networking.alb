@@ -1,6 +1,3 @@
-import { FIELD_TYPES, servicesToOptions } from "@/constants/webRouteForm";
-import { getServicesList } from "@/queries/getServicesList";
-import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 import {
 	FormControl,
 	FormDescription,
@@ -15,6 +12,9 @@ import { Input } from "container/Input";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import type { z } from "zod";
+import { FIELD_TYPES, servicesToOptions } from "@/constants/webRouteForm";
+import { getServicesList } from "@/queries/getServicesList";
+import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 import FormCombobox from "./FormCombobox";
 
 type AltServices = {

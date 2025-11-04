@@ -1,6 +1,3 @@
-import { getCertificatesList } from "@/queries/getCertificatesList";
-import type { paths } from "@/schemas/balancer-api";
-import { onSearch } from "@/utilities/search";
 import { Button } from "container/Button";
 import ErrorScreen from "container/ErrorScreen";
 import { Input } from "container/Input";
@@ -8,6 +5,9 @@ import Loader from "container/Loader";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { getCertificatesList } from "@/queries/getCertificatesList";
+import type { paths } from "@/schemas/balancer-api";
+import { onSearch } from "@/utilities/search";
 import BalancerApiButton from "../components/BalancerApiButton";
 import CertificatesList from "../components/CertificatesList";
 

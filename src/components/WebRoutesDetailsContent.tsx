@@ -1,8 +1,3 @@
-import { getFullPath } from "@/AppConstants";
-import { webRouteUrl } from "@/AppConstants";
-import { getCertificateDetails } from "@/queries/getCertificateDetails";
-import { getRoutesList } from "@/queries/getRoutesList";
-import type { components } from "@/schemas/balancer-api";
 import { useMutateData } from "container/Api";
 import { Button } from "container/Button";
 import { useAppSelector } from "container/ReduxActions";
@@ -10,6 +5,10 @@ import { returnBaseUrl } from "container/ReturnBaseUrl";
 import { type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
+import { getFullPath, webRouteUrl } from "@/AppConstants";
+import { getCertificateDetails } from "@/queries/getCertificateDetails";
+import { getRoutesList } from "@/queries/getRoutesList";
+import type { components } from "@/schemas/balancer-api";
 import { subTitleHealthchek } from "../constants/healthcheck";
 import WebRoute from "../static/images/webroutes.svg";
 import BalancerApiButton from "./BalancerApiButton";
@@ -66,7 +65,6 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 				const headersObject = value as Record<string, string>;
 
 				return Object.keys(headersObject).map((headerName, key) => (
-					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					<dl key={key} className="flex">
 						<dt>
 							{t([obj.title])} {headerName}
@@ -77,7 +75,6 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 			}
 
 			return (
-				// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 				<dl key={key} className="flex">
 					<dt>{t([obj.title])}</dt>
 					{(obj.type &&
@@ -151,7 +148,6 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 						{route.services && route.services.length > 0
 							? route.services.map((el, i) => (
 									<a
-										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										key={i}
 										href={`${computeLink}/ui/service/services/${el.ext_id}`}
 										target="_blank"

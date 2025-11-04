@@ -1,10 +1,10 @@
-import type { WebRoute } from "@/entities/WebRoute";
-import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
-import type { paths } from "@/schemas/balancer-api";
-import { toOptions } from "@/utilities/toOptions";
 import type { ReactNode } from "react";
 import type { ControllerRenderProps, FieldError } from "react-hook-form";
 import type { z } from "zod";
+import type { WebRoute } from "@/entities/WebRoute";
+import type { paths } from "@/schemas/balancer-api";
+import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
+import { toOptions } from "@/utilities/toOptions";
 import { methods, schemes } from "./options";
 
 const TARGET_PORT = 80;
@@ -198,7 +198,6 @@ export const toRequestBody = (values: z.infer<typeof WebRouteFormSchema>) => {
 		services,
 		insecure,
 		target_port,
-		isSecure,
 		path,
 		ip_version,
 		healthcheck_enabled,

@@ -1,7 +1,6 @@
-import { getFullPath } from "@/AppConstants";
-import { CERTIFICATES_FETCH_URL } from "@/AppConstants";
-import type { paths } from "@/schemas/balancer-api";
 import { useFetchData } from "container/Api";
+import { CERTIFICATES_FETCH_URL, getFullPath } from "@/AppConstants";
+import type { paths } from "@/schemas/balancer-api";
 
 export const getCertificatesList = () =>
 	useFetchData<
