@@ -1,4 +1,3 @@
-import type { FormFieldComponent, SelectField } from "@/constants/webRouteForm";
 import {
 	FormControl,
 	FormDescription,
@@ -17,6 +16,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import type { FormFieldComponent, SelectField } from "@/constants/webRouteForm";
 
 const FormSelect: FC<FormFieldComponent<SelectField>> = ({
 	fieldInfo,
@@ -27,7 +27,7 @@ const FormSelect: FC<FormFieldComponent<SelectField>> = ({
 
 	// const queryCLient = useQueryClient();
 	// queryCLient.getQueryData([getAppId(window.location.pathname), ], )
-	const onChangeToNumber = (value: string) => field.onChange(+value);
+	// const onChangeToNumber = (value: string) => field.onChange(+value);
 
 	const triggerProps = fieldInfo.isClearable
 		? {

@@ -1,12 +1,11 @@
-import { getFullPath } from "@/AppConstants";
-import { certificateUrl } from "@/AppConstants";
-import type { Certificate } from "@/entities/Certificate";
 import { useMutateData } from "container/Api";
 import OptionsMenu from "container/OptionsMenu";
 import { Table, TableBody, TableCell, TableRow } from "container/Table";
 import { type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
+import { certificateUrl, getFullPath } from "@/AppConstants";
+import type { Certificate } from "@/entities/Certificate";
 import CertificateImg from "../static/images/certificate.svg";
 import DeleteModal, { type ModalRef } from "./DeleteModal";
 

@@ -1,6 +1,3 @@
-import { getFullPath } from "@/AppConstants";
-import { webRouteUrl } from "@/AppConstants";
-import type { WebRoute } from "@/entities/WebRoute";
 import { useMutateData } from "container/Api";
 import OptionsMenu from "container/OptionsMenu";
 import Popup from "container/Popup";
@@ -17,6 +14,8 @@ import {
 import { type FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
+import { getFullPath, webRouteUrl } from "@/AppConstants";
+import type { WebRoute } from "@/entities/WebRoute";
 import WebRouteIcon from "../static/images/webroutes.svg";
 import { returnServiceInfo } from "../utilities/search";
 import DeleteModal, { type ModalRef } from "./DeleteModal";
@@ -58,7 +57,7 @@ const WebRoutesList: FC<WebRoutesList> = ({ items, refetch }) => {
 	const computeUrl = `https://compute.${returnBaseUrl(baseUrls, user.location)}/ui/service/services/`;
 	const service = (route: WebRoute) =>
 		route.services
-			?.map((e, i) => (
+			?.map((e) => (
 				<div key={e.id}>
 					<a href={`${computeUrl}${e.ext_id}`} target="_blank" rel="noreferrer">
 						{returnServiceInfo(e)}
@@ -168,7 +167,7 @@ const WebRoutesList: FC<WebRoutesList> = ({ items, refetch }) => {
 		setSortUp((prev) => +!prev);
 	};
 
-	const headers = headerRow.map((el, index) => {
+	const headers = headerRow.map((el) => {
 		if (el === "balancer") {
 			return (
 				<TableHead key={el} sorted={order[+sortUp]} onSort={onSort}>

@@ -1,4 +1,3 @@
-import type { FormFieldComponent, InputField } from "@/constants/webRouteForm";
 import {
 	FormControl,
 	FormDescription,
@@ -11,6 +10,7 @@ import Popup from "container/Popup";
 import { CircleHelp } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import type { FormFieldComponent, InputField } from "@/constants/webRouteForm";
 
 const FormInput: FC<FormFieldComponent<InputField>> = ({
 	fieldInfo,

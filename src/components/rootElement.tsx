@@ -1,8 +1,8 @@
-import { certificatesPath, webRoutesPath } from "@/constants/routes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "container/Tabs";
 import type { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { certificatesPath, webRoutesPath } from "@/constants/routes";
 
 const RootElement: React.FC<PropsWithChildren> = ({ children }) => {
 	const { t } = useTranslation();

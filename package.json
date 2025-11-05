@@ -19,7 +19,7 @@
 	"keywords": [],
 	"license": "ISC",
 	"devDependencies": {
-		"@biomejs/biome": "^1.8.3",
+		"@biomejs/biome": "^2.3.3",
 		"@module-federation/enhanced": "^0.6.0",
 		"@rsbuild/core": "^1.2.7",
 		"@rsbuild/plugin-react": "^1.1.0",

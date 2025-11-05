@@ -1,4 +1,3 @@
-import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 import { Button } from "container/Button";
 import {
 	FormControl,
@@ -14,6 +13,7 @@ import { CircleHelp, Trash2 } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import type { z } from "zod";
+import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 
 type HeadersFormSection = {
 	form: UseFormReturn<z.infer<typeof WebRouteFormSchema>>;

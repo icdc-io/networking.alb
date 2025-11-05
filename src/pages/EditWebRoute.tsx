@@ -1,8 +1,8 @@
-import WebRouteForm from "@/components/WebRouteForm";
-import { getRouteDetails } from "@/queries/getRouteDetails";
 import ErrorScreen from "container/ErrorScreen";
 import Loader from "container/Loader";
 import { useParams } from "react-router-dom";
+import WebRouteForm from "@/components/WebRouteForm";
+import { getRouteDetails } from "@/queries/getRouteDetails";
 
 const EditWebRoute = () => {
 	const { id } = useParams();

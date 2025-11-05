@@ -1,4 +1,3 @@
-import type { FormFieldComponent, RadioField } from "@/constants/webRouteForm";
 import {
 	FormControl,
 	FormDescription,
@@ -11,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "container/Radio";
 import { CircleHelp } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import type { FormFieldComponent, RadioField } from "@/constants/webRouteForm";
 
 const FormRadio: FC<FormFieldComponent<RadioField>> = ({
 	fieldInfo,
