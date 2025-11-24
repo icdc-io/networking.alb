@@ -182,41 +182,45 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 								<b>{t(`${el}_label`)}</b>
 							</FormLabel>
 							<FormControl>
-								<div className="relative" data-active={false}>
-									<Input
-										value={fileNames[fieldName]}
-										name={el}
-										onChange={onChangeField}
-										className="outline-ee"
-										disabled
-									/>
-									<Button
-										onClick={onClickCertificate}
-										className="absolute right-0 top-0"
-										variant="secondary"
-										type="button"
-									>
-										{t("browse")}
-									</Button>
-									<input
-										className="dragArea"
-										type="file"
-										name={el}
-										onDrop={(e) => handleFile(e, el)}
-										onDragOver={handleDragOver}
-										onDragEnter={handleDragEnter}
-										onDragLeave={handleDragLeave}
-										onChange={(e) => onChangeFile(e, el)}
-										onFocus={onFocus}
-										onBlur={onBlur}
-										accept=".pem"
-									/>
-								</div>
 								<div>
-									<span className="subTitleForm">{t(`${el}_description`)}</span>
-								</div>
-								<div>
-									<Textarea {...field} value={field.value} />
+									<div className="relative" data-active={false}>
+										<Input
+											value={fileNames[fieldName]}
+											name={el}
+											onChange={onChangeField}
+											className="outline-ee"
+											disabled
+										/>
+										<Button
+											onClick={onClickCertificate}
+											className="absolute right-0 top-0"
+											variant="secondary"
+											type="button"
+										>
+											{t("browse")}
+										</Button>
+										<input
+											className="dragArea"
+											type="file"
+											name={el}
+											onDrop={(e) => handleFile(e, el)}
+											onDragOver={handleDragOver}
+											onDragEnter={handleDragEnter}
+											onDragLeave={handleDragLeave}
+											onChange={(e) => onChangeFile(e, el)}
+											onFocus={onFocus}
+											onBlur={onBlur}
+											accept=".pem"
+										/>
+									</div>
+									<div>
+										<span className="subTitleForm">
+											{t(`${el}_description`)}
+										</span>
+									</div>
+									<div>
+										<Textarea {...field} value={field.value} />
+									</div>
 								</div>
 							</FormControl>
 						</FormItem>
@@ -240,7 +244,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 			},
 		}).then(() => {
 			refetch();
-			navigate("../..", { relative: "path" });
+			navigate("..", { relative: "path" });
 		});
 	};
 
