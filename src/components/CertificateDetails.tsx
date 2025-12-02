@@ -11,7 +11,6 @@ const CertificateDetails = () => {
 		data: certificateDetails,
 		isFetching,
 		isError,
-		refetch,
 	} = getCertificateDetails(id);
 
 	return (
@@ -24,10 +23,7 @@ const CertificateDetails = () => {
 			) : isError ? (
 				<ErrorScreen />
 			) : certificateDetails ? (
-				<CertificateDetailsContent
-					data={certificateDetails}
-					refetch={refetch}
-				/>
+				<CertificateDetailsContent data={certificateDetails} />
 			) : null}
 		</div>
 	);
