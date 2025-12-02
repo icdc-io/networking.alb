@@ -21,8 +21,6 @@ export const CERTIFICATE_DELETE = "CERTIFICATES__DELETE";
 export const CERTIFICATE_CREATE = "CERTIFICATES__CREATE";
 export const CERTIFICATE_UPDATE = "CERTIFICATE_UPDATE";
 export const certificateUrl = (id: string | number | undefined) =>
-	id
-		? `/api/traefik_manager/v1/certificates/${id}`
-		: `/api/traefik_manager/v1/certificates`;
+	`/certificates/${id}`;
 export const getFullPath = (url: string, id = "") =>
 	id ? `/api/traefik_manager/v1${url}/${id}` : `/api/traefik_manager/v1${url}`;
