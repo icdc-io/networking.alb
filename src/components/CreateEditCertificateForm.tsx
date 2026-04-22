@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useMutateData } from "container/Api";
 import { Button } from "container/Button";
 import {
@@ -27,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
 import { CERTIFICATES_FETCH_URL, certificateUrl } from "@/AppConstants";
+import type { getCertificateDetails } from "@/queries/getCertificateDetails";
 import { getCertificatesList } from "@/queries/getCertificatesList";
 import type { components, paths } from "@/schemas/balancer-api";
 import { CertificateForm } from "@/schemas/CertificateForm";
@@ -56,9 +58,7 @@ const initialCertificatesData = {
 };
 
 type CreateEditCertificateForm = {
-	initialFormState:
-		| paths["/certificates/{id}"]["get"]["responses"]["200"]["content"]["application/json"]
-		| undefined;
+	certDetails: ReturnType<typeof getCertificateDetails>;
 };
 
 type CertificateBody = {
@@ -66,8 +66,9 @@ type CertificateBody = {
 };
 
 const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
-	initialFormState,
+	certDetails,
 }) => {
+	const initialFormState = certDetails.data;
 	const isEditing = !!initialFormState;
 	const { t } = useTranslation();
 	const navigate = useNavigate();
@@ -92,6 +93,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 	const [certificatesData, setCertificatesData] = useState(
 		initialCertificatesData,
 	);
+	const queryClient = useQueryClient();
 
 	const ref = useRef<CancelModalRef>(null);
 
@@ -242,8 +244,8 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 					owner: isEditing ? initialFormState.owner : userEmail,
 				},
 			},
-		}).then(() => {
-			refetch();
+		}).then((res) => {
+			queryClient.setQueryData(certDetails.queryKey, () => res);
 			navigate("..", { relative: "path" });
 		});
 	};

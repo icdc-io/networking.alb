@@ -7,4 +7,6 @@ export const getCertificatesList = () =>
 		paths["/certificates"]["get"]["responses"]["200"]["content"]["application/json"]
 	>({
 		endpoint: getFullPath(CERTIFICATES_FETCH_URL),
+		gcTime: 0,
+		staleTime: 0,
 	});

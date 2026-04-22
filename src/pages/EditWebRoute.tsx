@@ -6,15 +6,15 @@ import { getRouteDetails } from "@/queries/getRouteDetails";
 
 const EditWebRoute = () => {
 	const { id } = useParams();
-	const { data, isFetching, isError, refetch } = getRouteDetails(id);
+	const routeDetails = getRouteDetails(id);
 
-	if (isFetching) return <Loader />;
+	if (routeDetails.isFetching) return <Loader />;
 
-	if (isError) return <ErrorScreen />;
+	if (routeDetails.isError) return <ErrorScreen />;
 
-	if (!data) return null;
+	if (!routeDetails.data) return null;
 
-	return <WebRouteForm initialValues={data} refetch={refetch} />;
+	return <WebRouteForm routeDetails={routeDetails} />;
 };
 
 export default EditWebRoute;
