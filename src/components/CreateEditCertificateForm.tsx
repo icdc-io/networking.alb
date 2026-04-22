@@ -29,8 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
 import { CERTIFICATES_FETCH_URL, certificateUrl } from "@/AppConstants";
 import type { getCertificateDetails } from "@/queries/getCertificateDetails";
-import { getCertificatesList } from "@/queries/getCertificatesList";
-import type { components, paths } from "@/schemas/balancer-api";
+import type { components } from "@/schemas/balancer-api";
 import { CertificateForm } from "@/schemas/CertificateForm";
 import { getFullPath } from "../AppConstants";
 import CancelChangesModal, { type CancelModalRef } from "./CancelChangesModal";
@@ -78,7 +77,6 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 		components["schemas"]["Certificate_POST"],
 		CertificateBody
 	>({});
-	const { refetch } = getCertificatesList();
 	const form = useForm({
 		resolver: zodResolver(CertificateForm),
 		defaultValues: initialFormState
