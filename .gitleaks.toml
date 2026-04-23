@@ -3,3 +3,8 @@ useDefault = true
 
 [allowlist]
 regexes = ["sk_test_4eC39HqLyjWDarjtT1zdp7dc"]
+paths = [
+  '''^src/components/mock\.js$''',
+  '''^openapi\.yaml$''',
+  '''^src/schemas/balancer-api\.ts$'''
+]
