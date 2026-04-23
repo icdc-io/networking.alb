@@ -19,7 +19,7 @@ export type CancelModalRef = {
 	handleClick: () => void;
 };
 
-function CancelChangesModal(
+const CancelChangesModal = React.forwardRef(function CancelChangesModalInner(
 	{ onConfirm }: CancelChangesModalProps,
 	ref: Ref<CancelModalRef>,
 ) {
@@ -58,6 +58,6 @@ function CancelChangesModal(
 			</DialogContent>
 		</Dialog>
 	);
-}
+});
 
-export default React.forwardRef(CancelChangesModal);
+export default CancelChangesModal;

@@ -24,7 +24,9 @@ export type ModalRef<T> = {
 	handleClick: (instance: T) => void;
 };
 
-function DeleteModal<T extends Instance>(
+const DeleteModal = React.forwardRef(function DeleteModalInner<
+	T extends Instance,
+>(
 	{ onSubmit, title, description = "" }: DeleteModalProps<T>,
 	ref: Ref<ModalRef<T>>,
 ) {
@@ -76,6 +78,6 @@ function DeleteModal<T extends Instance>(
 			</DialogContent>
 		</Dialog>
 	);
-}
+});
 
-export default React.forwardRef(DeleteModal);
+export default DeleteModal;
