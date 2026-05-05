@@ -1,7 +1,6 @@
-import { getFullPath } from "@/AppConstants";
-import { WEB_ROUTES_GATEWAYS_FETCH_URL } from "@/AppConstants";
-import type { paths } from "@/schemas/balancer-api";
 import { useFetchData } from "container/Api";
+import { getFullPath, WEB_ROUTES_GATEWAYS_FETCH_URL } from "@/AppConstants";
+import type { paths } from "@/schemas/balancer-api";
 
 export const getGatewaysList = () =>
 	useFetchData<

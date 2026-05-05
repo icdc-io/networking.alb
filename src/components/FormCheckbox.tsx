@@ -1,7 +1,3 @@
-import type {
-	CheckboxField,
-	FormFieldComponent,
-} from "@/constants/webRouteForm";
 import { Checkbox } from "container/Checkbox";
 import {
 	FormControl,
@@ -14,6 +10,10 @@ import Popup from "container/Popup";
 import { CircleHelp } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import type {
+	CheckboxField,
+	FormFieldComponent,
+} from "@/constants/webRouteForm";
 
 const FormCheckbox: FC<FormFieldComponent<CheckboxField>> = ({
 	fieldInfo,

@@ -23,4 +23,4 @@ export const CERTIFICATE_UPDATE = "CERTIFICATE_UPDATE";
 export const certificateUrl = (id: string | number | undefined) =>
 	`/certificates/${id}`;
 export const getFullPath = (url: string, id = "") =>
-	`/api/traefik_manager/v1${url}/${id}`;
+	id ? `/api/traefik_manager/v1${url}/${id}` : `/api/traefik_manager/v1${url}`;

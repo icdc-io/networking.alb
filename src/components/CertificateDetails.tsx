@@ -1,7 +1,7 @@
-import { getCertificateDetails } from "@/queries/getCertificateDetails";
 import ErrorScreen from "container/ErrorScreen";
 import Loader from "container/Loader";
 import { useParams } from "react-router-dom";
+import { getCertificateDetails } from "@/queries/getCertificateDetails";
 import ButtonBack from "../general/buttonBack";
 import CertificateDetailsContent from "./CertificateDetailsContent";
 
@@ -11,7 +11,6 @@ const CertificateDetails = () => {
 		data: certificateDetails,
 		isFetching,
 		isError,
-		refetch,
 	} = getCertificateDetails(id);
 
 	return (
@@ -24,10 +23,7 @@ const CertificateDetails = () => {
 			) : isError ? (
 				<ErrorScreen />
 			) : certificateDetails ? (
-				<CertificateDetailsContent
-					data={certificateDetails}
-					refetch={refetch}
-				/>
+				<CertificateDetailsContent data={certificateDetails} />
 			) : null}
 		</div>
 	);

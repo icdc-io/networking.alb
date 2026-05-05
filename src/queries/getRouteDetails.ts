@@ -1,7 +1,6 @@
-import { getFullPath } from "@/AppConstants";
-import { webRouteUrl } from "@/AppConstants";
-import type { paths } from "@/schemas/balancer-api";
 import { useFetchData } from "container/Api";
+import { getFullPath, webRouteUrl } from "@/AppConstants";
+import type { paths } from "@/schemas/balancer-api";
 
 export const getRouteDetails = (id: string | undefined) =>
 	useFetchData<

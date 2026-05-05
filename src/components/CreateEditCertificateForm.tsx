@@ -1,7 +1,4 @@
-import { CERTIFICATES_FETCH_URL, certificateUrl } from "@/AppConstants";
-import { getCertificatesList } from "@/queries/getCertificatesList";
-import { CertificateForm } from "@/schemas/CertificateForm";
-import type { components, paths } from "@/schemas/balancer-api";
+import { useQueryClient } from "@tanstack/react-query";
 import { useMutateData } from "container/Api";
 import { Button } from "container/Button";
 import {
@@ -30,6 +27,10 @@ import {
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
+import { CERTIFICATES_FETCH_URL, certificateUrl } from "@/AppConstants";
+import type { getCertificateDetails } from "@/queries/getCertificateDetails";
+import type { components } from "@/schemas/balancer-api";
+import { CertificateForm } from "@/schemas/CertificateForm";
 import { getFullPath } from "../AppConstants";
 import CancelChangesModal, { type CancelModalRef } from "./CancelChangesModal";
 
@@ -56,9 +57,7 @@ const initialCertificatesData = {
 };
 
 type CreateEditCertificateForm = {
-	initialFormState:
-		| paths["/certificates/{id}"]["get"]["responses"]["200"]["content"]["application/json"]
-		| undefined;
+	certDetails: ReturnType<typeof getCertificateDetails>;
 };
 
 type CertificateBody = {
@@ -66,8 +65,9 @@ type CertificateBody = {
 };
 
 const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
-	initialFormState,
+	certDetails,
 }) => {
+	const initialFormState = certDetails.data;
 	const isEditing = !!initialFormState;
 	const { t } = useTranslation();
 	const navigate = useNavigate();
@@ -77,7 +77,6 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 		components["schemas"]["Certificate_POST"],
 		CertificateBody
 	>({});
-	const { refetch } = getCertificatesList();
 	const form = useForm({
 		resolver: zodResolver(CertificateForm),
 		defaultValues: initialFormState
@@ -92,6 +91,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 	const [certificatesData, setCertificatesData] = useState(
 		initialCertificatesData,
 	);
+	const queryClient = useQueryClient();
 
 	const ref = useRef<CancelModalRef>(null);
 
@@ -182,7 +182,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 								<b>{t(`${el}_label`)}</b>
 							</FormLabel>
 							<FormControl>
-								<>
+								<div>
 									<div className="relative" data-active={false}>
 										<Input
 											value={fileNames[fieldName]}
@@ -221,7 +221,7 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 									<div>
 										<Textarea {...field} value={field.value} />
 									</div>
-								</>
+								</div>
 							</FormControl>
 						</FormItem>
 					);
@@ -242,9 +242,9 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 					owner: isEditing ? initialFormState.owner : userEmail,
 				},
 			},
-		}).then(() => {
-			refetch();
-			navigate("../..", { relative: "path" });
+		}).then((res) => {
+			queryClient.setQueryData(certDetails.queryKey, () => res);
+			navigate("..", { relative: "path" });
 		});
 	};
 

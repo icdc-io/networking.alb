@@ -1,12 +1,12 @@
-import { getFullPath } from "@/AppConstants";
-import { certificateUrl } from "@/AppConstants";
-import type { Certificate } from "@/entities/Certificate";
 import { useMutateData } from "container/Api";
 import { Button } from "container/Button";
 import CodeSnippet from "container/CodeSnippet";
 import { type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
+import { certificateUrl, getFullPath } from "@/AppConstants";
+import type { Certificate } from "@/entities/Certificate";
+import { getCertificatesList } from "@/queries/getCertificatesList";
 import CertificateImg from "../static/images/certificate.svg";
 import BalancerApiButton from "./BalancerApiButton";
 import DeleteModal, { type ModalRef } from "./DeleteModal";
@@ -18,17 +18,14 @@ type Instance = Omit<
 
 type CertificateDetailsContent = {
 	data: Certificate;
-	refetch: () => void;
 };
 
-const CertificateDetailsContent: FC<CertificateDetailsContent> = ({
-	data,
-	refetch,
-}) => {
+const CertificateDetailsContent: FC<CertificateDetailsContent> = ({ data }) => {
 	const { t } = useTranslation();
 	const ref = useRef<ModalRef<Instance>>(null);
 	const { mutateAsync } = useMutateData({});
 	const navigate = useNavigate();
+	const { refetch } = getCertificatesList();
 
 	const certificatesData = [
 		{

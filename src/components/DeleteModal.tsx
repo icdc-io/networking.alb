@@ -7,7 +7,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "container/Modal";
-import React, { useState, type Ref, useImperativeHandle } from "react";
+import React, { type Ref, useImperativeHandle, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 type DeleteModalProps<T> = {
@@ -24,7 +24,9 @@ export type ModalRef<T> = {
 	handleClick: (instance: T) => void;
 };
 
-function DeleteModal<T extends Instance>(
+const DeleteModal = React.forwardRef(function DeleteModalInner<
+	T extends Instance,
+>(
 	{ onSubmit, title, description = "" }: DeleteModalProps<T>,
 	ref: Ref<ModalRef<T>>,
 ) {
@@ -76,6 +78,6 @@ function DeleteModal<T extends Instance>(
 			</DialogContent>
 		</Dialog>
 	);
-}
+});
 
-export default React.forwardRef(DeleteModal);
+export default DeleteModal;

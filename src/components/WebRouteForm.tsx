@@ -1,38 +1,37 @@
-import { getCertificatesList } from "@/queries/getCertificatesList";
-import { getGatewaysList } from "@/queries/getGatewaysList";
-import { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMutateData } from "container/Api";
 import { Button } from "container/Button";
 import { Form, FormField, useForm, zodResolver } from "container/Form";
 import { useAppSelector } from "container/ReduxActions";
-
-import { WEB_ROUTES_FETCH_URL, getFullPath, webRouteUrl } from "@/AppConstants";
+import { type FC, Fragment, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
+import type { z } from "zod";
+import { getFullPath, WEB_ROUTES_FETCH_URL, webRouteUrl } from "@/AppConstants";
 import {
 	type ContentField,
-	FIELD_TYPES,
-	type FieldsTypes,
-	type FormFieldComponent,
-	type RouteInfo,
-	type SelectField,
-	TlsTermination,
 	certificateDefaultOptions,
 	certificatesToOptions,
 	createFormSections,
+	FIELD_TYPES,
+	type FieldsTypes,
+	type FormFieldComponent,
 	initialState,
 	insecureOptions,
 	methodsOptions,
 	optionsOfScheme,
+	type SelectField,
+	TlsTermination,
 	tlsOptions,
 	toInitialValues,
 	toRequestBody,
 } from "@/constants/webRouteForm";
 import ButtonBack from "@/general/buttonBack";
-import { getRoutesList } from "@/queries/getRoutesList";
+import { getCertificatesList } from "@/queries/getCertificatesList";
+import { getGatewaysList } from "@/queries/getGatewaysList";
+import type { getRouteDetails } from "@/queries/getRouteDetails";
 import type { components } from "@/schemas/balancer-api";
-import { useMutateData } from "container/Api";
-import { type FC, Fragment, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
-import type { z } from "zod";
+import { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 import AltServices from "./AltServices";
 import CancelChangesModal, { type CancelModalRef } from "./CancelChangesModal";
 import FormCheckbox from "./FormCheckbox";
@@ -43,17 +42,16 @@ import FormSelect from "./FormSelect";
 import HeadersFormSection from "./HeadersFormSection";
 
 type WebRouteFormType = {
-	initialValues?: RouteInfo;
-	refetch?: () => void;
+	routeDetails?: ReturnType<typeof getRouteDetails>;
 };
 
-const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
+const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
+	const initialValues = routeDetails?.data;
 	const { t } = useTranslation();
 	const { id } = useParams();
 	const isEditing = !!initialValues;
 	const userEmail = useAppSelector((state) => state.host.email);
-	const { data: certificates = [], isSuccess: certsFetchSuccess } =
-		getCertificatesList();
+	const { data: certificates = [] } = getCertificatesList();
 	const { data: gateways = [], isSuccess: isGatewaysFetchSuccess } =
 		getGatewaysList();
 	const form = useForm<z.infer<typeof WebRouteFormSchema>>({
@@ -66,9 +64,9 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 		components["schemas"]["Route"]["route"],
 		components["schemas"]["Route_POST"]
 	>({});
-	const { refetch: refetchRoutesList } = getRoutesList();
 	const ref = useRef<CancelModalRef>(null);
 	const isSecure = form.watch("isSecure");
+	const queryClient = useQueryClient();
 
 	const navigate = useNavigate();
 
@@ -83,14 +81,14 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 			method: isEditing ? "PUT" : "POST",
 			endpoint: getFullPath(isEditing ? webRouteUrl(id) : WEB_ROUTES_FETCH_URL),
 			body,
-		}).then(() => {
-			if (isEditing) refetch?.();
-			refetchRoutesList();
+		}).then((res) => {
+			if (isEditing)
+				queryClient.setQueryData(routeDetails.queryKey, () => ({ route: res }));
+
 			navigate("..", { relative: "path" });
 		});
 	};
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!isGatewaysFetchSuccess || isEditing) return;
 		form.setValue(
@@ -201,7 +199,6 @@ const WebRouteForm: FC<WebRouteFormType> = ({ initialValues, refetch }) => {
 					!!(fieldInfo as ContentField).content
 				)
 					return isHidden(fieldInfo.valuesToHide) ? null : (
-						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						<Fragment key={key}>{(fieldInfo as ContentField).content}</Fragment>
 					);
 

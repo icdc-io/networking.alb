@@ -7,7 +7,6 @@ import {
 import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import Dotenv from "dotenv-webpack";
-//@ts-ignore
 import mfConfig from "./modulefederation.config";
 
 const { publicVars } = loadEnv({ prefixes: ["REACT_APP_"] });
@@ -21,7 +20,7 @@ export default ({ envMode }) => {
 			define: publicVars,
 		},
 		tools: {
-			rspack: (config, { appendPlugins, rspack, isProd }) => {
+			rspack: (config, { appendPlugins }) => {
 				if (config.output) config.output.publicPath = "auto";
 				const plugins: BundlerPluginInstance[] = [
 					new ModuleFederationPlugin(mfConfig),

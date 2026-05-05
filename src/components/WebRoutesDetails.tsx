@@ -1,7 +1,7 @@
-import { getRouteDetails } from "@/queries/getRouteDetails";
 import ErrorScreen from "container/ErrorScreen";
 import Loader from "container/Loader";
 import { useParams } from "react-router-dom";
+import { getRouteDetails } from "@/queries/getRouteDetails";
 import ButtonBack from "../general/buttonBack";
 import WebRoutesDetailsContent from "./WebRoutesDetailsContent";
 
