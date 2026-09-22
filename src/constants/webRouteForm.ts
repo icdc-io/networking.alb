@@ -88,6 +88,10 @@ export const certificateDefaultOptions = [
 	{ text: "Let's Encrypt", value: "none" },
 ];
 
+export const useCertificatePassthroughOptions = () => {
+	return [{ text: "Provided by target server", value: "none" }];
+};
+
 export const insecureOptions = [
 	{ text: "allow", value: "allow" },
 	{ text: "redirect", value: "redirect" },

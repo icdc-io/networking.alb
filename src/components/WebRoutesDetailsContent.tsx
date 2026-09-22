@@ -6,6 +6,7 @@ import { type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { getFullPath, webRouteUrl } from "@/AppConstants";
+import { TlsTermination } from "@/constants/webRouteForm";
 import { getCertificateDetails } from "@/queries/getCertificateDetails";
 import { getRoutesList } from "@/queries/getRoutesList";
 import type { components } from "@/schemas/balancer-api";
@@ -189,7 +190,13 @@ const WebRoutesDetailsContent: FC<WebRoutesDetailsContent> = ({ route }) => {
 				</dl>
 				<dl className="flex flex-wrap gap-2">
 					<dt>{t("certificate")}:</dt>
-					<dd>{route.certificate_id ? certificate?.name : t("none")}</dd>
+					<dd>
+						{route.certificate_id
+							? certificate?.name
+							: route.tls_termination === TlsTermination.PASSTHROUGH
+								? t("providedByTargetServer")
+								: t("none")}
+					</dd>
 				</dl>
 			</div>
 
