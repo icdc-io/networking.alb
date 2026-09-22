@@ -196,7 +196,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 			{sectionInfo.fields.map((fieldInfo, key) => {
 				if (
 					fieldInfo.type === FIELD_TYPES.CONTENT &&
-					!!(fieldInfo as ContentField).content
+					(fieldInfo as ContentField).content
 				)
 					return isHidden(fieldInfo.valuesToHide) ? null : (
 						<Fragment key={key}>{(fieldInfo as ContentField).content}</Fragment>
