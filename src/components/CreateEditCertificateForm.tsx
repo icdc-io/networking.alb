@@ -150,10 +150,8 @@ const CreateEditCertificateForm: FC<CreateEditCertificateForm> = ({
 	const handleDragOver = (e: DragEvent<HTMLDivElement>) => e.preventDefault();
 
 	const onClickCertificate = (e: MouseEvent<HTMLButtonElement>) => {
-		(
-			(e.target as HTMLButtonElement).parentNode
-				?.children[2] as HTMLButtonElement
-		).click();
+		const parent = (e.target as HTMLButtonElement).parentNode;
+		(parent?.children[2] as HTMLButtonElement | undefined)?.click();
 	};
 
 	const onFocus = (e: FocusEvent<HTMLInputElement>) => {
