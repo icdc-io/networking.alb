@@ -25,6 +25,7 @@ import {
 	tlsOptions,
 	toInitialValues,
 	toRequestBody,
+	useCertificatePassthroughOptions,
 } from "@/constants/webRouteForm";
 import ButtonBack from "@/general/buttonBack";
 import { getCertificatesList } from "@/queries/getCertificatesList";
@@ -70,6 +71,8 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 
 	const navigate = useNavigate();
 
+	const certificatePassthroughOptions = useCertificatePassthroughOptions();
+
 	const onSubmit = (values: z.infer<typeof WebRouteFormSchema>) => {
 		const body = {
 			route: {
@@ -108,22 +111,19 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 			value: `${el.id}`,
 		}));
 
+	const tlsTermination = form.watch("tls_termination");
+
 	const options = {
 		cloud_gateway_id: cloudGatewaysOptions,
 		"healthcheck.scheme": optionsOfScheme,
 		"healthcheck.method": methodsOptions,
 		tls_termination: tlsOptions,
 		insecure: insecureOptions,
-		certificate_id: [...certificateDefaultOptions, ...certificatesOptions],
+		certificate_id:
+			tlsTermination === TlsTermination.PASSTHROUGH
+				? certificatePassthroughOptions
+				: [...certificateDefaultOptions, ...certificatesOptions],
 	};
-
-	const tlsTermination = form.watch("tls_termination");
-
-	useEffect(() => {
-		if (tlsTermination === TlsTermination.PASSTHROUGH) {
-			form.setValue("insecure", "");
-		}
-	}, [tlsTermination]);
 
 	useEffect(() => {
 		if (!isSecure) {
@@ -217,7 +217,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 						options[formFieldInfo.name as keyof typeof options];
 
 				if (
-					formFieldInfo.name === "insecure" &&
+					formFieldInfo.name === "certificate_id" &&
 					tlsTermination === TlsTermination.PASSTHROUGH
 				) {
 					(formFieldInfo as SelectField).disabled = true;

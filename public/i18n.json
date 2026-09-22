@@ -414,7 +414,8 @@
 			"enableNat": "Enable NAT for the subnet",
 			"enableNatTip": "This option simplifies network configuration by enabling network address translation (NAT) for all VPN devices. It eliminates the need to configure network routes and security groups to access target VMs.",
 			"privateKeyValidation": "Must be a valid private key",
-			"publicKeyValidation": "Must be a valid public key"
+			"publicKeyValidation": "Must be a valid public key",
+			"providedByTargetServer": "Provided by target server"
 		}
 	},
 	"ru": {
@@ -815,7 +816,8 @@
 			"enableNat": "Включить NAT для подсети",
 			"enableNatTip": "Эта опция упрощает настройку сети, включая трансляцию сетевых адресов (NAT) для всех устройств VPN. Это исключает необходимость настраивать маршруты сети и группы безопасности для доступа к целевым виртуальным машинам (VM).",
 			"privateKeyValidation": "Пожалуйста, введите действительный приватный ключ",
-			"publicKeyValidation": "Пожалуйста, введите действительный публичный ключ"
+			"publicKeyValidation": "Пожалуйста, введите действительный публичный ключ",
+			"providedByTargetServer": "Предоставлен целевым сервером"
 		}
 	}
 }
