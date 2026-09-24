@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { ControllerRenderProps, FieldError } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import type { z } from "zod";
 import { Admonition } from "@/components/Admonition";
 import type { WebRoute } from "@/entities/WebRoute";
@@ -369,14 +368,6 @@ type Section = {
 	fields: Array<FieldsTypes>;
 };
 
-const TargetDescription = () => {
-	const { t } = useTranslation();
-
-	return (
-		<span className="subTitleForm">{t("traefikSplitTrafficDescript")}</span>
-	);
-};
-
 export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 	{
 		title: "general",
@@ -422,21 +413,17 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 	},
 	{
 		title: "traefikTargetServices",
-		description: "",
+		description: "traefikSplitTrafficDescript",
 		fields: [
+			{
+				type: FIELD_TYPES.CONTENT,
+				content: dynamicContent[0],
+			},
 			{
 				type: FIELD_TYPES.RADIO,
 				name: "ip_version",
 				label: ["ipInterface"],
 				options: ipOptions,
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: <TargetDescription />,
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: dynamicContent[0],
 			},
 			{
 				type: FIELD_TYPES.CONTENT,
