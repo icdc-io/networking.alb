@@ -4,7 +4,6 @@ import { Button } from "container/Button";
 import { Form, FormField, useForm, zodResolver } from "container/Form";
 import { useAppSelector } from "container/ReduxActions";
 import { type FC, Fragment, useEffect, useRef } from "react";
-import { useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
@@ -13,7 +12,6 @@ import {
 	type ContentField,
 	certificateDefaultOptions,
 	certificatesToOptions,
-	createFormSections,
 	FIELD_TYPES,
 	type FieldsTypes,
 	type FormFieldComponent,
@@ -27,6 +25,7 @@ import {
 	toInitialValues,
 	toRequestBody,
 	useCertificatePassthroughOptions,
+	useCreateFormSections,
 } from "@/constants/webRouteForm";
 import ButtonBack from "@/general/buttonBack";
 import { getCertificatesList } from "@/queries/getCertificatesList";
@@ -34,14 +33,12 @@ import { getGatewaysList } from "@/queries/getGatewaysList";
 import type { getRouteDetails } from "@/queries/getRouteDetails";
 import type { components } from "@/schemas/balancer-api";
 import { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
-import AltServices from "./AltServices";
 import CancelChangesModal, { type CancelModalRef } from "./CancelChangesModal";
 import FormCheckbox from "./FormCheckbox";
 import FormCombobox from "./FormCombobox";
 import FormInput from "./FormInput";
 import FormRadio from "./FormRadio";
 import FormSelect from "./FormSelect";
-import HeadersFormSection from "./HeadersFormSection";
 
 type WebRouteFormType = {
 	routeDetails?: ReturnType<typeof getRouteDetails>;
@@ -157,10 +154,6 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 		}
 	}, [isEditing, isSecure]);
 
-	const healthCheckSubtitle = (
-		<h5 className="font-base font-bold">{t("healthCheck")}</h5>
-	);
-
 	const fieldsByTypes = {
 		[FIELD_TYPES.INPUT]: FormInput,
 		[FIELD_TYPES.SELECT]: FormSelect,
@@ -170,11 +163,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 		[FIELD_TYPES.COMBOBOX]: FormCombobox,
 	};
 
-	const formSections = createFormSections([
-		<AltServices key={"AltService"} form={form} />,
-		healthCheckSubtitle,
-		<HeadersFormSection key={"HeadersFormSection"} form={form} />,
-	]);
+	const formSections = useCreateFormSections(form);
 
 	const isHidden = (hideInfo: string[] | undefined) => {
 		if (!hideInfo) return false;
