@@ -416,9 +416,9 @@
 			"privateKeyValidation": "Must be a valid private key",
 			"publicKeyValidation": "Must be a valid public key",
 			"providedByTargetServer": "Provided by target server",
-			"healthCheckAdm_single": "The target service has multiple IP addresses.\nConfiguring a HealthCheck is strongly recommended to exclude unavailable IP addresses and prevent partial request loss.",
-			"healthCheckAdm_multiple": "The target services have multiple IP addresses.\nConfiguring a HealthCheck is strongly recommended to exclude unavailable IP addresses and prevent partial request loss.",
-			"passthroughAdm": "HealthCheck does not work with Passthrough Termination, when multiple IP addresses are configured"
+			"healthCheckAdm_single": "The target service has multiple IP\u00a0addresses.\nConfiguring a HealthCheck is strongly recommended to exclude unavailable IP\u00a0addresses and prevent partial request loss.",
+			"healthCheckAdm_multiple": "The target services have multiple IP\u00a0addresses.\nConfiguring a HealthCheck is strongly recommended to exclude unavailable IP\u00a0addresses and prevent partial request loss.",
+			"passthroughAdm": "HealthCheck does not work with Passthrough Termination, when multiple IP\u00a0addresses are configured"
 		}
 	},
 	"ru": {
@@ -821,9 +821,9 @@
 			"privateKeyValidation": "Пожалуйста, введите действительный приватный ключ",
 			"publicKeyValidation": "Пожалуйста, введите действительный публичный ключ",
 			"providedByTargetServer": "Предоставлен целевым сервером",
-			"healthCheckAdm_single": "Целевой сервис использует несколько IP-адресов.\nНастоятельно рекомендуется настройка HealthCheck, чтобы исключать недоступные IP-адреса и предотвращать частичную потерю запросов.",
-			"healthCheckAdm_multiple": "Целевые сервисы используют несколько IP-адресов.\nНастоятельно рекомендуется настройка HealthCheck, чтобы исключать недоступные IP-адреса и предотвращать частичную потерю запросов.",
-			"passthroughAdm": "HealthCheck не работает при терминации Passthrough, если настроено несколько IP-адресов."
+			"healthCheckAdm_single": "Целевой сервис использует несколько IP-\u2060адресов.\nНастоятельно рекомендуется настройка HealthCheck, чтобы исключать недоступные IP\u2060адреса и предотвращать частичную потерю запросов.",
+			"healthCheckAdm_multiple": "Целевые сервисы используют несколько IP-\u2060адресов.\nНастоятельно рекомендуется настройка HealthCheck, чтобы исключать недоступные IP\u2060адреса и предотвращать частичную потерю запросов.",
+			"passthroughAdm": "HealthCheck не работает при терминации Passthrough, если настроено несколько IP-\u2060адресов."
 		}
 	}
 }
