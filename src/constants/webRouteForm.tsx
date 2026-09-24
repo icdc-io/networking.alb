@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import type { ControllerRenderProps, FieldError } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { z } from "zod";
+import { Admonition } from "@/components/Admonition";
 import type { WebRoute } from "@/entities/WebRoute";
 import type { paths } from "@/schemas/balancer-api";
 import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
@@ -296,6 +298,7 @@ export type InputField = {
 	description?: string;
 	clarification?: string;
 	valuesToHide?: string[];
+	hidden?: (values: any) => boolean;
 };
 
 export type SelectField = {
@@ -309,6 +312,7 @@ export type SelectField = {
 	valuesToHide?: string[];
 	isClearable?: boolean;
 	disabled?: boolean;
+	hidden?: (values: any) => boolean;
 };
 
 export type ComboboxField = {
@@ -321,6 +325,7 @@ export type ComboboxField = {
 	clarification?: string;
 	valuesToHide?: string[];
 	isClearable?: boolean;
+	hidden?: (values: any) => boolean;
 };
 
 export type CheckboxField = {
@@ -330,6 +335,7 @@ export type CheckboxField = {
 	clarification?: string;
 	valuesToHide?: string[];
 	description?: string;
+	hidden?: (values: any) => boolean;
 };
 
 export type RadioField = {
@@ -340,12 +346,14 @@ export type RadioField = {
 	clarification?: string;
 	valuesToHide?: string[];
 	description?: string;
+	hidden?: (values: any) => boolean;
 };
 
 export type ContentField = {
 	type: typeof FIELD_TYPES.CONTENT;
 	content: ReactNode | undefined;
 	valuesToHide?: string[];
+	hidden?: (values: any) => boolean;
 };
 
 export type FieldsTypes =
@@ -359,6 +367,14 @@ type Section = {
 	title: string;
 	description: string;
 	fields: Array<FieldsTypes>;
+};
+
+const TargetDescription = () => {
+	const { t } = useTranslation();
+
+	return (
+		<span className="subTitleForm">{t("traefikSplitTrafficDescript")}</span>
+	);
 };
 
 export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
@@ -406,17 +422,28 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 	},
 	{
 		title: "traefikTargetServices",
-		description: "traefikSplitTrafficDescript",
+		description: "",
 		fields: [
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: dynamicContent[0],
-			},
 			{
 				type: FIELD_TYPES.RADIO,
 				name: "ip_version",
 				label: ["ipInterface"],
 				options: ipOptions,
+			},
+			{
+				type: FIELD_TYPES.CONTENT,
+				content: <TargetDescription />,
+			},
+			{
+				type: FIELD_TYPES.CONTENT,
+				content: dynamicContent[0],
+			},
+			{
+				type: FIELD_TYPES.CONTENT,
+				hidden: (values: any) =>
+					values.services.filter((s: { id: string; weight: string }) => s.id)
+						.length < 2,
+				content: <Admonition message="healthCheckAdm" />,
 			},
 			{
 				type: FIELD_TYPES.CONTENT,
@@ -515,6 +542,16 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 				label: ["tlsTermination"],
 				placeholder: ["none"],
 				valuesToHide: ["isSecure"],
+			},
+			{
+				type: FIELD_TYPES.CONTENT,
+				hidden: (values: any) =>
+					!(
+						values.services.filter((s: { id: string; weight: string }) => s.id)
+							.length > 1 &&
+						values.tls_termination === TlsTermination.PASSTHROUGH
+					),
+				content: <Admonition message="passthroughAdm" />,
 			},
 			{
 				type: FIELD_TYPES.SELECT,
