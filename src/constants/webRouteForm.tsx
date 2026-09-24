@@ -420,17 +420,17 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 				content: dynamicContent[0],
 			},
 			{
-				type: FIELD_TYPES.RADIO,
-				name: "ip_version",
-				label: ["ipInterface"],
-				options: ipOptions,
-			},
-			{
 				type: FIELD_TYPES.CONTENT,
 				hidden: (values: any) =>
 					values.services.filter((s: { id: string; weight: string }) => s.id)
 						.length < 2,
 				content: <Admonition message="healthCheckAdm" />,
+			},
+			{
+				type: FIELD_TYPES.RADIO,
+				name: "ip_version",
+				label: ["ipInterface"],
+				options: ipOptions,
 			},
 			{
 				type: FIELD_TYPES.CONTENT,
@@ -536,8 +536,7 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 					!(
 						values.services.filter((s: { id: string; weight: string }) => s.id)
 							.length > 1 &&
-						values.tls_termination === TlsTermination.PASSTHROUGH &&
-						values.healthcheck_enabled
+						values.tls_termination === TlsTermination.PASSTHROUGH
 					),
 				content: <Admonition message="passthroughAdm" />,
 			},
