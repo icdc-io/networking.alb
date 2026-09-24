@@ -4,6 +4,7 @@ import { Button } from "container/Button";
 import { Form, FormField, useForm, zodResolver } from "container/Form";
 import { useAppSelector } from "container/ReduxActions";
 import { type FC, Fragment, useEffect, useRef } from "react";
+import { useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
@@ -68,6 +69,7 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 	const ref = useRef<CancelModalRef>(null);
 	const isSecure = form.watch("isSecure");
 	const queryClient = useQueryClient();
+	const values = form.watch(form.control);
 
 	const navigate = useNavigate();
 
@@ -194,6 +196,8 @@ const WebRouteForm: FC<WebRouteFormType> = ({ routeDetails }) => {
 				<span className="subTitleForm">{t(sectionInfo.description)}</span>
 			)}
 			{sectionInfo.fields.map((fieldInfo, key) => {
+				if (typeof fieldInfo.hidden === "function" && fieldInfo.hidden(values))
+					return null;
 				if (
 					fieldInfo.type === FIELD_TYPES.CONTENT &&
 					(fieldInfo as ContentField).content

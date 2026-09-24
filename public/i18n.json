@@ -415,7 +415,9 @@
 			"enableNatTip": "This option simplifies network configuration by enabling network address translation (NAT) for all VPN devices. It eliminates the need to configure network routes and security groups to access target VMs.",
 			"privateKeyValidation": "Must be a valid private key",
 			"publicKeyValidation": "Must be a valid public key",
-			"providedByTargetServer": "Provided by target server"
+			"providedByTargetServer": "Provided by target server",
+			"healthCheckAdm": "The target service(s) have multiple IP addresses.Configuring a HealthCheck is strongly recommended to exclude unavailable IP addresses and prevent partial request loss.",
+			"passthroughAdm": "HealthCheck does not work with Passthrough Termination, when multiple IP addresses are configured"
 		}
 	},
 	"ru": {
@@ -817,7 +819,9 @@
 			"enableNatTip": "Эта опция упрощает настройку сети, включая трансляцию сетевых адресов (NAT) для всех устройств VPN. Это исключает необходимость настраивать маршруты сети и группы безопасности для доступа к целевым виртуальным машинам (VM).",
 			"privateKeyValidation": "Пожалуйста, введите действительный приватный ключ",
 			"publicKeyValidation": "Пожалуйста, введите действительный публичный ключ",
-			"providedByTargetServer": "Предоставлен целевым сервером"
+			"providedByTargetServer": "Предоставлен целевым сервером",
+			"healthCheckAdm": "Целевой(ые) сервис(ы) имеют несколько IP-адресов. Настоятельно рекомендуется настройка HealthCheck, чтобы исключать недоступные IP-адреса и предотвращать частичную потерю запросов.",
+			"passthroughAdm": "HealthCheck не работает при терминации Passthrough, если настроено несколько IP-адресов."
 		}
 	}
 }
