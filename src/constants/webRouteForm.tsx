@@ -536,7 +536,8 @@ export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
 					!(
 						values.services.filter((s: { id: string; weight: string }) => s.id)
 							.length > 1 &&
-						values.tls_termination === TlsTermination.PASSTHROUGH
+						values.tls_termination === TlsTermination.PASSTHROUGH &&
+						values.healthcheck_enabled
 					),
 				content: <Admonition message="passthroughAdm" />,
 			},
