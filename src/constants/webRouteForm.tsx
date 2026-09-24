@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
 import type { ControllerRenderProps, FieldError } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { z } from "zod";
 import { Admonition } from "@/components/Admonition";
+import AltServices from "@/components/AltServices";
+import HeadersFormSection from "@/components/HeadersFormSection";
 import type { WebRoute } from "@/entities/WebRoute";
+import { getServicesList } from "@/queries/getServicesList";
 import type { paths } from "@/schemas/balancer-api";
 import type { WebRouteFormSchema } from "@/schemas/WebRouteFormSchema";
 import { toOptions } from "@/utilities/toOptions";
@@ -368,198 +372,224 @@ type Section = {
 	fields: Array<FieldsTypes>;
 };
 
-export const createFormSections = (dynamicContent: ReactNode[]): Section[] => [
-	{
-		title: "general",
-		description: "",
-		fields: [
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "name",
-				label: ["name"],
-				placeholder: ["my-route"],
-				description: "traefikUniqName",
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "hostname",
-				label: ["hostname"],
-				placeholder: ["www.example.com"],
-				description: "traefikPublHostname",
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "path",
-				label: ["path", "optional"],
-				placeholder: ["/"],
-				description: "traefikPath",
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "target_port",
-				label: ["targetPort", "optional"],
-				placeholder: ["443"],
-				description: "traefikTargetPortDescript",
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "cloud_gateway_id",
-				label: ["balancer"],
-				placeholder: ["none"],
-				description: "balancerDescription",
-				isClearable: true,
-			},
-		],
-	},
-	{
-		title: "traefikTargetServices",
-		description: "traefikSplitTrafficDescript",
-		fields: [
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: dynamicContent[0],
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				hidden: (values: any) =>
-					values.services.filter((s: { id: string; weight: string }) => s.id)
-						.length < 2,
-				content: <Admonition message="healthCheckAdm" />,
-			},
-			{
-				type: FIELD_TYPES.RADIO,
-				name: "ip_version",
-				label: ["ipInterface"],
-				options: ipOptions,
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: dynamicContent[1],
-			},
-			{
-				type: FIELD_TYPES.CHECKBOX,
-				name: "healthcheck_enabled",
-				label: ["enabled"],
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "healthcheck.path",
-				label: ["path", "optional"],
-				clarification: "tooltipPath",
-				placeholder: ["/"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "healthcheck.scheme",
-				label: ["scheme", "optional"],
-				clarification: "tooltipScheme",
-				placeholder: ["scheme"],
-				valuesToHide: ["healthcheck_enabled"],
-				isClearable: true,
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "healthcheck.hostname",
-				label: ["hostname", "optional"],
-				clarification: "tooltipHostName",
-				placeholder: ["enterHostname"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "healthcheck.port",
-				label: ["port", "optional"],
-				clarification: "tooltipPort",
-				placeholder: ["enterPort", "exampleOfPort"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "healthcheck.interval",
-				label: ["intervalSec"],
-				clarification: "tooltipInterval",
-				placeholder: ["enterInterval"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.INPUT,
-				name: "healthcheck.timeout",
-				label: ["timeout"],
-				clarification: "tooltipTimeout",
-				placeholder: ["enterTimeout"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				content: dynamicContent[2],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.RADIO,
-				name: "healthcheck.follow_redirects",
-				label: ["followRedirects"],
-				clarification: "tooltipFollowRedirect",
-				options: followRedirectsOptions,
-				valuesToHide: ["healthcheck_enabled"],
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "healthcheck.method",
-				label: ["method"],
-				clarification: "tooltipMethod",
-				placeholder: ["enterMethod"],
-				valuesToHide: ["healthcheck_enabled"],
-			},
-		],
-	},
-	{
-		title: "security",
-		description: "",
-		fields: [
-			{
-				type: FIELD_TYPES.CHECKBOX,
-				name: "isSecure",
-				label: ["traefikSecRoute"],
-				description: "traefikSecRouteDescript",
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "tls_termination",
-				label: ["tlsTermination"],
-				placeholder: ["none"],
-				valuesToHide: ["isSecure"],
-			},
-			{
-				type: FIELD_TYPES.CONTENT,
-				hidden: (values: any) =>
-					!(
-						values.services.filter((s: { id: string; weight: string }) => s.id)
-							.length > 1 &&
-						values.tls_termination === TlsTermination.PASSTHROUGH
+export const useCreateFormSections = (form) => {
+	const { t } = useTranslation();
+	const { data: services = [] } = getServicesList();
+	const selectedServices = form.watch("services").filter((s) => s.id);
+
+	const hasMultipleIps = (targetServices) => {
+		const selected = targetServices.filter((s) => s.id);
+		return (
+			selected.length > 1 ||
+			selected.some(
+				(s) =>
+					(services
+						.find((service) => +service.id === +s.id)
+						?.ipaddresses.split(",").length ?? 0) > 1,
+			)
+		);
+	};
+
+	return [
+		{
+			title: "general",
+			description: "",
+			fields: [
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "name",
+					label: ["name"],
+					placeholder: ["my-route"],
+					description: "traefikUniqName",
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "hostname",
+					label: ["hostname"],
+					placeholder: ["www.example.com"],
+					description: "traefikPublHostname",
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "path",
+					label: ["path", "optional"],
+					placeholder: ["/"],
+					description: "traefikPath",
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "target_port",
+					label: ["targetPort", "optional"],
+					placeholder: ["443"],
+					description: "traefikTargetPortDescript",
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "cloud_gateway_id",
+					label: ["balancer"],
+					placeholder: ["none"],
+					description: "balancerDescription",
+					isClearable: true,
+				},
+			],
+		},
+		{
+			title: "traefikTargetServices",
+			description: "traefikSplitTrafficDescript",
+			fields: [
+				{
+					type: FIELD_TYPES.CONTENT,
+					content: <AltServices key={"AltService"} form={form} />,
+				},
+				{
+					type: FIELD_TYPES.CONTENT,
+					hidden: (values: any) => !hasMultipleIps(values.services),
+					content: (
+						<Admonition
+							message="healthCheckAdm"
+							options={{
+								context: selectedServices.length > 1 ? "multiple" : "single",
+							}}
+						/>
 					),
-				content: <Admonition message="passthroughAdm" />,
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "insecure",
-				label: ["traefikInsTraffic"],
-				placeholder: ["none"],
-				description: "traefikInsTrafficDescript",
-				valuesToHide: ["isSecure"],
-				isClearable: true,
-				disabled: false,
-			},
-			{
-				type: FIELD_TYPES.SELECT,
-				name: "certificate_id",
-				label: ["traefikTlsCertificate"],
-				placeholder: ["none"],
-				valuesToHide: ["isSecure"],
-			},
-		],
-	},
-];
+				},
+				{
+					type: FIELD_TYPES.RADIO,
+					name: "ip_version",
+					label: ["ipInterface"],
+					options: ipOptions,
+				},
+				{
+					type: FIELD_TYPES.CONTENT,
+					content: <h5 className="font-base font-bold">{t("healthCheck")}</h5>,
+				},
+				{
+					type: FIELD_TYPES.CHECKBOX,
+					name: "healthcheck_enabled",
+					label: ["enabled"],
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "healthcheck.path",
+					label: ["path", "optional"],
+					clarification: "tooltipPath",
+					placeholder: ["/"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "healthcheck.scheme",
+					label: ["scheme", "optional"],
+					clarification: "tooltipScheme",
+					placeholder: ["scheme"],
+					valuesToHide: ["healthcheck_enabled"],
+					isClearable: true,
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "healthcheck.hostname",
+					label: ["hostname", "optional"],
+					clarification: "tooltipHostName",
+					placeholder: ["enterHostname"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "healthcheck.port",
+					label: ["port", "optional"],
+					clarification: "tooltipPort",
+					placeholder: ["enterPort", "exampleOfPort"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "healthcheck.interval",
+					label: ["intervalSec"],
+					clarification: "tooltipInterval",
+					placeholder: ["enterInterval"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.INPUT,
+					name: "healthcheck.timeout",
+					label: ["timeout"],
+					clarification: "tooltipTimeout",
+					placeholder: ["enterTimeout"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.CONTENT,
+					content: (
+						<HeadersFormSection key={"HeadersFormSection"} form={form} />
+					),
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.RADIO,
+					name: "healthcheck.follow_redirects",
+					label: ["followRedirects"],
+					clarification: "tooltipFollowRedirect",
+					options: followRedirectsOptions,
+					valuesToHide: ["healthcheck_enabled"],
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "healthcheck.method",
+					label: ["method"],
+					clarification: "tooltipMethod",
+					placeholder: ["enterMethod"],
+					valuesToHide: ["healthcheck_enabled"],
+				},
+			],
+		},
+		{
+			title: "security",
+			description: "",
+			fields: [
+				{
+					type: FIELD_TYPES.CHECKBOX,
+					name: "isSecure",
+					label: ["traefikSecRoute"],
+					description: "traefikSecRouteDescript",
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "tls_termination",
+					label: ["tlsTermination"],
+					placeholder: ["none"],
+					valuesToHide: ["isSecure"],
+				},
+				{
+					type: FIELD_TYPES.CONTENT,
+					hidden: (values: any) =>
+						!(
+							hasMultipleIps(values.services) &&
+							values.tls_termination === TlsTermination.PASSTHROUGH &&
+							values.healthcheck_enabled
+						),
+					content: <Admonition message="passthroughAdm" />,
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "insecure",
+					label: ["traefikInsTraffic"],
+					placeholder: ["none"],
+					description: "traefikInsTrafficDescript",
+					valuesToHide: ["isSecure"],
+					isClearable: true,
+					disabled: false,
+				},
+				{
+					type: FIELD_TYPES.SELECT,
+					name: "certificate_id",
+					label: ["traefikTlsCertificate"],
+					placeholder: ["none"],
+					valuesToHide: ["isSecure"],
+				},
+			],
+		},
+	];
+};
 
 export type FormFieldComponent<T> = {
 	error: FieldError | undefined;
